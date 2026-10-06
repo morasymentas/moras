@@ -337,6 +337,7 @@ const PROVEEDORES = [
   {id:'barra-blackvip', n:'Black Vip Barras Móviles', s:'Barra de tragos'},
   {id:'decoracion-personalizada', n:'Decoración', s:'Decoración personalizada'}
 ];
+let agendasListas = false;
 let colProv = null, agendas = {}, provSel = PROVEEDORES[0].id, provBusy = false, publicacion = null;
 const _h = new Date();
 const provCal = {y: _h.getFullYear(), m: _h.getMonth()};
@@ -641,6 +642,7 @@ function provUI(){
   $('prov-cal').replaceChildren(calendario(provCal, {
     mini: true, sel: null, min: hi, marks: () => [], cls: id => occ.includes(id) ? 'busy' : occP.includes(id) ? 'busyp' : '',
     onPick: id => { if (!colProv) return toast('La base no está conectada. Recargá la página.', true);
+      if (!agendasListas) return toast('Cargando las agendas, probá de nuevo en un segundo.', true);
       const ya = occ.includes(id); guardarAgenda(provSel, {ocupadoAdmin: ya ? occ.filter(x => x !== id) : [...occ, id]}, ya ? 'Día liberado' : 'Día marcado como ocupado'); },
     onNav: d => { mover(provCal, d); provUI(); }
   }));
@@ -767,7 +769,7 @@ async function start(db){
     render();
   }, () => sinBase('Se perdió la conexión con la base. Recargá la página para volver a ver tus consultas.'));
   colProv = db.collection('disponibilidad');
-  colProv.onSnapshot(snap => { agendas = {}; snap.docs.forEach(d => { agendas[d.id] = d.data(); }); provUI(); }, () => {});
+  colProv.onSnapshot(snap => { agendas = {}; snap.docs.forEach(d => { agendas[d.id] = d.data(); }); agendasListas = true; provUI(); }, () => {});
 }
 window.mmStartPanel = start;      // lo llama el inicio de sesión cuando entra un administrador
 statsUI(); formState(); calUI(); provUI();
