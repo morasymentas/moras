@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panel · Moras &amp; Mentas</title>
+<meta name="theme-color" content="#060606">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060606'/%3E%3Cpath d='M32 12c-10 8-14 17-14 25a14 14 0 0 0 28 0c0-8-4-17-14-25Z' fill='%237cc46c'/%3E%3Cpath d='M32 24v26' stroke='%23060606' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+</style>
+<style>
+/* Layout: una columna de trabajo. Arriba el resumen por estado (que también filtra), después la carga de una consulta pegando el mensaje de WhatsApp, y abajo la lista ordenada por fecha del evento. */
+:root{
+  --ac:#7cc46c;--ac2:#63ab54;--ac-soft:rgba(124,196,108,.12);--on-ac:#0c1a0f;
+  --gold:#e6cf95;--info:#8fb8e8;--err:#f08a6c;--err-soft:rgba(240,138,108,.12);
+  --bg:#060606;--bg2:#0d0d0d;--bg3:#141414;--bg4:#1d1e1d;
+  --tx:#f5eedf;--tx2:#b3b8ae;--tx3:#7f867b;--bdr:#1f211f;--bdr2:#2b2e2b;
+  --f-display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --f-body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;font-family:var(--f-body);font-size:14px;background:var(--bg);color:var(--tx);overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:20px;padding-block:32px 80px;display:flex;flex-direction:column;gap:28px}
+
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);font-weight:500;margin-bottom:8px}
+h1{font-family:var(--f-display);font-weight:600;font-size:clamp(34px,7vw,46px);line-height:1.05;margin:0;text-wrap:balance}
+h1 em{color:var(--ac);font-style:italic}
+h2{font-family:var(--f-display);font-weight:600;font-size:26px;line-height:1.1;margin:0}
+.conn{font-size:11.5px;color:var(--tx2);border:1px solid var(--bdr2);border-radius:20px;padding:6px 12px;display:inline-flex;align-items:center;gap:7px}
+.conn::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--tx3)}
+.conn.ok::before{background:var(--ac)}
+.conn.bad{color:var(--err);border-color:var(--err)}
+.conn.bad::before{background:var(--err)}
+
+/* resumen por estado */
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.stat{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:12px 10px 10px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:0;transition:border-color .15s,background .15s}
+.stat:hover{border-color:var(--bdr2)}
+.stat b{font-family:var(--f-display);font-size:28px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--tx2);display:flex;align-items:center;gap:6px;min-width:0;overflow-wrap:anywhere}
+.stat span i{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.stat.on{border-color:var(--ac);background:var(--ac-soft)}
+.money{display:flex;gap:10px 28px;flex-wrap:wrap;font-size:12.5px;color:var(--tx2);margin-top:-14px}
+.money b{color:var(--gold);font-variant-numeric:tabular-nums;font-weight:600}
+@media (max-width:640px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:12px 8px 10px}.stat span{font-size:10.5px;gap:4px;overflow-wrap:normal}}
+
+/* colores de estado (semánticos, aparte del acento) */
+.e-nueva{--e:var(--gold)}.e-presupuestada{--e:var(--info)}.e-senada{--e:#b6dfa6}.e-confirmada{--e:var(--ac)}.e-descartada{--e:var(--tx3)}
+
+/* calendario de visitas */
+.calsec{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:720px){.calsec{grid-template-columns:minmax(0,1fr)}}
+.cal{display:flex;flex-direction:column;gap:10px;min-width:0}
+.cal-head{display:flex;align-items:center;gap:8px}
+.cal-title{flex:1;font-family:var(--f-display);font-size:21px;font-weight:600;text-transform:capitalize;min-width:0}
+.cal-nav{width:32px;height:32px;border-radius:50%;border:1px solid var(--bdr2);background:var(--bg3);cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cal-nav:hover{border-color:var(--ac);color:var(--ac)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal-dow{font-size:10px;letter-spacing:.1em;color:var(--tx3);text-align:center;padding:2px 0 4px}
+.cal-d{aspect-ratio:1/1;max-width:100%;min-width:0;border:1px solid transparent;border-radius:8px;background:var(--bg3);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:2px;transition:border-color .12s,background .12s}
+.cal-d b{font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;line-height:1}
+.cal-d:hover:not(:disabled){border-color:var(--bdr2)}
+.cal-d.hoy{border-color:var(--tx3)}
+.cal-d.hoy b{font-weight:700}
+.cal-d.sel{border-color:var(--ac);background:var(--ac-soft)}
+.cal-d:disabled{background:none;color:var(--tx3);cursor:default;opacity:.55}
+.cal-m{display:flex;gap:3px;align-items:center;justify-content:center;min-height:7px;flex-wrap:wrap}
+.cal-m i{width:7px;height:7px;border-radius:50%;background:var(--c);flex-shrink:0}
+.cal-m i.ring{background:none;border:1.5px solid var(--c)}
+.cal-m em{font-style:normal;font-size:9px;color:var(--tx2);line-height:1}
+.cal.mini .cal-title{font-size:17px}
+.cal.mini .cal-d{border-radius:6px}
+.cal.mini .cal-d b{font-size:12px}
+.cal.mini .cal-m i{width:5px;height:5px}
+.cal-key{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:11.5px;color:var(--tx2)}
+.cal-key span{display:inline-flex;align-items:center;gap:6px;min-width:0;overflow-wrap:anywhere}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--c);flex-shrink:0;display:inline-block}
+.dot.ring{background:none;border:1.5px solid var(--c)}
+.agenda{display:flex;flex-direction:column;gap:10px;min-width:0}
+.agenda-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.agenda-h b{font-family:var(--f-display);font-size:21px;font-weight:600}
+.ag{border:1px solid var(--bdr);border-left:3px solid var(--c);border-radius:8px;background:var(--bg3);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.ag-t{font-size:12px;color:var(--tx2);font-variant-numeric:tabular-nums}
+.ag-t b{color:var(--gold);font-weight:600}
+.ag-n{font-family:var(--f-display);font-size:19px;font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+.ag-s{font-size:12px;color:var(--tx2)}
+.ag-x{font-size:12px;color:var(--tx3);font-style:italic;overflow-wrap:anywhere}
+.ag .link{align-self:flex-start;margin-top:4px}
+.ag.ev{border-left-style:dashed;background:none}
+.agenda .none{color:var(--tx2);font-size:13px;line-height:1.6;border:1px dashed var(--bdr2);border-radius:8px;padding:14px}
+/* agenda dentro de cada consulta */
+.vis{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:640px){.vis{grid-template-columns:minmax(0,1fr)}}
+.vis-form{display:flex;flex-direction:column;gap:10px;min-width:0}
+.vis-day{font-size:13px;color:var(--tx)}
+.vis-day.off{color:var(--tx3)}
+.vis-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px}
+@media (max-width:420px){.vis-row{grid-template-columns:minmax(0,1fr)}}
+.vis-list{display:flex;flex-direction:column;gap:6px}
+.vis-it{display:flex;align-items:center;gap:10px;font-size:12.5px;border:1px solid var(--bdr);border-radius:6px;padding:7px 10px;background:var(--bg3);min-width:0}
+.vis-it span.t{flex:1;min-width:0;overflow-wrap:anywhere}
+.vis-it.old{opacity:.55}
+.c-vis{font-size:12px;color:var(--tx);display:flex;align-items:center;gap:6px}
+.c-name .dot{margin-right:8px;vertical-align:middle}
+
+/* agenda de proveedores */
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{background:var(--bg3);border:1px solid var(--bdr2);border-radius:20px;padding:7px 14px;font-size:12.5px;color:var(--tx2);cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-width:0}
+.tab:hover{border-color:var(--ac)}
+.tab.on{background:var(--ac);border-color:var(--ac);color:var(--on-ac);font-weight:600}
+.tab em{font-style:normal;font-size:11px;font-variant-numeric:tabular-nums;opacity:.8}
+.cal-d.busy{background:var(--err-soft);border-color:var(--err)}
+.cal-d.busy b{color:var(--err);font-weight:700}
+.prov-n{font-family:var(--f-display);font-size:22px;font-weight:600;line-height:1.15}
+.prov-s{font-size:12px;color:var(--tx2)}
+.sw{display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer}
+.sw input{width:18px;height:18px;accent-color:var(--ac);flex-shrink:0;margin:0}
+.busy-list{display:flex;flex-wrap:wrap;gap:6px}
+.busy-it{display:inline-flex;align-items:center;gap:6px;font-size:12px;border:1px solid var(--err);color:var(--tx);border-radius:20px;padding:3px 4px 3px 10px;background:var(--err-soft);font-variant-numeric:tabular-nums}
+.busy-it button{background:none;border:none;color:var(--tx2);cursor:pointer;font-size:14px;line-height:1;padding:2px 6px;border-radius:50%}
+.busy-it button:hover{color:var(--err)}
+.pubst{font-size:12.5px;line-height:1.55;border-radius:8px;padding:10px 12px;border:1px solid var(--bdr2);color:var(--tx2)}
+.pubst.pend{border-color:var(--gold);color:var(--gold)}
+
+.cal-d.busyp{border-color:var(--info);border-style:dashed}
+.cal-d.busyp b{color:var(--info);font-weight:700}
+.busy-it.p{border-color:var(--info);background:none;border-style:dashed;padding-right:10px}
+.u-list{display:flex;flex-direction:column;gap:8px}
+.u-row{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;border:1px solid var(--bdr);border-radius:8px;background:var(--bg3);padding:10px 12px}
+.u-row .m{flex:1 1 200px;min-width:0;overflow-wrap:anywhere;font-size:13px}
+.u-row .m small{display:block;color:var(--tx3);font-size:11.5px}
+.u-row select{width:auto;flex:0 1 240px}
+
+/* cargar consulta */
+.panel{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.panel p{margin:0;color:var(--tx2);font-size:13px;line-height:1.6;max-width:65ch}
+textarea,input[type="text"],input[type="tel"],input[type="date"],input[type="number"],input[type="search"],input[type="time"],select{background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;padding:10px 12px;font-size:13px;outline:none;width:100%;min-width:0}
+textarea:focus,input:focus,select:focus{border-color:var(--ac)}
+textarea::placeholder,input::placeholder{color:var(--tx3)}
+#msg{min-height:120px;resize:vertical;line-height:1.5;font-size:12.5px}
+.links{display:flex;gap:18px;flex-wrap:wrap}
+.link{background:none;border:none;padding:0;color:var(--ac);font-size:12.5px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.link.muted{color:var(--tx2)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f.w2{grid-column:span 2}
+.f label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+@media (max-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.f.w2{grid-column:1 / -1}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11.5px;color:var(--tx2);border:1px solid var(--bdr2);border-radius:20px;padding:3px 10px;background:var(--bg3)}
+.chip.g{color:var(--gold);border-color:rgba(230,207,149,.35)}
+.warn{color:var(--gold)!important;font-size:12.5px!important}
+.save-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.btn{background:var(--ac);color:var(--on-ac);border:none;border-radius:6px;padding:12px 22px;font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--ac2)}
+.btn:disabled{background:var(--bg4);color:var(--tx3);cursor:default}
+.btn.ghost{background:none;border:1px solid var(--bdr2);color:var(--tx2);padding:7px 14px;font-weight:500;font-size:12.5px;border-radius:20px}
+.btn.ghost:hover{border-color:var(--ac);color:var(--ac)}
+.btn.danger{background:var(--err);color:var(--on-ac);padding:7px 14px;font-size:12.5px;border-radius:20px}
+.need{font-size:12px;color:var(--tx3)}
+
+/* lista */
+.list-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.list-head h2{flex:1;min-width:140px}
+.list-head input{width:200px;flex:1 1 160px;max-width:260px}
+.list-head select{width:auto;flex:0 1 auto}
+#list{display:flex;flex-direction:column;gap:12px}
+.empty{border:1px dashed var(--bdr2);border-radius:12px;padding:30px 20px;color:var(--tx2);font-size:13px;line-height:1.6;text-align:left}
+.empty b{display:block;font-family:var(--f-display);font-size:20px;color:var(--tx);font-weight:600;margin-bottom:4px}
+.c{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--e);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0;scroll-margin-top:14px}
+.c.past{opacity:.62}
+.c-top{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+/* hoja de almanaque: día grande, mes y año abajo */
+.c-date{flex-shrink:0;width:58px;border:1px solid var(--bdr2);border-radius:6px;overflow:hidden;text-align:center;background:var(--bg3)}
+.c-date span{display:block;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 0}
+.c-date .m{background:var(--e);color:var(--on-ac);font-weight:600}
+.c-date b{display:block;font-family:var(--f-display);font-size:28px;line-height:1.05;font-weight:600;padding-top:3px}
+.c-date .y{color:var(--tx3)}
+.c-main{flex:1 1 200px;min-width:0;display:flex;flex-direction:column;gap:3px}
+.c-name{font-family:var(--f-display);font-size:23px;font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+.c-sub{font-size:12.5px;color:var(--tx2)}
+.c-when{font-size:11.5px;color:var(--tx3)}
+.c-dup{font-size:11.5px;color:var(--gold);font-weight:500}
+.c-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;margin-left:auto}
+.c-total{font-family:var(--f-display);font-size:22px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1.1}
+.c-total small{display:block;font-family:var(--f-body);font-size:10.5px;color:var(--tx3);font-weight:400;text-align:right}
+.est{width:auto;padding:6px 30px 6px 26px;border-radius:20px;font-size:12.5px;font-weight:600;color:var(--e);border-color:var(--e);cursor:pointer;appearance:none;-webkit-appearance:none;
+  background-image:radial-gradient(circle at 13px 50%,var(--e) 3.5px,transparent 4px),linear-gradient(45deg,transparent 50%,var(--tx2) 50%),linear-gradient(135deg,var(--tx2) 50%,transparent 50%);
+  background-position:0 0,calc(100% - 15px) 55%,calc(100% - 11px) 55%;background-size:100% 100%,4px 4px,4px 4px;background-repeat:no-repeat}
+.est option{color:var(--tx);background:var(--bg3)}
+.c-foot{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--tx2)}
+.c-foot .tel{font-variant-numeric:tabular-nums;color:var(--tx);user-select:all}
+.c-foot a{color:var(--ac);text-underline-offset:3px}
+.c-foot .sp{flex:1}
+.det{display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--bdr);padding-top:12px}
+.det .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.det textarea{min-height:64px;resize:vertical}
+.det pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--f-body);font-size:12.5px;line-height:1.55;color:var(--tx2);background:var(--bg3);border:1px solid var(--bdr);border-radius:6px;padding:12px;max-height:340px;overflow:auto}
+.confirm{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--err);font-size:12.5px}
+@media (max-width:520px){.c-side{flex-direction:row;align-items:center;justify-content:space-between;width:100%;margin-left:0}.c-total small{text-align:left}}
+
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bg4);border:1px solid var(--ac);color:var(--tx);padding:10px 16px;border-radius:8px;font-size:13px;z-index:20;max-width:calc(100% - 32px)}
+.toast.bad{border-color:var(--err)}
+</style>
+<link rel="stylesheet" href="mm.css">
+</head>
+<body>
+<div class="login" id="login">
+  <div class="login-box">
+    <div class="eyebrow">Moras &amp; Mentas</div>
+    <h1>Panel de <em>consultas</em></h1>
+    <p>Entrá con tu usuario de administrador.</p>
+    <p id="login-cargando">Abriendo…</p>
+    <form id="login-form" hidden>
+      <div class="f"><label for="login-mail">Mail</label><input id="login-mail" type="email" autocomplete="username" required></div>
+      <div class="f"><label for="login-pass">Contraseña</label><input id="login-pass" type="password" autocomplete="current-password" required></div>
+      <button class="btn" id="login-btn" type="submit">Entrar</button>
+      <button class="link muted" id="login-olvide" type="button">Olvidé mi contraseña</button>
+      <div class="login-msg" id="login-msg" role="alert"></div>
+    </form>
+    <div class="login-aviso" id="login-aviso" hidden></div>
+  </div>
+</div>
+<main class="wrap" id="app" hidden>
+  <header class="top">
+    <div>
+      <div class="eyebrow">Moras &amp; Mentas · uso interno</div>
+      <h1>Panel de <em>consultas</em></h1>
+    </div>
+    <span class="conn" id="conn">Conectando con tus consultas…</span>
+  </header>
+  <div class="barra"><span class="quien" id="usuario"></span><span class="sp"></span><a href="./" target="_blank" rel="noopener">Ver el sitio de clientes</a><button type="button" id="salir">Salir</button></div>
+
+  <section class="stats" id="stats" aria-label="Consultas por estado"></section>
+  <div class="money" id="money" hidden></div>
+
+  <section class="panel" id="visitas">
+    <h2>Calendario de visitas</h2>
+    <div class="calsec">
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <div id="cal"></div>
+        <div class="cal-key" id="cal-key"></div>
+      </div>
+      <div class="agenda" id="agenda"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="prov">
+    <h2>Agenda de proveedores</h2>
+    <p>Marcá los días en que cada proveedor ya está ocupado. Se suman a los que el propio proveedor carga en su agenda. El cliente lo ve al instante cuando elige la fecha de su evento.</p>
+    <div class="tabs" id="prov-tabs" role="tablist" aria-label="Proveedores"></div>
+    <div class="vis">
+      <div id="prov-cal"></div>
+      <div class="vis-form" id="prov-side"></div>
+    </div>
+    <div class="pubst" id="prov-pub"></div>
+  </section>
+
+  <section class="panel" id="nueva">
+    <h2>Cargar una consulta</h2>
+    <p>Las consultas que los clientes envían desde el sitio entran solas a la lista. Acá podés sumar una que te llegó por otro lado: pegá el mensaje de WhatsApp o cargala a mano.</p>
+    <textarea id="msg" placeholder="Pegá acá el mensaje completo de WhatsApp…" aria-label="Mensaje de WhatsApp"></textarea>
+    <div class="links">
+      <button type="button" class="link" id="ejemplo">Probar con un mensaje de ejemplo</button>
+      <button type="button" class="link muted" id="vaciar">Vaciar</button>
+    </div>
+    <div class="grid">
+      <div class="f w2"><label for="f-nombre">Nombre</label><input id="f-nombre" type="text" placeholder="Nombre y apellido"></div>
+      <div class="f"><label for="f-tel">Teléfono</label><input id="f-tel" type="tel" placeholder="09X XXX XXX"></div>
+      <div class="f"><label for="f-fecha">Fecha del evento</label><input id="f-fecha" type="date"></div>
+      <div class="f"><label for="f-tipo">Tipo de evento</label><input id="f-tipo" type="text" placeholder="15 años, boda…"></div>
+      <div class="f"><label for="f-inv">Invitados</label><input id="f-inv" type="number" min="0" inputmode="numeric"></div>
+      <div class="f"><label for="f-total">Total estimado ($)</label><input id="f-total" type="number" min="0" inputmode="numeric"></div>
+    </div>
+    <div class="chips" id="leido" hidden></div>
+    <p class="warn" id="dup" hidden></p>
+    <div class="save-row">
+      <button type="button" class="btn" id="guardar" disabled>Guardar consulta</button>
+      <span class="need" id="need">Para guardar hacen falta el nombre y la fecha.</span>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <div class="list-head">
+      <h2>Consultas</h2>
+      <input id="q" type="search" placeholder="Buscar por nombre" aria-label="Buscar por nombre">
+      <select id="orden" aria-label="Orden">
+        <option value="evento">Por fecha del evento</option>
+        <option value="recientes">Últimas cargadas</option>
+      </select>
+    </div>
+    <div id="list"><div class="empty"><b>Acá van a aparecer tus consultas</b>Cada consulta que guardes queda con su fecha, invitados, servicios, total y estado.</div></div>
+  </section>
+
+  <section class="panel" id="usuarios">
+    <h2>Usuarios</h2>
+    <p>Cada proveedor entra a su agenda con su mail y contraseña. Para sumar uno: creá su usuario en Firebase (Authentication → Usuarios), pasale los datos y pedile que entre una vez. Después aparece acá y le asignás su agenda.</p>
+    <div class="u-list" id="u-list"><div class="need">Cargando usuarios…</div></div>
+    <p class="need">Link para proveedores: <a id="link-agenda" href="agenda.html" style="color:var(--ac)">agenda.html</a></p>
+  </section>
+</main>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+const ESTADOS = [
+  {id:'nueva', n:'Nueva', pl:'Nuevas'},
+  {id:'presupuestada', n:'Presupuestada', pl:'Presupuestadas'},
+  {id:'senada', n:'Señada', pl:'Señadas'},
+  {id:'confirmada', n:'Confirmada', pl:'Confirmadas'},
+  {id:'descartada', n:'Descartada', pl:'Descartadas'}
+];
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','set','oct','nov','dic'];
+const MESES_L = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+// un color por consulta, para reconocerla en el calendario
+const COLORES = ['#7cc46c','#8fb8e8','#f08a6c','#e6cf95','#c9a0e8','#6fd3c7','#f2b84b','#e88fb5','#b9c46c','#9aa7ff'];
+const DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const $ = id => document.getElementById(id);
+const fmt = (n, cur='$') => `${cur} ${String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}`;
+
+let col = null, ready = false, rows = [], filtro = 'todas', dirty = false, leido = null;
+// mismos proveedores (y mismas claves) que la página de Servicio Premium
+const PROVEEDORES = [
+  {id:'discoteca-balzani', n:'Balzani Music Group', s:'Discoteca'},
+  {id:'fotografia-mali', n:'Mali Foto & Video', s:'Fotografía'},
+  {id:'catering-menu', n:'Catering', s:'Menú completo'},
+  {id:'barra-blackvip', n:'Black Vip Barras Móviles', s:'Barra de tragos'},
+  {id:'decoracion-personalizada', n:'Decoración', s:'Decoración personalizada'}
+];
+let colProv = null, agendas = {}, provSel = PROVEEDORES[0].id, provBusy = false, publicacion = null;
+const _h = new Date();
+const provCal = {y: _h.getFullYear(), m: _h.getMonth()};
+const calMain = {y: _h.getFullYear(), m: _h.getMonth(), sel: null};   // calendario general
+const vst = {};                                                        // calendario de cada consulta: {y, m, sel, hora, nota, conf}
+const abiertos = new Set(); let porBorrar = null;
+
+/* ---------- helpers ---------- */
+function h(tag, attrs, ...kids){
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})){
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'text') e.textContent = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of kids.flat()){ if (c == null || c === false) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+let toastT;
+function toast(text, bad){ const t = $('toast'); t.textContent = text; t.classList.toggle('bad', !!bad); t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, bad ? 5000 : 2200); }
+function errText(e){
+  const c = e && e.code;
+  if (c === 'quota_exceeded') return 'La base está llena. Eliminá consultas viejas para guardar nuevas.';
+  if (c === 'invalid_argument' || c === 'sin_permiso') return 'Tu usuario no tiene permiso para guardar.';
+  if (c === 'revoked' || c === 'not_granted') return 'Se perdió el acceso a la base. Recargá la página.';
+  return 'No se pudo guardar. Probá de nuevo en un momento.';
+}
+async function write(fn, okMsg){
+  if (!col){ toast('La base no está conectada. Recargá la página.', true); return false; }
+  try { await fn(); }
+  catch (e){
+    if (e && e.code === 'unavailable'){
+      try { await new Promise(r => setTimeout(r, 500 + Math.random()*700)); await fn(); }
+      catch (e2){ toast(errText(e2), true); return false; }
+    } else { toast(errText(e), true); return false; }
+  }
+  if (okMsg) toast(okMsg);
+  return true;
+}
+const hoy = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const hash = t => { let n = 0; for (const ch of String(t)) n = (n * 31 + ch.charCodeAt(0)) >>> 0; return n; };
+const colorDe = r => COLORES[(Number.isInteger(r.color) && r.color >= 0 ? r.color : hash(r.id)) % COLORES.length];
+function colorLibre(){ const uso = COLORES.map(() => 0); rows.forEach(r => { if (Number.isInteger(r.color) && r.color >= 0) uso[r.color % COLORES.length]++; }); return uso.indexOf(Math.min(...uso)); }
+const visitasDe = r => (Array.isArray(r.visitas) ? r.visitas : []).filter(v => v && /^\d{4}-\d{2}-\d{2}$/.test(v.fecha || ''));
+const ordenVis = (a, b) => (a.fecha + (a.hora || '')).localeCompare(b.fecha + (b.hora || ''));
+const todasVisitas = () => rows.flatMap(r => visitasDe(r).map(v => ({...v, r}))).sort(ordenVis);
+const fechaLarga = i => { const f = aFecha(i); return f ? `${DIAS[f.getDay()]} ${f.getDate()} de ${MESES_L[f.getMonth()]} de ${f.getFullYear()}` : ''; };
+const fechaCorta = i => { const f = aFecha(i); return f ? `${DIAS[f.getDay()].slice(0,3)} ${String(f.getDate()).padStart(2,'0')}/${String(f.getMonth()+1).padStart(2,'0')}/${f.getFullYear()}` : ''; };
+const dmy = i => { const [y,m,d] = (i || '').split('-'); return y ? `${d}/${m}/${y}` : ''; };
+const aFecha = iso => { const [y,m,d] = (iso || '').split('-').map(Number); return y ? new Date(y, m-1, d) : null; };
+function cuando(iso){
+  const f = aFecha(iso); if (!f) return '';
+  const n = Math.round((f - hoy()) / 864e5);
+  if (n === 0) return 'Es hoy'; if (n === 1) return 'Es mañana';
+  if (n > 1) return n < 60 ? `Faltan ${n} días` : `Faltan ${Math.round(n/30.4)} meses`;
+  return 'Ya pasó';
+}
+function waLink(tel){
+  let d = String(tel || '').replace(/\D/g,''); if (d.length < 8) return null;
+  if (d.startsWith('598')) {} else if (d.startsWith('0')) d = '598' + d.slice(1); else if (d.length === 8) d = '598' + d;
+  return 'https://wa.me/' + d;
+}
+
+/* ---------- leer el mensaje de WhatsApp ---------- */
+function parseMsg(text){
+  const t = String(text || '').replace(/\r/g,'').replace(/\*/g,'');
+  const g = re => { const m = t.match(re); return m ? m[1].trim() : ''; };
+  const f = t.match(/Fecha:\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/i);
+  const totalTxt = g(/TOTAL ESTIMADO:\s*(.+)/i);
+  const p = totalTxt.match(/(?:^|[^A-Za-z])\$\s*([\d.]+)/), u = totalTxt.match(/U\$S\s*([\d.]+)/);
+  const seccion = nombre => {
+    const i = t.search(new RegExp('^' + nombre, 'mi')); if (i < 0) return [];
+    const resto = t.slice(i).split('\n').slice(1), out = [];
+    for (const l of resto){ if (/^-{5,}/.test(l)) break; const m = l.match(/^-\s+(.+?)(?:\s+x\s+\d+.*|:\s.*)?$/); if (m) out.push(m[1].trim()); }
+    return out;
+  };
+  return {
+    nombre: g(/Nombre:\s*(.+)/i),
+    fecha: f ? `${f[3]}-${f[2].padStart(2,'0')}-${f[1].padStart(2,'0')}` : '',
+    tipo: g(/Tipo de evento:\s*(.+)/i),
+    invitados: +g(/Invitados:\s*(\d+)/i) || 0,
+    pesos: p ? +p[1].replace(/\./g,'') : 0,
+    usd: u ? +u[1].replace(/\./g,'') : 0,
+    pendientes: g(/A cotizar aparte:\s*(.+)/i).replace(/\.$/,''),
+    servicios: [...t.matchAll(/^\s*\d+\.\s+(.+)$/gm)].map(m => m[1].trim()),
+    mobiliario: seccion('MOBILIARIO'),
+    extras: seccion('EXTRAS')
+  };
+}
+const EJEMPLO = `*CONSULTA SERVICIO PREMIUM*
+Moras & Mentas · Chacra de Eventos
+
+------------------------------
+*DATOS DEL EVENTO*
+Nombre: Cliente De Ejemplo
+Fecha: 14/11/2026
+Tipo de evento: 15 años
+Invitados: 150
+
+------------------------------
+*SERVICIOS (3)*
+
+*1. Discoteca*
+Proveedor: Balzani Music Group
+Opción: N1 · Producción Full
+Precio: $ 60.000
+
+*2. Decoración*
+Precio: a consultar según diseño
+
+*3. Coordinación del evento*
+Precio: $ 15.000
+
+------------------------------
+*EXTRAS*
+- Cámara de frío: $ 4.000
+- Hielo x 10 bolsas de 5 kg ($ 100 c/u): $ 1.000
+
+------------------------------
+*AGADU (derechos de autor)*
+Incluido en todos los eventos · por persona, sobre invitados confirmados
+
+------------------------------
+*TOTAL ESTIMADO: $ 80.000*
+A cotizar aparte: decoración.`;
+
+function leerMsg(){
+  const txt = $('msg').value;
+  leido = txt.trim() ? parseMsg(txt) : null;
+  if (leido){
+    if (leido.nombre) $('f-nombre').value = leido.nombre;
+    if (leido.fecha) $('f-fecha').value = leido.fecha;
+    if (leido.tipo) $('f-tipo').value = leido.tipo;
+    if (leido.invitados) $('f-inv').value = leido.invitados;
+    if (leido.pesos) $('f-total').value = leido.pesos;
+  }
+  const box = $('leido'); box.replaceChildren();
+  if (leido){
+    [...leido.servicios, ...leido.mobiliario, ...leido.extras].forEach(s => box.append(h('span', {class:'chip', text:s})));
+    if (leido.usd) box.append(h('span', {class:'chip g', text:'+ ' + fmt(leido.usd, 'U$S')}));
+    if (leido.pendientes) box.append(h('span', {class:'chip g', text:'A cotizar: ' + leido.pendientes}));
+  }
+  box.hidden = !box.children.length;
+  formState();
+}
+function formState(){
+  const nombre = $('f-nombre').value.trim(), fecha = $('f-fecha').value;
+  const ok = !!(nombre && fecha);
+  $('guardar').disabled = !(ok && ready);
+  $('need').hidden = ok && ready;
+  $('need').textContent = !ready ? 'Esperando la conexión con la base…' : 'Para guardar hacen falta el nombre y la fecha.';
+  const d = ok && rows.find(r => r.fecha === fecha && (r.nombre || '').toLowerCase() === nombre.toLowerCase());
+  $('dup').hidden = !d;
+  if (d) $('dup').textContent = `Ya hay una consulta de ${d.nombre} para esa fecha. Si guardás, queda duplicada.`;
+}
+function vaciar(){ ['msg','f-nombre','f-tel','f-fecha','f-tipo','f-inv','f-total'].forEach(id => { $(id).value = ''; }); leerMsg(); }
+
+$('msg').addEventListener('input', leerMsg);
+['f-nombre','f-fecha'].forEach(id => $(id).addEventListener('input', formState));
+$('ejemplo').addEventListener('click', () => { $('msg').value = EJEMPLO; leerMsg(); });
+$('vaciar').addEventListener('click', vaciar);
+$('guardar').addEventListener('click', async () => {
+  const b = $('guardar'); b.disabled = true;
+  const L = leido || {};
+  const data = {
+    nombre: $('f-nombre').value.trim(), telefono: $('f-tel').value.trim(), fecha: $('f-fecha').value,
+    tipo: $('f-tipo').value.trim(), invitados: +$('f-inv').value || 0, pesos: +$('f-total').value || 0,
+    usd: L.usd || 0, pendientes: L.pendientes || '',
+    servicios: L.servicios || [], mobiliario: L.mobiliario || [], extras: L.extras || [],
+    mensaje: $('msg').value.trim().slice(0, 20000), estado: 'nueva', notas: '', visitas: [], color: colorLibre(), creado: new Date().toISOString()
+  };
+  const ok = await write(() => col.doc().set(data), 'Consulta guardada');
+  if (ok){ vaciar(); filtro = 'todas'; render(); } else formState();
+});
+
+/* ---------- calendarios ---------- */
+// st: {y, m}; o: {sel, marks(iso) -> [{c, ring}], onPick(iso), onNav(delta), min, mini}
+function calendario(st, o){
+  const off = (new Date(st.y, st.m, 1).getDay() + 6) % 7, n = new Date(st.y, st.m + 1, 0).getDate(), hi = iso(hoy());
+  const grid = h('div', {class:'cal-grid'}, ['L','M','M','J','V','S','D'].map(d => h('span', {class:'cal-dow', 'aria-hidden':'true', text:d})));
+  for (let i = 0; i < off; i++) grid.append(h('span'));
+  for (let d = 1; d <= n; d++){
+    const id = iso(new Date(st.y, st.m, d)), mk = o.marks(id), vis = mk.filter(x => !x.ring).length, extra = o.cls ? o.cls(id) : '';
+    grid.append(h('button', {type:'button', class:'cal-d' + (id === hi ? ' hoy' : '') + (id === o.sel ? ' sel' : '') + (extra ? ' ' + extra : ''), disabled: !!(o.min && id < o.min),
+      'aria-pressed': String(id === o.sel), 'aria-label': `${d} de ${MESES_L[st.m]}` + (vis ? `, ${vis} ${vis === 1 ? 'visita' : 'visitas'}` : '') + (extra === 'busy' ? ', ocupado' : ''), onclick: () => o.onPick(id)},
+      h('b', {text: String(d)}),
+      h('span', {class:'cal-m'}, mk.slice(0, 3).map(x => h('i', {class: x.ring ? 'ring' : '', style: '--c:' + x.c})), mk.length > 3 ? h('em', {text: '+' + (mk.length - 3)}) : null)));
+  }
+  return h('div', {class:'cal' + (o.mini ? ' mini' : '')},
+    h('div', {class:'cal-head'},
+      h('button', {type:'button', class:'cal-nav', 'aria-label':'Mes anterior', onclick: () => o.onNav(-1), text:'‹'}),
+      h('div', {class:'cal-title', text: `${MESES_L[st.m]} ${st.y}`}),
+      h('button', {type:'button', class:'cal-nav', 'aria-label':'Mes siguiente', onclick: () => o.onNav(1), text:'›'})),
+    grid);
+}
+const mover = (st, d) => { const f = new Date(st.y, st.m + d, 1); st.y = f.getFullYear(); st.m = f.getMonth(); };
+function verConsulta(id){
+  abiertos.add(id); filtro = 'todas'; $('q').value = ''; render(true);
+  const el = $('c-' + id); if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function calUI(){
+  const todas = todasVisitas(), hi = iso(hoy());
+  const eventos = rows.filter(r => r.fecha && r.estado !== 'descartada');
+  $('cal').replaceChildren(calendario(calMain, {
+    sel: calMain.sel,
+    marks: id => [...todas.filter(v => v.fecha === id).map(v => ({c: colorDe(v.r)})), ...eventos.filter(r => r.fecha === id).map(r => ({c: colorDe(r), ring: true}))],
+    onPick: id => { calMain.sel = calMain.sel === id ? null : id; calUI(); },
+    onNav: d => { mover(calMain, d); calUI(); }
+  }));
+  // referencias: un color por consulta con visitas
+  const key = $('cal-key'); key.replaceChildren();
+  const conVis = rows.filter(r => visitasDe(r).length);
+  conVis.forEach(r => key.append(h('span', {}, h('i', {class:'dot', style:'--c:' + colorDe(r)}), r.nombre || 'Sin nombre')));
+  if (conVis.length || eventos.length) key.append(h('span', {}, h('i', {class:'dot', style:'--c:var(--tx2)'}), 'visita'), h('span', {}, h('i', {class:'dot ring', style:'--c:var(--tx2)'}), 'día del evento'));
+
+  const box = $('agenda'); box.replaceChildren();
+  const item = v => h('div', {class:'ag', style:'--c:' + colorDe(v.r)},
+    h('div', {class:'ag-t'}, fechaCorta(v.fecha) + ' · ', h('b', {text: (v.hora || 'sin hora') + ' hs'})),
+    h('div', {class:'ag-n', text: v.r.nombre || 'Sin nombre'}),
+    h('div', {class:'ag-s', text: [v.r.tipo || 'Evento', v.r.fecha ? 'evento el ' + dmy(v.r.fecha) : '', v.r.invitados ? v.r.invitados + ' invitados' : ''].filter(Boolean).join(' · ')}),
+    v.nota ? h('div', {class:'ag-x', text: v.nota}) : null,
+    h('button', {type:'button', class:'link', onclick: () => verConsulta(v.r.id), text:'Ver consulta'}));
+  if (calMain.sel){
+    const delDia = todas.filter(v => v.fecha === calMain.sel), evDia = eventos.filter(r => r.fecha === calMain.sel);
+    box.append(h('div', {class:'agenda-h'}, h('b', {text: fechaLarga(calMain.sel).replace(/^./, c => c.toUpperCase())}), h('button', {type:'button', class:'link muted', onclick: () => { calMain.sel = null; calUI(); }, text:'Ver próximas visitas'})));
+    delDia.forEach(v => box.append(item(v)));
+    evDia.forEach(r => box.append(h('div', {class:'ag ev', style:'--c:' + colorDe(r)},
+      h('div', {class:'ag-t', text:'Día del evento'}), h('div', {class:'ag-n', text: r.nombre || 'Sin nombre'}),
+      h('div', {class:'ag-s', text: [r.tipo || 'Evento', r.invitados ? r.invitados + ' invitados' : ''].filter(Boolean).join(' · ')}),
+      h('button', {type:'button', class:'link', onclick: () => verConsulta(r.id), text:'Ver consulta'}))));
+    if (!delDia.length && !evDia.length) box.append(h('div', {class:'none', text:'No hay visitas agendadas para este día.'}));
+  } else {
+    const prox = todas.filter(v => v.fecha >= hi).slice(0, 5);
+    box.append(h('div', {class:'agenda-h'}, h('b', {text:'Próximas visitas'})));
+    prox.forEach(v => box.append(item(v)));
+    if (!prox.length) box.append(h('div', {class:'none', text: !ready ? 'Conectando con tus consultas…' : 'Todavía no hay visitas agendadas. Abrí una consulta con "Visitas y notas", elegí el día en su calendario y la hora.'}));
+  }
+}
+// agenda de una consulta: su calendario, día y hora, y sus visitas
+function visitasUI(r){
+  const hi = iso(hoy()), mias = visitasDe(r).slice().sort(ordenVis), c = colorDe(r);
+  const s = vst[r.id] || (vst[r.id] = {y: hoy().getFullYear(), m: hoy().getMonth(), sel: null, hora: '10:00', nota: '', conf: null});
+  const otras = todasVisitas().filter(v => v.r.id !== r.id);
+  const cal = calendario(s, {
+    mini: true, sel: s.sel, min: hi,
+    marks: id => [...mias.filter(v => v.fecha === id).map(() => ({c})), ...otras.filter(v => v.fecha === id).map(() => ({c: 'var(--tx3)'})), ...(r.fecha === id ? [{c, ring: true}] : [])],
+    onPick: id => { s.sel = s.sel === id ? null : id; s.conf = null; render(true); },
+    onNav: d => { mover(s, d); render(true); }
+  });
+  const hora = h('input', {id:'vh-' + r.id, type:'time', step:'900'}); hora.value = s.hora;
+  hora.addEventListener('input', () => { s.hora = hora.value; s.conf = null; });
+  const nota = h('input', {id:'vn-' + r.id, type:'text', maxlength:'200', placeholder:'Ej: viene con los padres'}); nota.value = s.nota;
+  nota.addEventListener('input', () => { s.nota = nota.value; });
+  const agendar = async () => {
+    s.hora = hora.value; s.nota = nota.value;
+    if (!s.sel){ toast('Elegí primero el día en el calendario.', true); return; }
+    if (!s.hora){ toast('Poné la hora de la visita.', true); return; }
+    const choque = todasVisitas().find(v => v.fecha === s.sel && v.hora === s.hora);
+    if (choque && !s.conf){ s.conf = choque.r.nombre || 'otra consulta'; render(true); return; }
+    const nueva = {id: Date.now().toString(36), fecha: s.sel, hora: s.hora, nota: s.nota.trim().slice(0, 200)};
+    const ok = await write(() => col.doc(r.id).update({visitas: [...visitasDe(r), nueva].sort(ordenVis)}), 'Visita agendada');
+    if (ok){ const f = aFecha(nueva.fecha); calMain.y = f.getFullYear(); calMain.m = f.getMonth(); calMain.sel = nueva.fecha; s.sel = null; s.nota = ''; s.conf = null; render(true); }
+  };
+  const quitar = v => write(() => col.doc(r.id).update({visitas: visitasDe(r).filter(x => x.id !== v.id)}), 'Visita quitada');
+  return h('div', {class:'f'}, h('label', {text:'Visitas a la chacra'}),
+    h('div', {class:'vis'}, cal,
+      h('div', {class:'vis-form'},
+        h('div', {class:'vis-day' + (s.sel ? '' : ' off'), text: s.sel ? 'Día elegido: ' + fechaLarga(s.sel) : 'Elegí el día en el calendario.'}),
+        h('div', {class:'vis-row'},
+          h('div', {class:'f'}, h('label', {for:'vh-' + r.id, text:'Hora'}), hora),
+          h('div', {class:'f'}, h('label', {for:'vn-' + r.id, text:'Nota (opcional)'}), nota)),
+        s.conf ? h('p', {class:'warn', text: `Ya hay una visita de ${s.conf} ese día a esa hora.`}) : null,
+        h('div', {}, h('button', {type:'button', class:'btn', onclick: agendar, text: s.conf ? 'Agendar igual' : 'Agendar visita'})),
+        mias.length ? h('div', {class:'vis-list'}, mias.map(v => h('div', {class:'vis-it' + (v.fecha < hi ? ' old' : '')},
+          h('i', {class:'dot', style:'--c:' + c}),
+          h('span', {class:'t', text: `${fechaCorta(v.fecha)} · ${v.hora || 'sin hora'} hs` + (v.nota ? ' · ' + v.nota : '')}),
+          h('button', {type:'button', class:'link muted', onclick: () => quitar(v), text:'Quitar'}))))
+          : h('div', {class:'need', text:'Esta consulta todavía no tiene visitas.'}))));
+}
+
+/* ---------- agenda de proveedores ---------- */
+const esDia = x => /^\d{4}-\d{2}-\d{2}$/.test(x);
+const ocupadosDe = id => { const a = agendas[id]; return (a && Array.isArray(a.ocupadoAdmin) ? a.ocupadoAdmin : []).filter(esDia); };          // marcados por el administrador
+const ocupadosProvDe = id => { const a = agendas[id]; return (a && Array.isArray(a.ocupadoProveedor) ? a.ocupadoProveedor : []).filter(esDia); }; // vienen de la agenda del proveedor
+async function guardarAgenda(id, cambios, msg){
+  if (provBusy) return; provBusy = true;
+  const pv = PROVEEDORES.find(x => x.id === id), a = agendas[id] || {}, hi = iso(hoy());
+  const body = {nombre: pv.n, servicio: pv.s, publicar: a.publicar !== false, ocupadoAdmin: ocupadosDe(id), ...cambios, actualizado: new Date().toISOString()};
+  body.ocupadoAdmin = [...new Set(body.ocupadoAdmin)].filter(x => x >= hi).sort();
+  await write(() => colProv.doc(id).set(body, {merge: true}), msg);
+  provBusy = false;
+}
+function provUI(){
+  const hi = iso(hoy()), pv = PROVEEDORES.find(x => x.id === provSel), a = agendas[provSel], occ = ocupadosDe(provSel), prox = occ.filter(x => x >= hi).sort(), occP = ocupadosProvDe(provSel).filter(x => x >= hi && !occ.includes(x)).sort();
+  $('prov-tabs').replaceChildren(...PROVEEDORES.map(x => {
+    const n = new Set([...ocupadosDe(x.id), ...ocupadosProvDe(x.id)].filter(d => d >= hi)).size;
+    return h('button', {type:'button', role:'tab', class:'tab' + (x.id === provSel ? ' on' : ''), 'aria-selected': String(x.id === provSel), onclick: () => { provSel = x.id; provUI(); }}, x.n, n ? h('em', {text: n + (n === 1 ? ' día' : ' días')}) : null);
+  }));
+  $('prov-cal').replaceChildren(calendario(provCal, {
+    mini: true, sel: null, min: hi, marks: () => [], cls: id => occ.includes(id) ? 'busy' : occP.includes(id) ? 'busyp' : '',
+    onPick: id => { if (!colProv) return toast('La base no está conectada. Recargá la página.', true);
+      const ya = occ.includes(id); guardarAgenda(provSel, {ocupadoAdmin: ya ? occ.filter(x => x !== id) : [...occ, id]}, ya ? 'Día liberado' : 'Día marcado como ocupado'); },
+    onNav: d => { mover(provCal, d); provUI(); }
+  }));
+  const sw = h('input', {type:'checkbox', id:'prov-pubchk'}); sw.checked = !!a && a.publicar !== false; sw.disabled = !a;
+  const sinDias = !prox.length && !occP.length;
+  sw.addEventListener('change', () => guardarAgenda(provSel, {publicar: sw.checked}, sw.checked ? 'Los clientes ven su disponibilidad' : 'Disponibilidad oculta para los clientes'));
+  $('prov-side').replaceChildren(
+    h('div', {}, h('div', {class:'prov-n', text: pv.n}), h('div', {class:'prov-s', text: pv.s})),
+    h('div', {class:'vis-day', text:'Tocá un día del calendario para marcarlo como ocupado. Tocalo de nuevo para liberarlo.'}),
+    h('label', {class:'sw', for:'prov-pubchk'}, sw, 'Mostrar su disponibilidad a los clientes'),
+    !a ? h('div', {class:'need', text:'Agenda sin cargar: los clientes no ven disponibilidad de este proveedor hasta que marques su primer día.'})
+       : sinDias ? h('div', {class:'need', text:'Sin días ocupados: figura disponible para cualquier fecha.'})
+       : null,
+    prox.length ? h('div', {class:'f'}, h('label', {text:'Marcados por vos'}), h('div', {class:'busy-list'}, prox.map(d => h('span', {class:'busy-it'}, fechaCorta(d), h('button', {type:'button', 'aria-label':'Liberar ' + fechaCorta(d), onclick: () => guardarAgenda(provSel, {ocupadoAdmin: occ.filter(x => x !== d)}, 'Día liberado'), text:'×'}))))) : null,
+    occP.length ? h('div', {class:'f'}, h('label', {text:'Cargados por el proveedor en su agenda'}), h('div', {class:'busy-list'}, occP.map(d => h('span', {class:'busy-it p', text: fechaCorta(d)})))) : null,
+    h('div', {}, h('a', {href: 'agenda.html?p=' + encodeURIComponent(provSel), target:'_blank', rel:'noopener', style:'color:var(--ac);font-size:12.5px', text:'Abrir la agenda completa de este proveedor'})));
+  const st = $('prov-pub'); st.classList.remove('pend');
+  st.textContent = 'Lo que marcás acá se ve al instante en la página de clientes.';
+}
+
+/* ---------- lista ---------- */
+function statsUI(){
+  const box = $('stats'); box.replaceChildren();
+  const mk = (id, label, n, cls) => h('button', {type:'button', class:'stat ' + (cls || '') + (filtro === id ? ' on' : ''), 'aria-pressed': String(filtro === id), onclick: () => { filtro = id; render(); }},
+    h('b', {text: String(n)}), h('span', {}, cls ? h('i', {style:'background:var(--e)'}) : null, label));
+  box.append(mk('todas', 'Todas', rows.length));
+  ESTADOS.forEach(e => box.append(mk(e.id, e.pl, rows.filter(r => r.estado === e.id).length, 'e-' + e.id)));
+  const sum = ids => rows.filter(r => ids.includes(r.estado)).reduce((a, r) => a + (+r.pesos || 0), 0);
+  const m = $('money'); m.replaceChildren();
+  m.append(h('span', {}, 'Señadas y confirmadas: ', h('b', {text: fmt(sum(['senada','confirmada']))})),
+           h('span', {}, 'En conversación (nuevas y presupuestadas): ', h('b', {text: fmt(sum(['nueva','presupuestada']))})));
+  m.hidden = !rows.length;
+}
+function card(r, repetida){
+  const f = aFecha(r.fecha), paso = f && f < hoy(), abierto = abiertos.has(r.id);
+  const sel = h('select', {class:'est', 'aria-label':'Estado de la consulta', onchange: e => write(() => col.doc(r.id).update({estado: e.target.value}), 'Estado actualizado')},
+    ESTADOS.map(e => h('option', {value: e.id, text: e.n})));
+  sel.value = ESTADOS.some(e => e.id === r.estado) ? r.estado : 'nueva';
+  const link = waLink(r.telefono);
+  const total = h('div', {class:'c-total'}, r.pesos ? fmt(r.pesos) : 'Sin total', (r.usd || r.pendientes) ? h('small', {text: [r.usd ? '+ ' + fmt(r.usd, 'U$S') : '', r.pendientes ? 'falta cotizar' : ''].filter(Boolean).join(' · ')}) : null);
+  const items = [...(r.servicios || []), ...(r.mobiliario || []), ...(r.extras || [])];
+  const hi = iso(hoy()), prox = visitasDe(r).slice().sort(ordenVis).find(v => v.fecha >= hi);
+  const art = h('article', {id: 'c-' + r.id, class: `c e-${sel.value}${paso ? ' past' : ''}`},
+    h('div', {class:'c-top'},
+      h('div', {class:'c-date', 'aria-hidden':'true'}, h('span', {class:'m', text: f ? MESES[f.getMonth()] : '—'}), h('b', {text: f ? String(f.getDate()) : '?'}), h('span', {class:'y', text: f ? String(f.getFullYear()) : ''})),
+      h('div', {class:'c-main'},
+        h('div', {class:'c-name'}, h('i', {class:'dot', style:'--c:' + colorDe(r), 'aria-hidden':'true'}), r.nombre || 'Sin nombre'),
+        h('div', {class:'c-sub', text: [r.tipo || 'Evento', r.invitados ? r.invitados + ' invitados' : '', f ? DIAS[f.getDay()] : ''].filter(Boolean).join(' · ')}),
+        h('div', {class:'c-when', text: cuando(r.fecha)}),
+        prox ? h('div', {class:'c-vis', text: `Próxima visita: ${fechaCorta(prox.fecha)} · ${prox.hora || 'sin hora'} hs`}) : null,
+        repetida ? h('div', {class:'c-dup', text:'Hay otra consulta para esta misma fecha'}) : null),
+      h('div', {class:'c-side'}, total, sel)),
+    items.length ? h('div', {class:'chips'}, items.map(s => h('span', {class:'chip', text: s}))) : null,
+    h('div', {class:'c-foot'},
+      r.telefono ? h('span', {class:'tel', text: r.telefono}) : h('span', {text:'Sin teléfono'}),
+      link ? h('a', {href: link, target:'_blank', rel:'noopener', text:'Abrir WhatsApp'}) : null,
+      h('span', {class:'sp'}),
+      h('button', {type:'button', class:'btn ghost', 'aria-expanded': String(abierto), onclick: () => { abierto ? abiertos.delete(r.id) : abiertos.add(r.id); porBorrar = null; render(true); }, text: abierto ? 'Cerrar' : 'Visitas y notas'})));
+  if (abierto){
+    const notas = h('textarea', {id:'n-' + r.id, placeholder:'Ej: pidió visita el sábado, quiere pagar la seña en efectivo…'}); notas.value = r.notas || '';
+    notas.addEventListener('change', () => write(() => col.doc(r.id).update({notas: notas.value.trim()}), 'Notas guardadas'));
+    const tel = h('input', {id:'t-' + r.id, type:'tel', placeholder:'09X XXX XXX'}); tel.value = r.telefono || '';
+    tel.addEventListener('change', () => write(() => col.doc(r.id).update({telefono: tel.value.trim()}), 'Teléfono guardado'));
+    const fecha = h('input', {id:'d-' + r.id, type:'date'}); fecha.value = r.fecha || '';
+    fecha.addEventListener('change', () => { if (fecha.value) write(() => col.doc(r.id).update({fecha: fecha.value}), 'Fecha actualizada'); });
+    art.append(h('div', {class:'det'},
+      visitasUI(r),
+      h('div', {class:'grid'},
+        h('div', {class:'f'}, h('label', {for:'t-' + r.id, text:'Teléfono'}), tel),
+        h('div', {class:'f'}, h('label', {for:'d-' + r.id, text:'Fecha del evento'}), fecha)),
+      h('div', {class:'f'}, h('label', {for:'n-' + r.id, text:'Notas'}), notas),
+      r.mensaje ? h('div', {class:'f'}, h('label', {text:'Mensaje recibido'}), h('pre', {text: r.mensaje.replace(/\*/g,'')})) : null,
+      porBorrar === r.id
+        ? h('div', {class:'confirm'}, 'Se elimina para siempre.',
+            h('button', {type:'button', class:'btn danger', onclick: async () => { const ok = await write(() => col.doc(r.id).delete(), 'Consulta eliminada'); if (ok){ abiertos.delete(r.id); porBorrar = null; } }, text:'Sí, eliminar'}),
+            h('button', {type:'button', class:'btn ghost', onclick: () => { porBorrar = null; render(true); }, text:'Cancelar'}))
+        : h('div', {}, h('button', {type:'button', class:'link muted', onclick: () => { porBorrar = r.id; render(true); }, text:'Eliminar consulta'}))));
+  }
+  return art;
+}
+function render(force){
+  const list = $('list'), a = document.activeElement;
+  // no redibujar mientras se escribe en una nota o teléfono de la lista
+  if (!force && a && list.contains(a) && /^(TEXTAREA|INPUT)$/.test(a.tagName)){ dirty = true; return; }
+  dirty = false;
+  statsUI(); formState(); calUI();
+  const q = $('q').value.trim().toLowerCase(), orden = $('orden').value, t = hoy();
+  let v = rows.filter(r => (filtro === 'todas' || r.estado === filtro) && (!q || (r.nombre || '').toLowerCase().includes(q)));
+  if (orden === 'recientes') v.sort((x, y) => String(y.creado || '').localeCompare(String(x.creado || '')));
+  else v.sort((x, y) => {
+    const fx = aFecha(x.fecha), fy = aFecha(y.fecha), px = !fx || fx < t, py = !fy || fy < t;
+    if (px !== py) return px ? 1 : -1;
+    return px ? (fy || 0) - (fx || 0) : fx - fy;
+  });
+  const porFecha = {}; rows.forEach(r => { if (r.fecha && r.estado !== 'descartada') porFecha[r.fecha] = (porFecha[r.fecha] || 0) + 1; });
+  list.replaceChildren();
+  if (!v.length){
+    const e = !ready ? ['Conectando con tus consultas…', 'En unos segundos aparecen acá.']
+      : !rows.length ? ['Todavía no hay consultas guardadas', 'Pegá arriba el mensaje que te llega por WhatsApp y tocá "Guardar consulta". Queda con su fecha, invitados, servicios, total y estado.']
+      : ['No hay consultas con ese filtro', 'Probá con "Todas" o borrá la búsqueda.'];
+    list.append(h('div', {class:'empty'}, h('b', {text: e[0]}), e[1]));
+    return;
+  }
+  v.forEach(r => list.append(card(r, r.estado !== 'descartada' && porFecha[r.fecha] > 1)));
+}
+$('list').addEventListener('focusout', () => { if (dirty) setTimeout(() => render(), 0); });
+$('q').addEventListener('input', () => render(true));
+$('orden').addEventListener('change', () => render(true));
+
+/* ---------- base de datos ---------- */
+function sinBase(texto){
+  ready = false; col = null; colProv = null;
+  const c = $('conn'); c.textContent = 'Sin conexión a la base'; c.className = 'conn bad';
+  $('list').replaceChildren(h('div', {class:'empty'}, h('b', {text:'No se pudo abrir la base de consultas'}), texto));
+  formState();
+}
+async function start(db){
+  if (!db){ sinBase('No se pudo conectar con la base. Recargá la página.'); return; }
+  col = db.collection('consultas');
+  col.onSnapshot(snap => {
+    rows = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    if (!ready){ ready = true; const c = $('conn'); c.textContent = 'Guardado en la nube'; c.className = 'conn ok'; }
+    render();
+  }, () => sinBase('Se perdió la conexión con la base. Recargá la página para volver a ver tus consultas.'));
+  colProv = db.collection('disponibilidad');
+  colProv.onSnapshot(snap => { agendas = {}; snap.docs.forEach(d => { agendas[d.id] = d.data(); }); provUI(); }, () => {});
+}
+window.mmStartPanel = start;      // lo llama el inicio de sesión cuando entra un administrador
+statsUI(); formState(); calUI(); provUI();
+</script>
+<script type="module">
+import { db, PROVEEDORES } from './mm-datos.js';
+import { sesion, salir } from './mm-sesion.js';
+const $ = id => document.getElementById(id);
+// Días que ya estaban cargados en el panel anterior; se copian una sola vez si la agenda todavía no existe.
+const SEMILLA = {"discoteca-balzani": ["2026-10-08", "2026-10-15", "2026-10-17", "2026-10-20", "2026-10-22", "2026-10-24", "2026-10-25"]};
+
+function aviso(texto, link){
+  const a = $('login-aviso'); a.replaceChildren(document.createTextNode(texto));
+  if (link){ const l = document.createElement('a'); l.href = link[0]; l.textContent = link[1]; l.style.cssText = 'color:var(--ac);display:block;margin-top:8px'; a.append(l); }
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'link muted'; b.textContent = 'Salir y entrar con otro usuario'; b.style.cssText = 'display:block;margin-top:10px'; b.addEventListener('click', () => salir()); a.append(b);
+  a.hidden = false;
+}
+
+function usuariosUI(yo){
+  db.collection('usuarios').onSnapshot(snap => {
+    const box = $('u-list'); box.replaceChildren();
+    const filas = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => String(a.email || '').localeCompare(String(b.email || '')));
+    filas.forEach(u => {
+      const row = document.createElement('div'); row.className = 'u-row';
+      const m = document.createElement('div'); m.className = 'm'; m.textContent = u.email || '(sin mail)';
+      const s = document.createElement('small'); s.textContent = u.id === yo.uid ? 'Vos' : u.rol === 'pendiente' ? 'Esperando que le asignes una agenda' : u.rol === 'admin' ? 'Administrador' : 'Proveedor'; m.append(s);
+      const sel = document.createElement('select'); sel.setAttribute('aria-label', 'Acceso de ' + (u.email || 'usuario')); sel.id = 'u-' + u.id;
+      const op = (v, t) => { const o = document.createElement('option'); o.value = v; o.textContent = t; sel.append(o); };
+      op('pendiente', 'Sin acceso'); PROVEEDORES.forEach(p => op('p:' + p.id, 'Agenda de ' + p.n)); op('admin', 'Administrador');
+      sel.value = u.rol === 'admin' ? 'admin' : u.rol === 'proveedor' && u.proveedor ? 'p:' + u.proveedor : 'pendiente';
+      sel.disabled = u.id === yo.uid;
+      sel.addEventListener('change', async () => {
+        const v = sel.value, cambio = v === 'admin' ? {rol: 'admin', proveedor: null} : v.startsWith('p:') ? {rol: 'proveedor', proveedor: v.slice(2)} : {rol: 'pendiente', proveedor: null};
+        sel.disabled = true;
+        try { await db.doc('usuarios/' + u.id).update(cambio); } catch (e) { sel.disabled = false; }
+      });
+      row.append(m, sel); box.append(row);
+    });
+    if (!filas.length){ const n = document.createElement('div'); n.className = 'need'; n.textContent = 'Todavía no entró ningún usuario.'; box.append(n); }
+  }, () => {});
+  const l = $('link-agenda'); l.textContent = new URL('agenda.html', location.href).href;
+}
+
+sesion({onEntrar: async (user, ficha) => {
+  if (ficha.rol !== 'admin'){
+    aviso('Este usuario no es administrador del panel.', ficha.rol === 'proveedor' ? ['agenda.html', 'Ir a mi agenda'] : null);
+    return false;
+  }
+  const hoy = new Date(); const hi = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+  for (const [k, dias] of Object.entries(SEMILLA)){
+    try {
+      const r = db.collection('disponibilidad').doc(k), d = await r.get();
+      if (!d.exists){ const pv = PROVEEDORES.find(p => p.id === k); await r.set({nombre: pv.n, servicio: pv.s, publicar: true, ocupadoAdmin: dias.filter(x => x >= hi), actualizado: new Date().toISOString()}); }
+    } catch (e) {}
+  }
+  window.mmStartPanel(db);
+  usuariosUI(user);
+}});
+</script>
+</body>
+</html>

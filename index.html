@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Moras &amp; Mentas · Servicio Premium</title>
-<meta name="description" content="Chacra de eventos en San José de Mayo. Armá tu evento: discoteca, catering, barra, fotografía, decoración y más. Elegí los servicios y enviá tu consulta por WhatsApp.">
 <meta name="theme-color" content="#060606">
-<meta property="og:title" content="Moras &amp; Mentas · Servicio Premium">
-<meta property="og:description" content="Tu evento, tu disfrute. Elegí los servicios para tu evento y enviá tu consulta por WhatsApp.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://morasymentas.github.io/moras/img/portada-3.jpg">
+
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060606'/%3E%3Cpath d='M32 12c-10 8-14 17-14 25a14 14 0 0 0 28 0c0-8-4-17-14-25Z' fill='%237cc46c'/%3E%3Cpath d='M32 24v26' stroke='%23060606' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -272,7 +268,7 @@ td.pc{padding:5px 0}
 @media (max-width:520px){.mopt{flex-wrap:wrap}.mopt .mp{width:100%;text-align:left;padding-left:32px}}
 @media (max-width:520px){.xrow{display:grid;grid-template-columns:1fr auto;grid-template-areas:"t c" "p c";column-gap:14px;row-gap:8px}.xrow.q{grid-template-areas:"t c" "p c" "s s"}.xrow .xt{grid-area:t}.xrow .xp{grid-area:p;text-align:left}.xrow .chk{grid-area:c}.xrow .step{grid-area:s;justify-self:start}.xrow .xp small{display:inline;margin-left:5px}}
 
-.extra{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.extra{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .extra .f{display:flex;flex-direction:column;gap:6px;min-width:0}
 .extra .f.full{grid-column:1 / -1}
 .extra label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
@@ -324,6 +320,11 @@ td.pc{padding:5px 0}
 .lb .x:hover{border-color:var(--ac);color:var(--ac)}
 .lb .cnt{top:calc(22px + env(safe-area-inset-top,0px));left:16px;right:auto}
 </style>
+<meta name="description" content="Chacra de eventos en San José de Mayo. Armá tu evento: discoteca, catering, barra, fotografía, decoración y más. Elegí los servicios y enviá tu consulta por WhatsApp.">
+<meta property="og:title" content="Moras &amp; Mentas · Servicio Premium">
+<meta property="og:description" content="Tu evento, tu disfrute. Elegí los servicios para tu evento y enviá tu consulta por WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://morasymentas.github.io/moras/img/portada-3.jpg">
 </head>
 <body>
 <div class="topbar"><span class="ticker">✦ Servicio Premium Moras &amp; Mentas &nbsp;·&nbsp; Chacra de Eventos · San José de Mayo &nbsp;·&nbsp; 15 años · bodas · cumpleaños · empresariales &nbsp;·&nbsp; WhatsApp 098 361 104 &nbsp;·&nbsp; Vos lo imaginás, nosotros lo hacemos realidad</span></div>
@@ -397,6 +398,7 @@ td.pc{padding:5px 0}
           <option value="" disabled selected>Elegí una opción</option>
           <option>15 años</option><option>Boda</option><option>Cumpleaños</option><option>Graduación</option><option>Evento empresarial</option><option>Fiesta privada</option><option>Otro</option>
         </select><span class="msg">Elegí el tipo de evento.</span></div>
+      <div class="f"><label for="celular">Tu celular</label><input id="celular" type="tel" autocomplete="tel" placeholder="09X XXX XXX"><span class="msg"></span></div>
       <div class="f"><label for="invitados">Cantidad de invitados <span class="req">*</span></label><input id="invitados" type="number" min="1" inputmode="numeric" placeholder="Ej: 150"><span class="msg">Indicá cuántos invitados aproximadamente.</span></div>
     </div>
   </section>
@@ -817,6 +819,7 @@ SERVICES.forEach(s => {
   document.getElementById('txt-' + s.id).addEventListener('input', e => { if (e.target.value.trim()) chk(s.id).checked = true; update(); });
   document.querySelectorAll(`input[data-pick="${s.id}"]`).forEach(r => r.addEventListener('change', () => { if (r.checked) chk(s.id).checked = true; update(); }));
 });
+document.getElementById('celular').addEventListener('input', update);
 ['nombre','fecha','tipo','invitados'].forEach(id => {
   const el = document.getElementById(id);
   ['input','change'].forEach(ev => el.addEventListener(ev, () => { if (fieldOk(id)) el.closest('.f').classList.remove('err'); update(); }));
@@ -859,6 +862,9 @@ function avisarPorFecha(){
 }
 ['fecha-top','fecha'].forEach(id => document.getElementById(id).addEventListener('change', () => setTimeout(avisarPorFecha, 0)));
 
+// la base avisa cada cambio de agenda y la página se actualiza sola
+window.mmDisponibilidad = mapa => { DISPONIBILIDAD.ocupado = mapa; DISPONIBILIDAD.vivo = true; update(); };
+
 /* disponibilidad de proveedores según la fecha elegida */
 const dispKey = (s, p) => s.id + '-' + p.id;
 // null: ese proveedor no publica agenda · 'nd': falta la fecha · 'si' / 'no'
@@ -880,7 +886,7 @@ function dispUI(){
   }));
   const hint = document.getElementById('disp-hint'), hay = Object.keys(DISPONIBILIDAD.ocupado).length > 0;
   hint.hidden = !hay;
-  hint.textContent = `Con la fecha te mostramos qué proveedores tienen ese día libre. Agenda actualizada el ${fmtDate(DISPONIBILIDAD.actualizado)}.`;
+  hint.textContent = 'Con la fecha te mostramos qué proveedores tienen ese día libre.' + (DISPONIBILIDAD.vivo ? '' : ` Agenda actualizada el ${fmtDate(DISPONIBILIDAD.actualizado)}.`);
 }
 
 const val = id => document.getElementById(id).value.trim();
@@ -895,7 +901,7 @@ const fmtDate = v => { const [y,m,d] = v.split('-'); return `${d}/${m}/${y}`; };
 
 document.getElementById('wa').addEventListener('click', e => {
   const wa = e.currentTarget;
-  if (wa.getAttribute('aria-disabled') !== 'true') return;
+  if (wa.getAttribute('aria-disabled') !== 'true'){ if (window.mmGuardar && window.mmConsulta) window.mmGuardar(window.mmConsulta); return; }
   e.preventDefault();
   const anySel = SERVICES.some(s => chk(s.id).checked) || ITEMS.some(x => xchk(x.id).checked);
   if (!anySel){ document.getElementById('list').scrollIntoView({behavior:'smooth', block:'start'}); return; }
@@ -931,6 +937,7 @@ function update(){
   const L = [];
   L.push('*CONSULTA SERVICIO PREMIUM*', 'Moras & Mentas · Chacra de Eventos', '', SEP, '*DATOS DEL EVENTO*');
   L.push(`Nombre: ${titleCase(val('nombre'))}`, `Fecha: ${fmtDate(val('fecha'))}`, `Tipo de evento: ${val('tipo')}`, `Invitados: ${inv}`);
+  if (val('celular')) L.push(`Celular: ${val('celular')}`);
 
   if (sel.length){
     L.push('', SEP, `*SERVICIOS (${sel.length})*`);
@@ -1012,6 +1019,7 @@ function update(){
   const wa = document.getElementById('wa'), hint = document.getElementById('hint');
   const miss = missing();
   const names = {nombre:'nombre completo', fecha:'fecha', tipo:'tipo de evento', invitados:'cantidad de invitados'};
+  window.mmConsulta = null;
   if (!total || miss.length){
     wa.setAttribute('aria-disabled','true'); wa.href = '#'; hint.hidden = false;
     hint.textContent = !total ? 'Marcá al menos un servicio para enviar.' : `Para enviar completá: ${miss.map(m => names[m]).join(', ')}.`;
@@ -1019,8 +1027,26 @@ function update(){
   }
   hint.hidden = true; wa.setAttribute('aria-disabled','false');
   wa.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.mmConsulta = {nombre: titleCase(val('nombre')), fecha: val('fecha'), tipo: val('tipo'), invitados: inv, telefono: val('celular'), pesos, usd, pendientes: pend.join(', '),
+    servicios: sel.map(s => s.name), mobiliario: msel.map(x => x.name), extras: xsel.map(x => x.name), mensaje: msg};
 }
 update();
+</script>
+<script type="module">
+// Base de datos: disponibilidad en vivo y guardado de cada consulta enviada. Si falla, la página sigue funcionando por WhatsApp.
+import { db } from './mm-datos.js';
+db.collection('disponibilidad').onSnapshot(snap => {
+  if (!snap.docs.length) return;       // sin agendas en la base todavía: queda lo que ya traía la página
+  const mapa = {};
+  snap.docs.forEach(d => { const x = d.data(); if (x.publicar === false) return; mapa[d.id] = [...new Set([...(x.ocupadoAdmin || []), ...(x.ocupadoProveedor || [])])]; });
+  if (window.mmDisponibilidad) window.mmDisponibilidad(mapa);
+}, () => {});
+let ultimo = '';
+window.mmGuardar = c => {
+  if (!c || !c.mensaje || c.mensaje === ultimo) return;      // un mismo mensaje se guarda una sola vez
+  ultimo = c.mensaje;
+  db.collection('consultas').doc().set({...c, estado: 'nueva', origen: 'web', notas: '', visitas: [], creado: new Date().toISOString()}).catch(() => { ultimo = ''; });
+};
 </script>
 </body>
 </html>

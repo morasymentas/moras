@@ -1,0 +1,21 @@
+/* Ingreso y barra de usuario, compartidos por el panel y las agendas */
+.login{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
+.login-box{width:100%;max-width:380px;background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:26px 22px;display:flex;flex-direction:column;gap:14px}
+.login-box .eyebrow{margin:0}
+.login-box h1{font-size:34px}
+.login-box p{margin:0;color:var(--tx2);font-size:13px;line-height:1.6}
+.login-box form{display:flex;flex-direction:column;gap:12px}
+.login-box .f{display:flex;flex-direction:column;gap:6px}
+.login-box .f label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.login-box input{background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;padding:12px;font-size:14px;outline:none;width:100%;color:var(--tx)}
+.login-box input:focus{border-color:var(--ac)}
+.login-box .btn{padding:13px 16px;font-size:14px}
+.login-msg{font-size:12.5px;color:var(--err);min-height:1.2em;line-height:1.5}
+.login-msg.ok{color:var(--ac)}
+.login-aviso{border:1px solid var(--gold);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.55;color:var(--tx)}
+.barra{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--tx2)}
+.barra a{color:var(--ac);text-underline-offset:3px}
+.barra .sp{flex:1}
+.barra .quien{overflow-wrap:anywhere;min-width:0}
+.barra button{background:none;border:1px solid var(--bdr2);border-radius:20px;color:var(--tx2);font:inherit;font-size:12.5px;padding:6px 14px;cursor:pointer}
+.barra button:hover{border-color:var(--ac);color:var(--ac)}

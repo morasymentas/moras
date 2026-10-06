@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agenda de proveedores · Moras &amp; Mentas</title>
+<meta name="theme-color" content="#060606">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060606'/%3E%3Cpath d='M32 12c-10 8-14 17-14 25a14 14 0 0 0 28 0c0-8-4-17-14-25Z' fill='%237cc46c'/%3E%3Cpath d='M32 24v26' stroke='%23060606' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+</style>
+<style>
+/* Layout: calendario mensual grande a la izquierda (los eventos se leen dentro de cada día) y, al costado, el día elegido con sus eventos, el formulario y lo próximo. En el teléfono se apila. */
+:root{
+  --ac:#7cc46c;--ac2:#63ab54;--ac-soft:rgba(124,196,108,.12);--on-ac:#0c1a0f;
+  --gold:#e6cf95;--info:#8fb8e8;--lila:#c9a0e8;--err:#f08a6c;--err-soft:rgba(240,138,108,.12);
+  --bg:#060606;--bg2:#0d0d0d;--bg3:#141414;--bg4:#1d1e1d;
+  --tx:#f5eedf;--tx2:#b3b8ae;--tx3:#7f867b;--bdr:#1f211f;--bdr2:#2b2e2b;
+  --f-display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --f-body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;font-family:var(--f-body);font-size:14px;background:var(--bg);color:var(--tx);overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:28px 70px;display:flex;flex-direction:column;gap:20px}
+
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);font-weight:500;margin-bottom:8px}
+h1{font-family:var(--f-display);font-weight:600;font-size:clamp(30px,6vw,42px);line-height:1.05;margin:0;text-wrap:balance}
+h1 em{color:var(--ac);font-style:italic}
+.sub{margin:6px 0 0;color:var(--tx2);font-size:13px}
+.conn{font-size:11.5px;color:var(--tx2);border:1px solid var(--bdr2);border-radius:20px;padding:6px 12px;display:inline-flex;align-items:center;gap:7px}
+.conn::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--tx3)}
+.conn.ok::before{background:var(--ac)}
+.conn.loc::before{background:var(--gold)}
+.banner{border:1px solid var(--gold);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;color:var(--tx);display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap}
+.banner span{flex:1 1 260px;min-width:0}
+
+.board{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;align-items:start}
+@media (max-width:900px){.board{grid-template-columns:minmax(0,1fr)}}
+.box{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:16px;min-width:0}
+
+/* calendario */
+.cal-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.cal-title{flex:1;font-family:var(--f-display);font-size:26px;font-weight:600;text-transform:capitalize;min-width:0}
+.nav{width:34px;height:34px;border-radius:50%;border:1px solid var(--bdr2);background:var(--bg3);cursor:pointer;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav:hover,.pill:hover{border-color:var(--ac);color:var(--ac)}
+.pill{border:1px solid var(--bdr2);background:var(--bg3);border-radius:20px;padding:7px 14px;font-size:12.5px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.dow{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);text-align:center;padding:2px 0 6px}
+.day{position:relative;min-height:88px;min-width:0;border:1px solid var(--bdr);border-radius:8px;background:var(--bg3);cursor:pointer;padding:6px 6px 5px;text-align:left;display:flex;flex-direction:column;gap:3px;transition:border-color .12s,background .12s}
+.day:hover{border-color:var(--bdr2)}
+.day .n{font-size:13px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1;display:flex;align-items:center;justify-content:space-between;gap:4px}
+.day.past .n{color:var(--tx3)}
+.day.hoy .n b{background:var(--ac);color:var(--on-ac);border-radius:50%;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.day .n b{font-weight:inherit}
+.day.sel{border-color:var(--ac);background:var(--ac-soft)}
+.day.busy{border-top:3px solid var(--err);padding-top:4px}
+.day .occ{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--err);font-weight:600}
+.evs{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ev{display:block;font-size:11px;line-height:1.35;padding:1px 6px;border-radius:4px;background:color-mix(in srgb,var(--c) 22%,transparent);border-left:2px solid var(--c);color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.more{font-size:10.5px;color:var(--tx2)}
+@media (max-width:700px){
+  .day{min-height:56px;padding:5px 3px 4px;align-items:center}
+  .day .n{justify-content:center}
+  .day .occ{display:none}
+  .evs{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:3px}
+  .ev{width:7px;height:7px;padding:0;border:none;border-radius:50%;background:var(--c);font-size:0}
+  .more{font-size:9px}
+}
+.key{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:11.5px;color:var(--tx2);margin-top:14px}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--c);flex-shrink:0;display:inline-block}
+.key .bar{width:14px;height:3px;background:var(--err);display:inline-block}
+.foot{margin:12px 0 0;font-size:12px;color:var(--tx3);line-height:1.55}
+
+/* costado */
+.side{display:flex;flex-direction:column;gap:14px}
+.side-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.side-h b{font-family:var(--f-display);font-size:23px;font-weight:600;line-height:1.1}
+.side-h small{display:block;font-size:12px;color:var(--tx2);margin-top:3px}
+h2{font-family:var(--f-display);font-size:20px;font-weight:600;margin:0}
+.btn{background:var(--ac);color:var(--on-ac);border:none;border-radius:6px;padding:10px 16px;font-weight:600;font-size:13px;cursor:pointer;flex-shrink:0}
+.btn:hover{background:var(--ac2)}
+.btn.ghost{background:none;border:1px solid var(--bdr2);color:var(--tx2);font-weight:500}
+.btn.ghost:hover{border-color:var(--ac);color:var(--ac);background:none}
+.btn.danger{background:var(--err)}
+.link{background:none;border:none;padding:0;color:var(--ac);font-size:12.5px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.link.muted{color:var(--tx2)}
+.list{display:flex;flex-direction:column;gap:8px}
+.it{border:1px solid var(--bdr);border-left:3px solid var(--c);border-radius:8px;background:var(--bg3);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+button.it{text-align:left;cursor:pointer}
+button.it:hover{border-color:var(--bdr2);border-left-color:var(--c)}
+.it-t{font-size:12px;color:var(--tx2);font-variant-numeric:tabular-nums}
+.it-t b{color:var(--gold);font-weight:600}
+.it-n{font-family:var(--f-display);font-size:19px;font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+.it-s{font-size:12px;color:var(--tx2);overflow-wrap:anywhere}
+.it-x{font-size:12px;color:var(--tx3);font-style:italic;overflow-wrap:anywhere;white-space:pre-wrap}
+.it-a{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--err);font-weight:600}
+.none{color:var(--tx2);font-size:13px;line-height:1.6;border:1px dashed var(--bdr2);border-radius:8px;padding:14px}
+
+/* formulario */
+.form{display:flex;flex-direction:column;gap:12px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f > label,.f > .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+textarea,input[type="text"],input[type="date"],input[type="time"]{background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;padding:10px 12px;font-size:13px;outline:none;width:100%;min-width:0}
+textarea{min-height:64px;resize:vertical;line-height:1.5}
+textarea:focus,input:focus{border-color:var(--ac)}
+input::placeholder,textarea::placeholder{color:var(--tx3)}
+.tipos{display:flex;flex-wrap:wrap;gap:6px}
+.tipo{position:relative}
+.tipo input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.tipo span{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bdr2);border-radius:20px;padding:6px 12px;font-size:12.5px;color:var(--tx2);background:var(--bg3)}
+.tipo input:checked + span{border-color:var(--c);color:var(--tx);background:color-mix(in srgb,var(--c) 18%,transparent);font-weight:600}
+.tipo input:focus-visible + span{outline:2px solid var(--ac);outline-offset:2px}
+.sw{display:flex;align-items:flex-start;gap:10px;font-size:13px;cursor:pointer;line-height:1.4}
+.sw input{width:18px;height:18px;accent-color:var(--ac);flex-shrink:0;margin:0}
+.sw small{display:block;color:var(--tx3);font-size:11.5px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.errm{color:var(--err);font-size:12.5px}
+
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bg4);border:1px solid var(--ac);color:var(--tx);padding:10px 16px;border-radius:8px;font-size:13px;z-index:20;max-width:calc(100% - 32px)}
+.toast.bad{border-color:var(--err)}
+</style>
+<link rel="stylesheet" href="mm.css">
+</head>
+<body>
+<div class="login" id="login">
+  <div class="login-box">
+    <div class="eyebrow">Moras &amp; Mentas</div>
+    <h1>Agenda de <em>proveedores</em></h1>
+    <p>Entrá con el mail y la contraseña que te dio Moras &amp; Mentas.</p>
+    <p id="login-cargando">Abriendo…</p>
+    <form id="login-form" hidden>
+      <div class="f"><label for="login-mail">Mail</label><input id="login-mail" type="email" autocomplete="username" required></div>
+      <div class="f"><label for="login-pass">Contraseña</label><input id="login-pass" type="password" autocomplete="current-password" required></div>
+      <button class="btn" id="login-btn" type="submit">Entrar</button>
+      <button class="link muted" id="login-olvide" type="button">Olvidé mi contraseña</button>
+      <div class="login-msg" id="login-msg" role="alert"></div>
+    </form>
+    <div class="login-aviso" id="login-aviso" hidden></div>
+  </div>
+</div>
+<main class="wrap" id="app" hidden>
+  <header class="top">
+    <div>
+      <div class="eyebrow">Proveedores · Moras &amp; Mentas</div>
+      <h1>Agenda <em id="prov-n"></em></h1>
+      <p class="sub" id="prov-s"></p>
+    </div>
+    <span class="conn" id="conn">Abriendo tu agenda…</span>
+  </header>
+  <div class="barra"><span class="quien" id="usuario"></span><span id="otras"></span><span class="sp"></span><button type="button" id="salir">Salir</button></div>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <section class="board">
+    <div class="box">
+      <div class="cal-head">
+        <button type="button" class="nav" id="prev" aria-label="Mes anterior">‹</button>
+        <div class="cal-title" id="cal-title"></div>
+        <button type="button" class="pill" id="hoy">Hoy</button>
+        <button type="button" class="nav" id="next" aria-label="Mes siguiente">›</button>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="key" id="key"></div>
+      <p class="foot" id="foot"></p>
+    </div>
+    <aside class="box side" id="side"></aside>
+  </section>
+</main>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+// Datos del proveedor dueño de esta agenda (la clave coincide con la página de Servicio Premium)
+let PROVEEDOR = {nombre:'', servicio:'', clave:''};   // lo define el inicio de sesión según el usuario
+const TIPOS = [
+  {id:'evento',  n:'Evento',  c:'var(--ac)',   bloquea:true},
+  {id:'visita',  n:'Visita',  c:'var(--info)', bloquea:false},
+  {id:'reunion', n:'Reunión', c:'var(--gold)', bloquea:false},
+  {id:'otro',    n:'Otro',    c:'var(--lila)', bloquea:false}
+];
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+const DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const LOCAL_KEY = 'agenda-eventos';
+const $ = id => document.getElementById(id);
+
+const hoyD = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const aFecha = i => { const [y,m,d] = (i || '').split('-').map(Number); return y ? new Date(y, m-1, d) : null; };
+const fechaLarga = i => { const f = aFecha(i); return f ? `${DIAS[f.getDay()]} ${f.getDate()} de ${MESES[f.getMonth()]}` : ''; };
+const fechaCorta = i => { const f = aFecha(i); return f ? `${DIAS[f.getDay()].slice(0,3)} ${String(f.getDate()).padStart(2,'0')}/${String(f.getMonth()+1).padStart(2,'0')}` : ''; };
+const cap = t => t.replace(/^./, c => c.toUpperCase());
+const tipoDe = id => TIPOS.find(t => t.id === id) || TIPOS[3];
+const horario = e => e.desde ? (e.hasta ? `${e.desde} a ${e.hasta} hs` : `${e.desde} hs`) : 'Todo el día';
+const orden = (a, b) => (a.fecha + (a.desde || '')).localeCompare(b.fecha + (b.desde || ''));
+
+let modo = 'cargando';              // 'nube' | 'local'
+let col = null, eventos = [], form = null, borrar = null;
+const view = {y: hoyD().getFullYear(), m: hoyD().getMonth(), sel: iso(hoyD())};
+
+function h(tag, attrs, ...kids){
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})){
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'text') e.textContent = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of kids.flat()){ if (c == null || c === false) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+let toastT;
+function toast(text, bad){ const t = $('toast'); t.textContent = text; t.classList.toggle('bad', !!bad); t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, bad ? 5000 : 2200); }
+
+/* ---------- guardado: en la nube si esta persona puede editar; si no, en este dispositivo ---------- */
+function leerLocal(){ try { const a = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]'); return Array.isArray(a) ? a.filter(e => e && e.id && e.fecha) : []; } catch (e) { return []; } }
+function escribirLocal(a){ try { localStorage.setItem(LOCAL_KEY, JSON.stringify(a)); return true; } catch (e) { return false; } }
+function limpio(e){
+  return {titulo: String(e.titulo || '').trim().slice(0, 120), tipo: tipoDe(e.tipo).id, fecha: e.fecha, desde: e.desde || '', hasta: e.desde ? (e.hasta || '') : '',
+    lugar: String(e.lugar || '').trim().slice(0, 120), notas: String(e.notas || '').trim().slice(0, 1000), bloquea: !!e.bloquea, creado: e.creado || new Date().toISOString()};
+}
+function aLocal(){
+  modo = 'local'; col = null; eventos = leerLocal(); estado();
+}
+async function nube(fn){
+  try { await fn(); return true; }
+  catch (e){
+    const c = e && e.code;
+    if (c === 'unavailable'){ try { await new Promise(r => setTimeout(r, 500 + Math.random()*700)); await fn(); return true; } catch (e2){} }
+    if (c === 'sin_permiso') return 'sin-permiso';
+    toast(c === 'quota_exceeded' ? 'La agenda está llena. Eliminá eventos viejos para guardar nuevos.' : 'No se pudo guardar. Probá de nuevo en un momento.', true);
+    return false;
+  }
+}
+async function guardarEvento(datos, id){
+  const body = limpio(datos);
+  if (modo === 'nube'){
+    const r = await nube(() => (id ? col.doc(id) : col.doc()).set(body));
+    if (r === true) return true;
+    if (r === false) return false;
+    toast('Tu usuario no tiene permiso para guardar en esta agenda.', true);
+  }
+  return false;
+}
+async function eliminarEvento(id){
+  if (modo === 'nube'){ const r = await nube(() => col.doc(id).delete()); return r === true; }
+  const a = leerLocal().filter(x => x.id !== id); if (!escribirLocal(a)) return false; eventos = a; return true;
+}
+
+/* ---------- pantalla ---------- */
+function estado(){
+  const c = $('conn'); c.textContent = 'Guardado en la nube'; c.className = 'conn ok';
+  $('banner').hidden = true;
+  $('foot').textContent = 'Moras & Mentas puede ver esta agenda. Los días marcados como ocupados son los que ven sus clientes como no disponibles.';
+  render();
+}
+function render(){ grilla(); if (!form) costado(); }
+function grilla(){
+  $('cal-title').textContent = `${MESES[view.m]} ${view.y}`;
+  const g = $('grid'), hi = iso(hoyD()), off = (new Date(view.y, view.m, 1).getDay() + 6) % 7, n = new Date(view.y, view.m + 1, 0).getDate();
+  g.replaceChildren(...['lun','mar','mié','jue','vie','sáb','dom'].map(d => h('span', {class:'dow', 'aria-hidden':'true', text:d})));
+  for (let i = 0; i < off; i++) g.append(h('span'));
+  for (let d = 1; d <= n; d++){
+    const id = iso(new Date(view.y, view.m, d)), evs = eventos.filter(e => e.fecha === id).sort(orden), busy = evs.some(e => e.bloquea);
+    g.append(h('button', {type:'button', class:'day' + (id === hi ? ' hoy' : '') + (id < hi ? ' past' : '') + (id === view.sel ? ' sel' : '') + (busy ? ' busy' : ''),
+      'aria-pressed': String(id === view.sel), 'aria-label': `${d} de ${MESES[view.m]}` + (evs.length ? `, ${evs.length} ${evs.length === 1 ? 'evento' : 'eventos'}` : '') + (busy ? ', día ocupado' : ''),
+      onclick: () => { view.sel = id; form = null; borrar = null; render(); }},
+      h('span', {class:'n'}, h('b', {text: String(d)}), busy ? h('span', {class:'occ', text:'ocupado'}) : null),
+      h('span', {class:'evs'}, evs.slice(0, 3).map(e => h('span', {class:'ev', style:'--c:' + tipoDe(e.tipo).c, text: (e.desde ? e.desde + ' ' : '') + e.titulo})), evs.length > 3 ? h('span', {class:'more', text:'+' + (evs.length - 3)}) : null)));
+  }
+  $('key').replaceChildren(...TIPOS.map(t => h('span', {}, h('i', {class:'dot', style:'--c:' + t.c}), t.n)), h('span', {}, h('i', {class:'bar'}), 'día ocupado'));
+}
+function item(e, conAcciones){
+  const t = tipoDe(e.tipo);
+  const cuerpo = [
+    h('div', {class:'it-t'}, conAcciones ? null : cap(fechaCorta(e.fecha)) + ' · ', h('b', {text: horario(e)})),
+    h('div', {class:'it-n', text: e.titulo || 'Sin título'}),
+    h('div', {class:'it-s', text: [t.n, e.lugar].filter(Boolean).join(' · ')}),
+    e.notas && conAcciones ? h('div', {class:'it-x', text: e.notas}) : null,
+    e.bloquea ? h('div', {class:'tag', text:'Ocupa el día'}) : null
+  ];
+  if (!conAcciones) return h('button', {type:'button', class:'it', style:'--c:' + t.c, onclick: () => { const f = aFecha(e.fecha); view.y = f.getFullYear(); view.m = f.getMonth(); view.sel = e.fecha; render(); }}, cuerpo);
+  return h('div', {class:'it', style:'--c:' + t.c}, cuerpo,
+    borrar === e.id
+      ? h('div', {class:'it-a'}, h('button', {type:'button', class:'btn danger', onclick: async () => { if (await eliminarEvento(e.id)){ borrar = null; toast('Evento eliminado'); render(); } }, text:'Sí, eliminar'}), h('button', {type:'button', class:'link muted', onclick: () => { borrar = null; render(); }, text:'Cancelar'}))
+      : h('div', {class:'it-a'}, h('button', {type:'button', class:'link', onclick: () => abrirForm(e), text:'Editar'}), h('button', {type:'button', class:'link muted', onclick: () => { borrar = e.id; render(); }, text:'Eliminar'})));
+}
+function costado(){
+  const s = $('side'), hi = iso(hoyD()), delDia = eventos.filter(e => e.fecha === view.sel).sort(orden);
+  const prox = eventos.filter(e => e.fecha >= hi && e.fecha !== view.sel).sort(orden).slice(0, 5);
+  s.replaceChildren(
+    h('div', {class:'side-h'},
+      h('div', {}, h('b', {text: cap(fechaLarga(view.sel))}), h('small', {text: view.sel === hi ? 'Hoy' : String(aFecha(view.sel).getFullYear())})),
+      h('button', {type:'button', class:'btn', onclick: () => abrirForm(null), text:'Agregar'})),
+    delDia.length ? h('div', {class:'list'}, delDia.map(e => item(e, true)))
+      : h('div', {class:'none', text: modo === 'cargando' ? 'Abriendo tu agenda…' : eventos.length ? 'No hay nada agendado este día.' : 'Tu agenda está vacía. Tocá "Agregar" para cargar tu primer evento, visita o reunión.'}),
+    prox.length ? h('h2', {text:'Lo que viene'}) : null,
+    prox.length ? h('div', {class:'list'}, prox.map(e => item(e, false))) : null);
+}
+function abrirForm(e){
+  form = e ? {...e} : {titulo:'', tipo:'evento', fecha: view.sel, desde:'', hasta:'', lugar:'', notas:'', bloquea: true, _tocado: false};
+  if (e) form._tocado = true;
+  borrar = null; formUI();
+}
+function formUI(){
+  const s = $('side'), f = form, editando = !!f.id;
+  const inp = (id, type, key, ph) => { const i = h('input', {id, type, placeholder: ph, maxlength: type === 'text' ? '120' : null}); i.value = f[key] || ''; i.addEventListener('input', () => { f[key] = i.value; }); return i; };
+  const notas = h('textarea', {id:'f-notas', placeholder:'Dirección, contacto, lo que haya que llevar…', maxlength:'1000'}); notas.value = f.notas || ''; notas.addEventListener('input', () => { f.notas = notas.value; });
+  const blq = h('input', {type:'checkbox', id:'f-blq'}); blq.checked = !!f.bloquea; blq.addEventListener('change', () => { f.bloquea = blq.checked; f._tocado = true; });
+  const tipos = h('div', {class:'tipos', role:'radiogroup', 'aria-label':'Tipo'}, TIPOS.map(t => {
+    const r = h('input', {type:'radio', name:'f-tipo', id:'f-tipo-' + t.id}); r.checked = f.tipo === t.id;
+    r.addEventListener('change', () => { f.tipo = t.id; if (!f._tocado){ f.bloquea = t.bloquea; blq.checked = t.bloquea; } });
+    return h('label', {class:'tipo', style:'--c:' + t.c}, r, h('span', {}, h('i', {class:'dot'}), t.n));
+  }));
+  const err = h('div', {class:'errm', hidden: true});
+  const guardar = h('button', {type:'button', class:'btn', text: editando ? 'Guardar cambios' : 'Guardar'});
+  guardar.addEventListener('click', async () => {
+    if (!String(f.titulo || '').trim()){ err.textContent = 'Poné un título para el evento.'; err.hidden = false; $('f-titulo').focus(); return; }
+    if (!f.fecha){ err.textContent = 'Elegí la fecha.'; err.hidden = false; return; }
+    if (f.desde && f.hasta && f.hasta <= f.desde){ err.textContent = 'La hora de fin tiene que ser posterior a la de inicio.'; err.hidden = false; return; }
+    guardar.disabled = true;
+    const ok = await guardarEvento(f, f.id);
+    if (ok){ const d = aFecha(f.fecha); view.y = d.getFullYear(); view.m = d.getMonth(); view.sel = f.fecha; form = null; toast(editando ? 'Cambios guardados' : 'Evento guardado'); render(); }
+    else guardar.disabled = false;
+  });
+  s.replaceChildren(h('div', {class:'form'},
+    h('h2', {text: editando ? 'Editar evento' : 'Nuevo evento'}),
+    h('div', {class:'f'}, h('label', {for:'f-titulo', text:'Título'}), inp('f-titulo', 'text', 'titulo', 'Ej: 15 años en Moras & Mentas')),
+    h('div', {class:'f'}, h('span', {class:'lbl', text:'Tipo'}), tipos),
+    h('div', {class:'f'}, h('label', {for:'f-fecha', text:'Fecha'}), inp('f-fecha', 'date', 'fecha')),
+    h('div', {class:'two'},
+      h('div', {class:'f'}, h('label', {for:'f-desde', text:'Desde'}), inp('f-desde', 'time', 'desde')),
+      h('div', {class:'f'}, h('label', {for:'f-hasta', text:'Hasta'}), inp('f-hasta', 'time', 'hasta'))),
+    h('div', {class:'it-s', text:'Sin horario queda como evento de todo el día.'}),
+    h('div', {class:'f'}, h('label', {for:'f-lugar', text:'Lugar'}), inp('f-lugar', 'text', 'lugar', 'Ej: Chacra Moras & Mentas')),
+    h('div', {class:'f'}, h('label', {for:'f-notas', text:'Notas'}), notas),
+    h('label', {class:'sw', for:'f-blq'}, blq, h('span', {}, 'Ocupa el día', h('small', {text:'Ese día no tomo otro evento. Así figuro como no disponible.'}))),
+    err,
+    h('div', {class:'row'}, guardar, h('button', {type:'button', class:'btn ghost', onclick: () => { form = null; render(); }, text:'Cancelar'}))));
+  $('f-titulo').focus();
+}
+const mover = d => { const f = new Date(view.y, view.m + d, 1); view.y = f.getFullYear(); view.m = f.getMonth(); grilla(); };
+$('prev').addEventListener('click', () => mover(-1));
+$('next').addEventListener('click', () => mover(1));
+$('hoy').addEventListener('click', () => { const t = hoyD(); view.y = t.getFullYear(); view.m = t.getMonth(); view.sel = iso(t); form = null; render(); });
+
+// Días ocupados: se publican para que el sitio de clientes muestre la disponibilidad al instante.
+let dispRef = null, dispActual = null, dispLista = false, evLista = false;
+function publicarOcupados(){
+  if (!dispRef || !dispLista || !evLista) return;
+  const hi = iso(hoyD()), dias = [...new Set(eventos.filter(e => e.bloquea && e.fecha >= hi).map(e => e.fecha))].sort();
+  if (JSON.stringify(dias) === JSON.stringify(dispActual || [])) return;       // solo escribe cuando cambió
+  dispActual = dias;
+  dispRef.set({nombre: PROVEEDOR.nombre, servicio: PROVEEDOR.servicio, ocupadoProveedor: dias, actualizado: new Date().toISOString()}, {merge: true}).catch(() => {});
+}
+function start(db, prov){
+  PROVEEDOR = prov;
+  $('prov-n').textContent = PROVEEDOR.nombre; $('prov-s').textContent = PROVEEDOR.servicio;
+  document.title = 'Agenda ' + PROVEEDOR.nombre;
+  col = db.collection('agendas/' + PROVEEDOR.clave + '/eventos'); modo = 'nube';
+  dispRef = db.collection('disponibilidad').doc(PROVEEDOR.clave);
+  dispRef.onSnapshot(sn => { const x = sn.exists ? sn.data() : null; dispActual = (x && Array.isArray(x.ocupadoProveedor)) ? x.ocupadoProveedor.slice().sort() : []; dispLista = true; publicarOcupados(); }, () => {});
+  let primera = true;
+  col.onSnapshot(snap => {
+    eventos = snap.docs.map(d => ({id: d.id, ...d.data()})).filter(e => e.fecha);
+    evLista = true;
+    if (primera){ primera = false; estado(); } else render();
+    publicarOcupados();
+  }, () => { const c = $('conn'); c.textContent = 'Sin conexión'; c.className = 'conn loc'; toast('No se pudo abrir la agenda. Recargá la página.', true); });
+}
+window.mmStartAgenda = start;      // lo llama el inicio de sesión
+render();
+</script>
+<script type="module">
+import { db, PROVEEDORES } from './mm-datos.js';
+import { sesion, salir } from './mm-sesion.js';
+const $ = id => document.getElementById(id);
+function aviso(texto, links){
+  const a = $('login-aviso'); a.replaceChildren(document.createTextNode(texto));
+  (links || []).forEach(([href, t]) => { const l = document.createElement('a'); l.href = href; l.textContent = t; l.style.cssText = 'color:var(--ac);display:block;margin-top:8px'; a.append(l); });
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'link muted'; b.textContent = 'Salir y entrar con otro usuario'; b.style.cssText = 'display:block;margin-top:10px'; b.addEventListener('click', () => salir()); a.append(b);
+  a.hidden = false;
+}
+sesion({onEntrar: async (user, ficha) => {
+  let clave = null;
+  if (ficha.rol === 'admin'){
+    clave = new URLSearchParams(location.search).get('p');
+    if (!PROVEEDORES.some(p => p.id === clave)){
+      aviso('Sos administrador. Elegí qué agenda querés abrir:', PROVEEDORES.map(p => ['agenda.html?p=' + encodeURIComponent(p.id), p.n]).concat([['panel.html', 'Volver al panel']]));
+      return false;
+    }
+    const o = $('otras'); const l = document.createElement('a'); l.href = 'panel.html'; l.textContent = 'Volver al panel'; o.append(l);
+  } else if (ficha.rol === 'proveedor' && PROVEEDORES.some(p => p.id === ficha.proveedor)){
+    clave = ficha.proveedor;
+  } else {
+    aviso('Tu usuario ya está creado, pero todavía no tiene una agenda asignada. Avisale a Moras & Mentas y volvé a entrar.');
+    return false;
+  }
+  const pv = PROVEEDORES.find(p => p.id === clave);
+  window.mmStartAgenda(db, {nombre: pv.n, servicio: pv.s, clave});
+}});
+</script>
+</body>
+</html>
