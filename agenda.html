@@ -305,8 +305,8 @@ function costado(){
       h('button', {type:'button', class:'btn', onclick: () => abrirForm(null), text:'Agregar'})),
     delDia.length ? h('div', {class:'list'}, delDia.map(e => item(e, true)))
       : h('div', {class:'none', text: modo === 'cargando' ? 'Abriendo tu agenda…' : eventos.length ? 'No hay nada agendado este día.' : 'Tu agenda está vacía. Tocá "Agregar" para cargar tu primer evento, visita o reunión.'}),
-    prox.length ? h('h2', {text:'Lo que viene'}) : null,
-    prox.length ? h('div', {class:'list'}, prox.map(e => item(e, false))) : null);
+    prox.length ? h('h2', {text:'Lo que viene'}) : '',
+    prox.length ? h('div', {class:'list'}, prox.map(e => item(e, false))) : '');
 }
 function abrirForm(e){
   form = e ? {...e} : {titulo:'', tipo:'evento', fecha: view.sel, desde:'', hasta:'', lugar:'', notas:'', bloquea: true, _tocado: false};

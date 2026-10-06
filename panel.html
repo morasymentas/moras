@@ -256,7 +256,7 @@ textarea::placeholder,input::placeholder{color:var(--tx3)}
   </section>
 
   <section class="panel" id="prov">
-    <h2>Agenda de proveedores</h2>
+    <h2>Agenda de la chacra y de proveedores</h2>
     <p>Marcá los días en que cada proveedor ya está ocupado. Se suman a los que el propio proveedor carga en su agenda. El cliente lo ve al instante cuando elige la fecha de su evento.</p>
     <div class="tabs" id="prov-tabs" role="tablist" aria-label="Proveedores"></div>
     <div class="vis">
@@ -330,6 +330,7 @@ const fmt = (n, cur='$') => `${cur} ${String(Math.round(n)).replace(/\B(?=(\d{3}
 let col = null, ready = false, rows = [], filtro = 'todas', dirty = false, leido = null;
 // mismos proveedores (y mismas claves) que la página de Servicio Premium
 const PROVEEDORES = [
+  {id:'chacra', n:'La chacra', s:'Fechas en que el predio ya está reservado', propia: true},
   {id:'discoteca-balzani', n:'Balzani Music Group', s:'Discoteca'},
   {id:'fotografia-mali', n:'Mali Foto & Video', s:'Fotografía'},
   {id:'catering-menu', n:'Catering', s:'Menú completo'},
@@ -649,13 +650,14 @@ function provUI(){
   $('prov-side').replaceChildren(
     h('div', {}, h('div', {class:'prov-n', text: pv.n}), h('div', {class:'prov-s', text: pv.s})),
     h('div', {class:'vis-day', text:'Tocá un día del calendario para marcarlo como ocupado. Tocalo de nuevo para liberarlo.'}),
-    h('label', {class:'sw', for:'prov-pubchk'}, sw, 'Mostrar su disponibilidad a los clientes'),
-    !a ? h('div', {class:'need', text:'Agenda sin cargar: los clientes no ven disponibilidad de este proveedor hasta que marques su primer día.'})
+    pv.propia ? '' : h('label', {class:'sw', for:'prov-pubchk'}, sw, 'Mostrar su disponibilidad a los clientes'),
+    !a ? h('div', {class:'need', text: pv.propia ? 'Todavía no marcaste fechas reservadas de la chacra.' : 'Agenda sin cargar: los clientes no ven disponibilidad de este proveedor hasta que marques su primer día.'})
        : sinDias ? h('div', {class:'need', text:'Sin días ocupados: figura disponible para cualquier fecha.'})
-       : null,
-    prox.length ? h('div', {class:'f'}, h('label', {text:'Marcados por vos'}), h('div', {class:'busy-list'}, prox.map(d => h('span', {class:'busy-it'}, fechaCorta(d), h('button', {type:'button', 'aria-label':'Liberar ' + fechaCorta(d), onclick: () => guardarAgenda(provSel, {ocupadoAdmin: occ.filter(x => x !== d)}, 'Día liberado'), text:'×'}))))) : null,
-    occP.length ? h('div', {class:'f'}, h('label', {text:'Cargados por el proveedor en su agenda'}), h('div', {class:'busy-list'}, occP.map(d => h('span', {class:'busy-it p', text: fechaCorta(d)})))) : null,
-    h('div', {}, h('a', {href: 'agenda.html?p=' + encodeURIComponent(provSel), target:'_blank', rel:'noopener', style:'color:var(--ac);font-size:12.5px', text:'Abrir la agenda completa de este proveedor'})));
+       : '',
+    prox.length ? h('div', {class:'f'}, h('label', {text:'Marcados por vos'}), h('div', {class:'busy-list'}, prox.map(d => h('span', {class:'busy-it'}, fechaCorta(d), h('button', {type:'button', 'aria-label':'Liberar ' + fechaCorta(d), onclick: () => guardarAgenda(provSel, {ocupadoAdmin: occ.filter(x => x !== d)}, 'Día liberado'), text:'×'}))))) : '',
+    occP.length ? h('div', {class:'f'}, h('label', {text:'Cargados por el proveedor en su agenda'}), h('div', {class:'busy-list'}, occP.map(d => h('span', {class:'busy-it p', text: fechaCorta(d)})))) : '',
+    pv.propia ? h('div', {class:'need', text:'Estas fechas son las que usa el asistente de mensajes para decir si un día está libre.'})
+      : h('div', {}, h('a', {href: 'agenda.html?p=' + encodeURIComponent(provSel), target:'_blank', rel:'noopener', style:'color:var(--ac);font-size:12.5px', text:'Abrir la agenda completa de este proveedor'})));
   const st = $('prov-pub'); st.classList.remove('pend');
   st.textContent = 'Lo que marcás acá se ve al instante en la página de clientes.';
 }
