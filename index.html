@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moras &amp; Mentas · Servicio Premium</title>
+<meta name="description" content="Chacra de eventos en San José de Mayo. Armá tu evento: discoteca, catering, barra, fotografía, decoración y más. Elegí los servicios y enviá tu consulta por WhatsApp.">
+<meta name="theme-color" content="#060606">
+<meta property="og:title" content="Moras &amp; Mentas · Servicio Premium">
+<meta property="og:description" content="Tu evento, tu disfrute. Elegí los servicios para tu evento y enviá tu consulta por WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://morasymentas.github.io/moras/img/portada-3.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060606'/%3E%3Cpath d='M32 12c-10 8-14 17-14 25a14 14 0 0 0 28 0c0-8-4-17-14-25Z' fill='%237cc46c'/%3E%3Cpath d='M32 24v26' stroke='%23060606' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+</style>
+<style>
+/* Layout: una columna; cada servicio = cabecera con casilla, álbum deslizable, info y precios, opción y descripción; barra de envío fija abajo */
+:root{
+  /* verdes de hoja sobre negro; crema y arena tomados de las placas del Instagram */
+  --ac:#7cc46c;--ac2:#63ab54;--ac-soft:rgba(124,196,108,.12);--gold:#e6cf95;--on-ac:#0c1a0f;--err:#f08a6c;--err-soft:rgba(240,138,108,.12);
+  --bg:#060606;--bg2:#0d0d0d;--bg3:#141414;--bg4:#1d1e1d;
+  --tx:#f5eedf;--tx2:#b3b8ae;--tx3:#7f867b;--bdr:#1f211f;--bdr2:#2b2e2b;
+  --wa:#25d366;--wa2:#1ebe5b;--wa-tx:#04210f;
+  --f-display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --f-body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;font-family:var(--f-body);background:var(--bg);color:var(--tx);overflow-x:hidden}
+button{font:inherit}
+.topbar{background:var(--ac);padding:7px 0;overflow:hidden;white-space:nowrap}
+.ticker{display:inline-block;animation:tick 30s linear infinite;font-size:11px;font-weight:600;color:var(--on-ac);letter-spacing:.02em}
+@keyframes tick{from{transform:translateX(60%)}to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.ticker{animation:none;padding-left:16px}*{scroll-behavior:auto!important}}
+
+.wrap{max-width:780px;margin:0 auto;padding-inline:20px;padding-block:0 200px}
+.hero{padding-block:44px 32px;border-bottom:1px solid var(--bdr)}
+/* portada: frase + fotos de Instagram */
+.top{padding-block:44px 40px;border-bottom:1px solid var(--bdr);display:flex;flex-direction:column;gap:22px}
+.top-h{font-family:var(--f-display);font-weight:600;font-size:clamp(48px,11vw,84px);line-height:.98;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.top-h em{color:var(--ac);font-style:italic;display:block}
+.reel{position:relative;margin-inline:-20px}
+.reel-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-inline:20px;scroll-padding-inline:20px;scrollbar-width:none}
+.reel-track::-webkit-scrollbar{display:none}
+.reel-track img{flex:0 0 clamp(220px,72%,300px);width:clamp(220px,72%,300px);max-width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;scroll-snap-align:start;cursor:zoom-in;background:var(--bg3);display:block}
+.reel .arr{top:calc(50% - 4px)}
+.reel .arr.prev{left:28px}.reel .arr.next{right:28px}
+.reel-bar{height:2px;background:var(--bdr2);border-radius:2px;margin:14px 20px 0;overflow:hidden}
+.reel-bar span{display:block;height:100%;width:30%;background:var(--ac);border-radius:2px;transition:transform .2s}
+.ig-link{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;color:var(--tx2);text-decoration:none;font-size:12.5px;font-weight:500;border:1px solid var(--bdr2);border-radius:20px;padding:8px 14px;transition:all .2s}
+.ig-link:hover{border-color:var(--ac);color:var(--ac)}
+.ig-link svg{width:16px;height:16px}
+.h-premium{font-family:var(--f-display);font-weight:600;font-size:clamp(36px,7vw,52px);line-height:1.04;margin:0 0 14px;text-wrap:balance}
+.h-premium em{color:var(--ac);font-style:italic}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.eyebrow .l{width:26px;height:1px;background:var(--ac)}
+.eyebrow .t{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);font-weight:500}
+h1{font-family:var(--f-display);font-weight:600;font-size:clamp(40px,8vw,60px);line-height:1.04;margin:0 0 14px;text-wrap:balance}
+h1 em{color:var(--ac);font-style:italic}
+.lead{font-size:14px;color:var(--tx2);line-height:1.7;max-width:54ch;margin:0}
+
+.list{display:flex;flex-direction:column;gap:16px;margin-top:32px}
+.svc{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:18px;transition:border-color .2s,background .2s;min-width:0}
+.svc.on{border-color:var(--ac);background:linear-gradient(180deg,var(--ac-soft),var(--bg2) 260px)}
+.svc-head{display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none}
+.svc-ic{width:44px;height:44px;flex-shrink:0;border-radius:8px;background:var(--bg4);display:flex;align-items:center;justify-content:center;color:var(--tx2)}
+.svc.on .svc-ic{color:var(--ac)}
+.svc-ic svg{width:22px;height:22px}
+.svc-txt{flex:1;min-width:0}
+.svc-cat{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:2px}
+.svc-name{font-family:var(--f-display);font-size:25px;font-weight:600;line-height:1.15}
+.svc-from{font-size:12px;color:var(--tx3);margin-top:2px}
+.svc-from b{color:var(--gold);font-weight:600}
+
+.chk{position:relative;flex-shrink:0;width:30px;height:30px}
+.chk input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.chk .box{width:30px;height:30px;border:1.5px solid var(--bdr2);border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:all .18s}
+.chk .box svg{width:16px;height:16px;stroke:var(--on-ac);opacity:0;transform:scale(.6);transition:all .18s}
+.chk input:checked + .box{background:var(--ac);border-color:var(--ac)}
+.chk input:checked + .box svg{opacity:1;transform:scale(1)}
+.chk input:focus-visible + .box{outline:2px solid var(--ac);outline-offset:3px}
+.svc-head:hover .box{border-color:var(--ac)}
+
+/* proveedores: cuadros para elegir */
+.prov-wrap{display:flex;flex-direction:column;gap:12px}
+.prov-wrap .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.provs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:18px 16px}
+.prov{background:none;border:none;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-width:0}
+.frame{position:relative;display:block;padding:7px;margin-bottom:6px;background:linear-gradient(145deg,var(--bdr2),var(--bg3));border:1px solid var(--bdr2);border-radius:3px;box-shadow:0 10px 22px rgba(0,0,0,.5);transition:transform .2s,border-color .2s,background .2s}
+.frame img{display:block;width:100%;max-width:100%;aspect-ratio:1/1;object-fit:cover;border:5px solid var(--tx);background:var(--bg4)}
+.prov:hover .frame{transform:translateY(-3px);border-color:var(--ac)}
+.prov:focus-visible{outline:none}
+.prov:focus-visible .frame{outline:2px solid var(--ac);outline-offset:3px}
+.prov.on .frame{background:var(--ac);border-color:var(--ac)}
+.badge{position:absolute;top:-9px;right:-9px;width:26px;height:26px;border-radius:50%;background:var(--ac);border:2px solid var(--bg2);display:none;align-items:center;justify-content:center}
+.badge svg{width:13px;height:13px;stroke:var(--on-ac)}
+.svc.on .prov.on .badge{display:flex}
+.prov-n{font-family:var(--f-display);font-size:18px;font-weight:600;line-height:1.15;color:var(--tx);overflow-wrap:anywhere}
+.prov-a{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);font-weight:600}
+.prov-d{font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:6px;margin-top:3px;line-height:1.3}
+.prov-d::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0}
+.prov-d.si{color:var(--ac)}
+.prov-d.no{color:var(--err)}
+.prov-d.nd{color:var(--tx3);font-weight:400}
+.prov.no .frame img{filter:grayscale(1) brightness(.6)}
+.disp-note{font-size:12.5px;line-height:1.55;border-radius:6px;padding:10px 12px;border:1px solid var(--ac);background:var(--ac-soft);color:var(--tx)}
+.disp-note.no{border-color:var(--err);background:var(--err-soft)}
+.when{margin-top:22px;display:flex;align-items:flex-end;gap:14px 18px;flex-wrap:wrap}
+.when .f{display:flex;flex-direction:column;gap:6px;min-width:0;flex:0 1 220px}
+.when label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);font-weight:600}
+.when input{background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;padding:11px 12px;font:inherit;font-size:14px;color:var(--tx);outline:none;width:100%;min-height:46px}
+.when input:focus{border-color:var(--ac)}
+.when-h{flex:1 1 240px;margin:0;font-size:12.5px;color:var(--tx2);line-height:1.55;min-width:0}
+.detail,.ppanel{display:flex;flex-direction:column;gap:18px;min-width:0}
+.detail{padding-top:18px;border-top:1px solid var(--bdr2)}
+.ppanel{scroll-margin-top:14px}
+.ppanel-h{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.ppanel-n{font-family:var(--f-display);font-size:22px;font-weight:600;font-style:italic;color:var(--gold);min-width:0}
+.ppanel-x{flex-shrink:0;background:none;border:1px solid var(--bdr2);border-radius:20px;color:var(--tx2);font:inherit;font-size:12px;padding:6px 14px;cursor:pointer}
+.ppanel-x:hover{border-color:var(--ac);color:var(--ac)}
+.ppanel-x:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+@media (max-width:420px){.provs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* álbum */
+.album{position:relative;border-radius:8px;overflow:hidden;background:var(--bg3);max-width:100%}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.track img{flex:0 0 100%;width:100%;max-width:100%;aspect-ratio:3/2;object-fit:cover;display:block;scroll-snap-align:start;cursor:zoom-in}
+.arr{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(8,8,8,.6);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s,opacity .2s}
+.arr:hover{background:var(--ac);border-color:var(--ac);color:var(--on-ac)}
+.arr:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.arr.prev{left:10px}.arr.next{right:10px}
+.arr:disabled{opacity:0;pointer-events:none}
+.cnt{position:absolute;top:10px;right:10px;background:rgba(8,8,8,.65);color:#fff;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;font-variant-numeric:tabular-nums}
+.dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:5px}
+.dots span{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);transition:all .2s}
+.dots span.on{background:var(--ac);width:18px}
+
+/* info */
+.info{display:flex;flex-direction:column;gap:14px;font-size:13px;color:var(--tx2);line-height:1.65}
+.info p{margin:0;max-width:65ch}
+.feat{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.feat li{padding-left:20px;position:relative}
+.feat li::before{content:'';position:absolute;left:2px;top:.55em;width:8px;height:4px;border-left:1.5px solid var(--ac);border-bottom:1.5px solid var(--ac);transform:rotate(-45deg)}
+.sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);font-weight:600;margin-bottom:6px}
+.rows{display:flex;flex-direction:column;border-top:1px solid var(--bdr)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:8px 0;border-bottom:1px solid var(--bdr)}
+.row span{min-width:0;color:var(--tx)}
+.row span small{color:var(--tx3);font-size:12px}
+.row b{flex-shrink:0;color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tier{background:var(--bg3);border:1px solid var(--bdr2);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.tier-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.tier-n{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac)}
+.tier-t{font-family:var(--f-display);font-size:19px;font-weight:600;color:var(--tx);line-height:1.15}
+.tier-p{font-size:17px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tier .feat{font-size:12.5px;gap:4px}
+.carta{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.carta div{background:var(--bg3);border:1px solid var(--bdr2);border-radius:8px;padding:12px 14px;min-width:0}
+.carta ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--tx)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-weight:500;text-align:right;padding:6px 0 8px;border-bottom:1px solid var(--bdr2)}
+th:first-child,td:first-child{text-align:left}
+td{padding:8px 0;border-bottom:1px solid var(--bdr);text-align:right;color:var(--gold);font-weight:600}
+td:first-child{color:var(--tx);font-weight:400}
+.note{font-size:12px;color:var(--tx3);background:var(--bg3);border-radius:6px;padding:10px 12px}
+.pick-hint{font-size:11.5px;color:var(--tx3);margin-top:-6px}
+/* filas tildables */
+.row.pick{position:relative;align-items:center;cursor:pointer;padding-inline:8px;margin-inline:-8px;border-radius:6px;transition:background .15s}
+.row.pick:hover{background:var(--bg3)}
+.row.pick input,.cell input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.row.pick .rt{flex:1}
+.pbox{flex-shrink:0;width:20px;height:20px;border:1.5px solid var(--bdr2);border-radius:5px;background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.pbox svg{width:12px;height:12px;stroke:var(--on-ac);opacity:0;transition:opacity .15s}
+.row.pick:has(input:checked){background:var(--ac-soft)}
+.row.pick input:checked ~ .pbox{background:var(--ac);border-color:var(--ac)}
+.row.pick input:checked ~ .pbox svg{opacity:1}
+.row.pick input:focus-visible ~ .pbox,.cell input:focus-visible + span{outline:2px solid var(--ac);outline-offset:2px}
+.row.pick:hover .pbox{border-color:var(--ac)}
+/* celdas de precio de la barra */
+td.pc{padding:5px 0}
+.cell{position:relative;display:inline-flex;cursor:pointer}
+.cell span{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--bdr2);border-radius:20px;color:var(--gold);font-weight:600;white-space:nowrap;transition:all .15s}
+.cell span::before{content:'';width:10px;height:10px;border-radius:50%;border:1.5px solid var(--tx3);flex-shrink:0;transition:all .15s}
+.cell:hover span{border-color:var(--ac)}
+.cell input:checked + span{background:var(--ac);border-color:var(--ac);color:var(--on-ac)}
+.cell input:checked + span::before{background:var(--on-ac);border-color:var(--on-ac)}
+@media (max-width:420px){.cell span{padding:5px 8px;gap:5px;font-size:12px}}
+.price-line{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:8px;padding:12px 14px;color:var(--tx)}
+.price-line b{color:var(--gold);font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:560px){.tiers,.carta{grid-template-columns:1fr}.svc{padding:16px}}
+
+/* opción */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:block;padding:9px 14px;border:1px solid var(--bdr2);border-radius:20px;font-size:12.5px;color:var(--tx2);background:var(--bg3);transition:all .18s}
+.chip input:checked + span{border-color:var(--ac);color:var(--on-ac);background:var(--ac);font-weight:600}
+.chip input:focus-visible + span{outline:2px solid var(--ac);outline-offset:2px}
+.chip:hover span{border-color:var(--ac)}
+
+.desc label{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px}
+.desc textarea{width:100%;min-height:68px;resize:vertical;background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;padding:10px 12px;font:inherit;font-size:13px;color:var(--tx);line-height:1.5;outline:none}
+.desc textarea::placeholder{color:var(--tx3)}
+.desc textarea:focus{border-color:var(--ac)}
+
+/* ítems extras */
+.xsec{margin-top:36px;display:flex;flex-direction:column;gap:14px}
+.xsec h2{font-family:var(--f-display);font-weight:600;font-size:30px;margin:0;line-height:1.1}
+.xsec h2 em{color:var(--ac);font-style:italic}
+.xlist{display:flex;flex-direction:column;gap:10px}
+.xrow{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:14px 16px;cursor:pointer;transition:border-color .2s,background .2s}
+.xrow:hover{border-color:var(--bdr2)}
+.xrow.on{border-color:var(--ac);background:linear-gradient(90deg,var(--ac-soft),var(--bg2) 60%)}
+.xrow .xt{flex:1;min-width:0}
+.xrow .xn{font-size:14px;font-weight:600;color:var(--tx)}
+.xrow .xd{font-size:12px;color:var(--tx2);line-height:1.55;margin-top:3px}
+.xrow .xd a{color:var(--gold);text-underline-offset:2px}
+.xrow .xp{flex-shrink:0;text-align:right;color:var(--gold);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.xrow .xp small{display:block;font-size:10.5px;font-weight:500;color:var(--tx3)}
+.xrow .chk{width:26px;height:26px}
+.xrow .chk .box{width:26px;height:26px}
+.xrow .xp .lt{color:var(--tx);font-weight:600;margin-top:2px}
+/* cantidad − / + */
+.step{display:flex;align-items:center;border:1px solid var(--bdr2);border-radius:20px;background:var(--bg3);flex-shrink:0}
+.step button{width:34px;height:34px;border:none;background:none;color:var(--tx);font-size:18px;line-height:1;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.step button:hover{color:var(--ac)}
+.step button:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+.step button:disabled{color:var(--tx3);cursor:default}
+.step input{width:44px;border:none;background:none;color:var(--tx);text-align:center;font:inherit;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;outline:none;-moz-appearance:textfield;appearance:textfield}
+.step input::-webkit-outer-spin-button,.step input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.xrow.on .step{border-color:var(--ac)}
+.xrow.on-static{cursor:default;background:var(--bg3);border-color:var(--bdr2)}
+.xrow.on-static .step{background:var(--bg2)}
+.svc.on .on-static .step{border-color:var(--ac)}
+.xnote{width:100%;margin-top:8px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;padding:9px 11px;font:inherit;font-size:12.5px;color:var(--tx);outline:none}
+.xnote::placeholder{color:var(--tx3)}
+.xnote:focus{border-color:var(--ac)}
+.subtot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--bdr2);border-radius:10px;background:var(--bg3);font-size:13px;color:var(--tx2)}
+.subtot b{font-size:18px;color:var(--gold);font-variant-numeric:tabular-nums}
+.sec-intro{font-size:13px;color:var(--tx2);line-height:1.65;margin:0;max-width:65ch}
+/* AGADU */
+.agadu{background:var(--bg2);border:1px dashed var(--bdr2);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--tx2);line-height:1.6}
+.agadu-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.agadu-top .xn{font-size:14px;font-weight:600;color:var(--tx)}
+.agadu-top b{color:var(--gold);white-space:nowrap}
+/* menú catering */
+.menu-g{display:flex;flex-direction:column;gap:2px}
+.menu-g .feat{font-size:13px;color:var(--tx)}
+.mopts{display:flex;flex-direction:column;gap:10px}
+.mopt{position:relative;display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--bdr2);border-radius:8px;background:var(--bg3);cursor:pointer;transition:all .15s}
+.mopt:hover{border-color:var(--ac)}
+.mopt input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.mopt .rad{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--tx3);flex-shrink:0;transition:all .15s}
+.mopt input:checked ~ .rad{border:5px solid var(--ac);background:var(--on-ac)}
+.mopt input:focus-visible ~ .rad{outline:2px solid var(--ac);outline-offset:2px}
+.mopt:has(input:checked){border-color:var(--ac);background:var(--ac-soft)}
+.mopt .mt{flex:1;min-width:0}
+.mopt .mn,.mopt .ms{display:block}
+.mopt .mn{font-family:var(--f-display);font-size:19px;font-weight:600;color:var(--tx);line-height:1.2}
+.mopt .ms{font-size:12px;color:var(--tx2);margin-top:2px}
+.mopt .mp{text-align:right;color:var(--gold);font-weight:700;font-size:16px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mopt .mp small{display:block;font-size:10.5px;color:var(--tx3);font-weight:500}
+@media (max-width:520px){.mopt{flex-wrap:wrap}.mopt .mp{width:100%;text-align:left;padding-left:32px}}
+@media (max-width:520px){.xrow{display:grid;grid-template-columns:1fr auto;grid-template-areas:"t c" "p c";column-gap:14px;row-gap:8px}.xrow.q{grid-template-areas:"t c" "p c" "s s"}.xrow .xt{grid-area:t}.xrow .xp{grid-area:p;text-align:left}.xrow .chk{grid-area:c}.xrow .step{grid-area:s;justify-self:start}.xrow .xp small{display:inline;margin-left:5px}}
+
+.extra{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.extra .f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.extra .f.full{grid-column:1 / -1}
+.extra label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.extra label .req{color:var(--ac)}
+.extra input,.extra select{background:var(--bg3);border:1px solid var(--bdr2);border-radius:6px;padding:11px 12px;font:inherit;font-size:13px;color:var(--tx);outline:none;width:100%;min-height:44px}
+.extra select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--tx2) 50%),linear-gradient(135deg,var(--tx2) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:34px;cursor:pointer}
+.extra select:invalid{color:var(--tx3)}
+.extra option{background:var(--bg3);color:var(--tx)}
+.extra input:focus,.extra select:focus{border-color:var(--ac)}
+.extra .f.err input,.extra .f.err select{border-color:var(--err);background-color:var(--err-soft)}
+.extra .msg{font-size:11.5px;color:var(--err);display:none}
+.extra .f.err .msg{display:block}
+.foot-note{margin-top:18px;font-size:11.5px;color:var(--tx3);line-height:1.6}
+@media (max-width:520px){.extra{grid-template-columns:1fr}}
+
+.send{position:fixed;left:0;right:0;bottom:0;background:rgba(6,6,6,.97);border-top:1px solid var(--bdr2);padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));z-index:50;backdrop-filter:blur(6px)}
+.send-in{max-width:780px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.count{flex:1;min-width:130px;font-size:12px;color:var(--tx2)}
+.tot{display:flex;flex-direction:column;align-items:flex-end;text-align:right;line-height:1.2}
+.tot-l{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.tot b{font-family:var(--f-display);font-size:24px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tot-s{font-size:10.5px;color:var(--tx2)}
+.count b{font-family:var(--f-display);font-size:22px;color:var(--ac);font-weight:600;margin-right:4px}
+.wabtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--wa);color:var(--wa-tx);text-decoration:none;font-weight:600;font-size:14px;padding:14px 26px;border-radius:6px;transition:background .2s}
+.wabtn:hover{background:var(--wa2)}
+.wabtn svg{width:20px;height:20px}
+.wabtn[aria-disabled="true"]{background:var(--bg4);color:var(--tx2)}
+.hint{width:100%;font-size:11px;color:var(--tx3);margin:0}
+@media (max-width:520px){.wabtn{width:100%}}
+
+/* alerta de proveedor no disponible */
+.al{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;padding:20px}
+.al-box{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--err);border-radius:12px;padding:24px 22px 20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.al-ic{width:42px;height:42px;border-radius:50%;background:var(--err-soft);border:1px solid var(--err);color:var(--err);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;line-height:1}
+.al-t{font-family:var(--f-display);font-size:25px;font-weight:600;line-height:1.12;margin:0;text-wrap:balance}
+.al-p{margin:0;font-size:13.5px;color:var(--tx2);line-height:1.6}
+.al-p b{color:var(--tx);font-weight:600}
+.al-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.al-btns button{flex:1 1 140px;border-radius:6px;padding:12px 16px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;border:1px solid var(--bdr2);background:none;color:var(--tx)}
+.al-btns button.main{background:var(--ac);border-color:var(--ac);color:var(--on-ac)}
+.al-btns button:hover{border-color:var(--ac)}
+.al-btns button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+
+/* visor */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.94);display:flex;align-items:center;justify-content:center;padding:calc(56px + env(safe-area-inset-top,0px)) 16px calc(56px + env(safe-area-inset-bottom,0px))}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.lb .arr{width:44px;height:44px}
+.lb .x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--bdr2);background:var(--bg3);color:#fff;font-size:20px;cursor:pointer}
+.lb .x:hover{border-color:var(--ac);color:var(--ac)}
+.lb .cnt{top:calc(22px + env(safe-area-inset-top,0px));left:16px;right:auto}
+</style>
+</head>
+<body>
+<div class="topbar"><span class="ticker">✦ Servicio Premium Moras &amp; Mentas &nbsp;·&nbsp; Chacra de Eventos · San José de Mayo &nbsp;·&nbsp; 15 años · bodas · cumpleaños · empresariales &nbsp;·&nbsp; WhatsApp 098 361 104 &nbsp;·&nbsp; Vos lo imaginás, nosotros lo hacemos realidad</span></div>
+
+<main class="wrap">
+  <section class="top" aria-label="Nuestros eventos">
+    <div class="eyebrow"><span class="l"></span><span class="t">Moras &amp; Mentas · Chacra de eventos y estadía</span></div>
+    <div>
+      <h1 class="top-h">Tu evento, <em>tu disfrute.</em></h1>
+      <p class="lead" style="margin-top:16px">Vos lo imaginás, nosotros lo hacemos realidad. Mirá algunos de los eventos que vivimos en la chacra.</p>
+    </div>
+    <div class="reel">
+      <div class="reel-track" id="reel"></div>
+      <button class="arr prev" id="reel-p" aria-label="Fotos anteriores">‹</button>
+      <button class="arr next" id="reel-n" aria-label="Fotos siguientes">›</button>
+      <div class="reel-bar"><span id="reel-bar"></span></div>
+    </div>
+    <a class="ig-link" href="https://www.instagram.com/moras_y_mentas/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Ver más en Instagram · @moras_y_mentas</a>
+  </section>
+
+  <header class="hero">
+    <div class="eyebrow"><span class="l"></span><span class="t">Armá tu evento</span></div>
+    <h2 class="h-premium">Servicio <em>Premium</em></h2>
+    <p class="lead">Mirá las fotos y los precios de cada servicio, marcá los que querés y contanos brevemente qué tenés en mente. Al final lo enviás directo a nuestro WhatsApp y te armamos el presupuesto.</p>
+    <div class="when">
+      <div class="f"><label for="fecha-top">Fecha de tu evento</label><input id="fecha-top" type="date"></div>
+      <p class="when-h" id="disp-hint" hidden></p>
+    </div>
+  </header>
+
+  <section class="list" id="list"></section>
+
+  <section class="xsec">
+    <div>
+      <div class="eyebrow"><span class="l"></span><span class="t">Propios de la chacra</span></div>
+      <h2>Mobiliario <em>y textiles</em></h2>
+    </div>
+    <p class="sec-intro">Mobiliario y textiles propios de Moras &amp; Mentas, disponibles en la chacra. Al optar por nuestros pufs, cubresillas y manteles accedés al descuento previsto en el contrato de reserva y te evitás el traslado y planchado de textiles externos.</p>
+    <div class="xlist" id="moblist"></div>
+    <div class="subtot"><span>Subtotal mobiliario y textiles</span><b id="mobsub">$ 0</b></div>
+  </section>
+
+  <section class="xsec">
+    <div>
+      <div class="eyebrow"><span class="l"></span><span class="t">Sumalos a tu evento</span></div>
+      <h2>Ítems <em>extras</em></h2>
+    </div>
+    <div class="xlist" id="xlist"></div>
+    <div class="agadu">
+      <div class="agadu-top"><span class="xn">AGADU · Derechos de autor</span><b>Siempre incluido</b></div>
+      <ul class="feat">
+        <li>Arancel obligatorio por la música ejecutada durante el evento</li>
+        <li>Se calcula por persona, sobre la cantidad de invitados confirmados</li>
+        <li>Se abona dos semanas antes del evento, junto con el cierre de confirmados</li>
+        <li>El comprobante de pago se presenta antes de recibir las llaves del predio</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="xsec" id="datos">
+    <div>
+      <div class="eyebrow"><span class="l"></span><span class="t">Último paso</span></div>
+      <h2>Tus <em>datos</em></h2>
+    </div>
+    <p class="sec-intro">Completá estos datos para poder enviar tu consulta. Los campos con <span style="color:var(--ac)">*</span> son obligatorios.</p>
+    <div class="extra">
+      <div class="f full"><label for="nombre">Nombre completo <span class="req">*</span></label><input id="nombre" type="text" autocomplete="name" placeholder="Ej: Lucía Pérez"><span class="msg">Escribí tu nombre y apellido.</span></div>
+      <div class="f"><label for="fecha">Fecha del evento <span class="req">*</span></label><input id="fecha" type="date"><span class="msg">Elegí la fecha del evento.</span></div>
+      <div class="f"><label for="tipo">Tipo de evento <span class="req">*</span></label>
+        <select id="tipo" required>
+          <option value="" disabled selected>Elegí una opción</option>
+          <option>15 años</option><option>Boda</option><option>Cumpleaños</option><option>Graduación</option><option>Evento empresarial</option><option>Fiesta privada</option><option>Otro</option>
+        </select><span class="msg">Elegí el tipo de evento.</span></div>
+      <div class="f"><label for="invitados">Cantidad de invitados <span class="req">*</span></label><input id="invitados" type="number" min="1" inputmode="numeric" placeholder="Ej: 150"><span class="msg">Indicá cuántos invitados aproximadamente.</span></div>
+    </div>
+  </section>
+  <p class="foot-note">Precios de referencia en pesos uruguayos, salvo los indicados en U$S. Se confirman al armar tu presupuesto según la fecha y la cantidad de invitados.</p>
+</main>
+
+<div class="send">
+  <div class="send-in">
+    <div class="count"><b id="n">0</b> <span id="nlbl">ítems seleccionados</span></div>
+    <div class="tot" aria-live="polite"><span class="tot-l">Total estimado</span><b id="tot">$ 0</b><span class="tot-s" id="tot-s" hidden></span></div>
+    <a class="wabtn" id="wa" href="#" target="_blank" rel="noopener" aria-disabled="true">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+      Enviar al WhatsApp
+    </a>
+    <p class="hint" id="hint">Marcá al menos un servicio para enviar.</p>
+  </div>
+</div>
+
+<div class="al" id="al" hidden role="alertdialog" aria-modal="true" aria-labelledby="al-t" aria-describedby="al-p">
+  <div class="al-box">
+    <div class="al-ic" aria-hidden="true">!</div>
+    <h3 class="al-t" id="al-t">Este proveedor no está disponible para tu fecha</h3>
+    <p class="al-p" id="al-p"></p>
+    <div class="al-btns">
+      <button type="button" class="main" id="al-fecha">Cambiar la fecha</button>
+      <button type="button" id="al-ok">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<div class="lb" id="lb" hidden>
+  <span class="cnt" id="lbc"></span>
+  <button class="x" id="lbx" aria-label="Cerrar">×</button>
+  <button class="arr prev" id="lbp" aria-label="Foto anterior">‹</button>
+  <img id="lbi" alt="">
+  <button class="arr next" id="lbn" aria-label="Foto siguiente">›</button>
+</div>
+
+<script>
+// Número de WhatsApp (formato internacional, sin + ni espacios)
+const WA_NUMBER = '59898361104';
+
+// Disponibilidad de proveedores. Este bloque se regenera desde la "Agenda de proveedores" del panel privado.
+// Clave: servicio-proveedor. Solo figuran los proveedores con agenda cargada; el resto no muestra disponibilidad.
+/* DISPONIBILIDAD:INICIO */
+const DISPONIBILIDAD = {"actualizado":"2026-10-05","ocupado":{"discoteca-balzani":["2026-10-08","2026-10-15","2026-10-17","2026-10-20","2026-10-22","2026-10-24","2026-10-25"]}};
+/* DISPONIBILIDAD:FIN */
+
+const ICONS = {
+  disco:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.2 2.5 13.8 0 16M12 4c-2.5 2.2-2.5 13.8 0 16M6 7h12M6 17h12"/></svg>',
+  deco:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c-4-3-7-6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4-3 7-7 10Z"/></svg>',
+  foto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  barra:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h14l-7 8zM12 12v8M8 20h8"/><path d="M15 6.5 18 3"/></svg>',
+  seg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg>',
+  coord:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg>',
+  cater:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="13" r="6"/><circle cx="12" cy="13" r="3"/><path d="M3 4v5a1.5 1.5 0 0 0 3 0V4M4.5 9v11M21 4c-1.5 0-2.5 2-2.5 5h2.5v11"/></svg>'
+};
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg>';
+const imgs = (k,n) => Array.from({length:n},(_,i)=>`img/${k}-${i+1}.jpg`);
+const feat = a => '<ul class="feat">' + a.map(x=>`<li>${x}</li>`).join('') + '</ul>';
+const fmt = (n, cur='$') => `${cur} ${String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}`;
+const num = s => +String(s).replace(/\D/g,'') || 0;
+const plain = s => s.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim().replace(/"/g,'&quot;');
+// filas tildables: [título, detalle, precio]
+const picks = (id, a) => '<div class="rows">' + a.map(([t,d,p])=>`<label class="row pick"><input type="checkbox" data-pick="${id}" value="${plain(t + (d?' ('+d+')':''))}" data-name="${plain(t + (d?' ('+d+')':''))}" data-amount="${num(p)}"><span class="pbox">${CHECK}</span><span class="rt">${t}${d?` <small>· ${d}</small>`:''}</span><b>${p}</b></label>`).join('') + '</div>';
+// tabla de la barra con precios elegibles (una sola opción)
+const BARRA = [[100,'$ 33.500','$ 40.500'],[150,'$ 41.000','$ 48.000'],[180,'$ 45.500','$ 52.500'],[200,'$ 48.500','$ 63.500'],[220,'$ 59.000','$ 67.000'],[250,'$ 63.500','$ 71.000']];
+const cell = (mod, inv, p) => `<td class="pc"><label class="cell"><input type="radio" name="pick-barra" data-pick="barra" value="${mod} · ${inv} invitados" data-name="${mod} · ${inv} invitados" data-amount="${num(p)}" aria-label="${mod}, ${inv} invitados, ${p}"><span>${p}</span></label></td>`;
+const barraTable = () => `<div class="tbl-wrap"><table>
+  <thead><tr><th>Invitados</th><th>Por horas<br>3:30 a 5 hs</th><th>Toda la noche</th></tr></thead>
+  <tbody>${BARRA.map(([inv,a,b])=>`<tr><td>${inv}</td>${cell('Por horas (3:30 a 5 hs)',inv,a)}${cell('Toda la noche',inv,b)}</tr>`).join('')}</tbody></table></div>`;
+
+const SERVICES = [
+  {
+    id:'discoteca', name:'Discoteca', cat:'Audio · iluminación · DJ', ic:'disco', from:'desde <b>$ 50.000</b>',
+    ph:'Ej: estilo de música, entrada de la quinceañera, fuegos fríos...',
+    // Para sumar otro proveedor: copiar el bloque { ... } dentro de providers y cambiar id, name, cover, fotos e info
+    providers: [{ id:'balzani', name:'Balzani Music Group', cover:'img/cover-discoteca.jpg',
+    photos: imgs('discoteca',1),
+    opts: [{name:'N1 · Producción Full', price:60000},{name:'N2 · Producción Estándar', price:50000}],
+    info: `<p>Producción integral de sonido, iluminación profesional y efectos especiales. Todo el equipo lo operan técnicos especializados, con DJ, staff de armado y desarmado y logística incluidos. Hay dos niveles según la escala del evento.</p>
+    <div class="tiers">
+      <div class="tier"><div class="tier-top"><div><div class="tier-n">Servicio Especial N1</div><div class="tier-t">Producción Full</div></div><div class="tier-p">$ 60.000</div></div>
+      ${feat(['Audio: 2 High-Mid FBT Pro Max 1x14" + 4 Sub Low 1x18" FBT','Consola digital X32 Compact + micrófono inalámbrico Shure + distribuidor de energía','8 luces móviles 14R (Beam-Spot-Wash) + 4 móviles PLS (Wash-Beam)','4 strobos RGBW + máquina de niebla','Sistema de truss + 2 mesas DJ/control + tarima para DJ','Staff técnico, logística, técnico de iluminación, técnico de sonido y DJ'])}</div>
+      <div class="tier"><div class="tier-top"><div><div class="tier-n">Servicio Especial N2</div><div class="tier-t">Producción Estándar</div></div><div class="tier-p">$ 50.000</div></div>
+      ${feat(['Audio: 2 High-Mid FBT Pro Max 1x14" + 4 Sub Low 1x18" FBT','Consola digital X32 Compact + micrófono inalámbrico Shure + distribuidor de energía','4 luces móviles 14R + 4 móviles 19x15 Zoom (Wash-Beam)','2 strobos Atomic + 2 láser Blue B500 + 2 máquinas de humo RGBW','Sistema de truss + mesa DJ + tarima (2,30 m x 1,30 m)','Staff técnico, logística, técnico operador de planta de iluminación y DJ'])}</div>
+    </div>
+    <div class="note">Ambos incluyen DJ profesional, técnicos operadores, staff para armado y desarmado y logística completa.</div>`
+    }]
+  },
+  {
+    id:'decoracion', name:'Decoración', cat:'Ambientación', ic:'deco', from:'a consultar según diseño',
+    ph:'Ej: colores, temática, centros de mesa...',
+    providers: [{ id:'personalizada', name:'Decoración personalizada', cover:'img/cover-decoracion.jpg', anon:true,
+    photos: imgs('decoracion',6),
+    info: `<p>Decoración personalizada según el concepto y la temática del evento. Cada diseño es único y se planifica junto a vos para lograr el ambiente soñado.</p>
+    ${feat(['Diseño personalizado según temática y estilo del evento','Decoración de salón, mesas y espacios especiales','Coordinación con el equipo de ambientación'])}
+    <div class="price-line"><span>Decoración</span><b>A consultar según diseño</b></div>`
+    }]
+  },
+  {
+    id:'fotografia', name:'Fotografía', cat:'Foto · video · LED', ic:'foto', from:'desde <b>$ 3.900</b>',
+    ph:'Ej: álbum premium + filmación de la fiesta, cabina fotográfica...',
+    // Para sumar otro proveedor: copiar el bloque { ... } dentro de providers y cambiar id, name, cover, fotos e info
+    providers: [{ id:'mali', name:'Mali Foto & Video', cover:'img/cover-fotografia.jpg',
+    photos: imgs('fotografia',6),
+    info: `<p>Fotografía y video profesional para bodas, quinceaños y eventos empresariales. Álbumes, foto libros, filmación, pantallas LED, piso LED infinito, cabina fotográfica y más.</p>
+    <div class="pick-hint">Tildá los que te interesan, podés elegir varios.</div>
+    <div><div class="sub">Álbumes y fotografía</div>${picks('fotografia',[
+      ['Fotografía con Álbum Tradicional','álbum de regalo + 100 fotos','$ 18.900'],
+      ['Fotografía con Álbum Tradicional Premium','álbum + 150 fotos','$ 24.900'],
+      ['Fotografía Digital','todas las fotos en pendrive (JPG)','$ 12.000'],
+      ['Exteriores de fotos con fotógrafo','','$ 3.900']])}</div>
+    <div><div class="sub">Foto libros y murales</div>${picks('fotografia',[
+      ['Foto Libro 30x60','10 hojas (60 fotos, para firmas)','$ 19.900'],
+      ['Foto Libro 30x60','20 hojas (120 fotos)','$ 34.900'],
+      ['Gigantografía en Sintra','1,20 x 0,80 m','$ 6.500'],
+      ['Gigantografía en Sintra','0,90 x 0,60 m','$ 5.400'],
+      ['Mural de Firmas Completo','foto 30x45 cm','$ 6.500']])}</div>
+    <div><div class="sub">Video y filmación</div>${picks('fotografia',[
+      ['Filmación de la Fiesta','clip nocturno + edición completa','$ 19.900'],
+      ['Clip de Exteriores + Historia de Vida','','$ 8.500'],
+      ['Filmación Civil + Iglesia','bodas','$ 8.500'],
+      ['Servicio de Dron','exteriores + previa y entrada nocturna','$ 8.900']])}</div>
+    <div><div class="sub">Pantallas y pisos LED</div>${picks('fotografia',[
+      ['Pantalla Gigante + Proyector','100" a 120"','$ 5.500'],
+      ['Pantalla LED 3.91','3x2 m (143")','$ 21.900'],
+      ['Pantalla LED 3.91 + Cabina DJ','3x2 m + cabina 3x1','$ 24.900'],
+      ['Piso LED Infinito París/Abismo','20 m² (4x5 m)','$ 19.900']])}</div>
+    <div><div class="sub">Experiencias interactivas</div>${picks('fotografia',[
+      ['Cabina Fotográfica','2 hs + fotos digitales, reveladas en HITI','$ 10.900'],
+      ['Espejo Mágico','2 hs + 250 fotos con IA (descarga QR)','$ 15.300']])}</div>
+    <div class="note">Pago: 100% del monto contratado 2 días antes de la fiesta. El video se entrega en aprox. 2 meses y el álbum 15 días después de elegidas las fotos. En exteriores fuera de la ciudad, la locomoción corre por cuenta del cliente.</div>`
+    }]
+  },
+  {
+    id:'catering', name:'Catering', cat:'Cocina y salón', ic:'cater', from:'desde <b>$ 1.470</b> por persona',
+    ph:'Ej: cantidad de adultos y adolescentes, postres elegidos, torta...',
+    // Para sumar otro proveedor: copiar el bloque { ... } dentro de providers y cambiar id, name, cover, fotos e info
+    providers: [{ id:'menu', name:'Menú completo', cover:'img/cover-catering.jpg', anon:true,
+    photos: [],
+    info: `<p>Servicio completo de cocina y salón, con menús diferenciados para adultos y adolescentes. Dos opciones de plato principal para elegir.</p>
+    <div class="menu-g"><div class="sub">Adultos · Recepción</div>${feat(['Tablas de fiambres y quesos con variedad de panes y humus'])}</div>
+    <div class="menu-g"><div class="sub">Adultos · Entradas frías</div>${feat(['Sándwiches de jamón y queso','Sándwiches olímpicos','Sándwiches de pan de nuez','Pitas rellenas','Jesuitas','Empanaditas'])}</div>
+    <div class="menu-g"><div class="sub">Adultos · Bocados calientes</div>${feat(['Brochettes de lomo','Brochettes de pollo','Chupetas de carne en su salsa','Villaroy','Tempura de pollo con aderezos'])}</div>
+    <div class="menu-g"><div class="sub">Adolescentes · Recepción</div>${feat(['Snack con miniatura de pollo y cheddar','Sándwiches de jamón y queso','Croquetitas con salsa','Mini medialunas rellenas','Pizzetas con muzzarella','Pitas'])}</div>
+    <div class="menu-g"><div class="sub">Pasantes, postres y torta</div>${feat(['Arrolladitos primavera','Tacos','Postres: 8 variedades a elección','Torta fantasía a elección'])}</div>
+    <div class="menu-g"><div class="sub">Cena · Elegí una opción</div>
+    <div class="mopts">
+      <label class="mopt"><input type="radio" name="pick-catering" data-pick="catering" value="Opción 1 · Lasagna rellena" data-name="Opción 1 · Lasagna rellena" data-amount="1470" data-per="1"><span class="rad"></span><span class="mt"><span class="mn">Opción 1 · Lasagna rellena</span><span class="ms" style="display:block">Adolescentes: chivitos con papas fritas</span></span><span class="mp">$ 1.470<small>por persona</small></span></label>
+      <label class="mopt"><input type="radio" name="pick-catering" data-pick="catering" value="Opción 2 · Parrilla de carnes" data-name="Opción 2 · Parrilla de carnes (guarnición de verduras asadas + 2 ensaladas)" data-amount="1520" data-per="1" data-plus="carne"><span class="rad"></span><span class="mt"><span class="mn">Opción 2 · Parrilla de carnes</span><span class="ms" style="display:block">Guarnición de verduras asadas + 2 ensaladas a elección · Adolescentes: chivitos con papas fritas</span></span><span class="mp">$ 1.520<small>por persona + carne</small></span></label>
+    </div></div>
+    <div class="note">La carne de la Opción 2 se cotiza sobre la fecha del evento por variación de precio, o puede aportarla directamente la familia.</div>
+    <div class="note">El servicio incluye cocinera, ayudante, mozos, vajilla completa, utensilios de cocina, servilletas, aderezos, panes, vajilla para presentar las mesas, copas de brindis, asador y leña. Las cantidades se ajustan según los adultos y adolescentes confirmados.</div>`
+    }]
+  },
+  {
+    id:'barra', name:'Barra de tragos', cat:'Cócteles', ic:'barra', from:'desde <b>$ 33.500</b>',
+    ph:'Ej: tragos preferidos, más sin alcohol para adolescentes...',
+    // Para sumar otro proveedor: copiar el bloque { ... } dentro de providers y cambiar id, name, cover, fotos e info
+    providers: [{ id:'blackvip', name:'Black Vip Barras Móviles', cover:'img/cover-barra.jpg',
+    photos: imgs('barra',3),
+    info: `<p>Servicio integral de bartenders con productos de primera línea (Ron Barceló, Vodka Smirnoff, Caña Velho Barreiro). Todos los mix se elaboran con pulpa de fruta fresca seleccionada.</p>
+    <div class="carta">
+      <div><div class="sub">Con alcohol</div><ul><li>Daiquiri de frutilla</li><li>Daiquiri de durazno</li><li>Destornillador</li><li>Mojito (clásico y frutos rojos)</li><li>Blue Lagoon</li><li>Vodka Red</li><li>Atardecer</li><li>Caipiroska</li></ul></div>
+      <div><div class="sub">Sin alcohol</div><ul><li>Licuado de frutilla frozen</li><li>Licuado de durazno frozen</li><li>Jugo de naranja</li><li>Mojito sin alcohol</li><li>Blue Lagoon sin alcohol</li><li>Atardecer sin alcohol</li><li>Limonadas</li></ul></div>
+    </div>
+    <div><div class="sub">Precios · con y sin alcohol</div>
+    <div class="pick-hint" style="margin:0 0 6px">Tocá el precio de la opción que querés según tus invitados.</div>
+    ${barraTable()}</div>`
+    }]
+  },
+  {
+    id:'seguridad', name:'Equipo de seguridad', cat:'Logística', ic:'seg', from:'desde <b>$ 12.000</b>',
+    photos: [],
+    ph:'Ej: horario, control de ingreso, lista de invitados...',
+    info: `<p>Personal de seguridad capacitado para mantener el orden y la tranquilidad durante todo el evento, para que anfitriones e invitados disfruten sin preocupaciones.</p>
+    ${feat(['Personal de seguridad capacitado y presentable','Control de accesos y perímetro del evento','Mínimo 2 caballeros de seguridad + señora de baños','Coordinación con el equipo organizador del evento'])}
+    <div class="xrow q on-static" id="guard-row">
+      <div class="xt"><div class="xn">Caballeros de seguridad</div><div class="xd">Mínimo 2 + señora de baños por $ 12.000. Cada caballero adicional suma $ 3.500.</div></div>
+      <div class="step"><button type="button" data-d="-1" aria-label="Quitar un caballero">−</button><input type="number" id="q-guardias" min="2" value="2" inputmode="numeric" aria-label="Cantidad de caballeros de seguridad"><button type="button" data-d="1" aria-label="Agregar un caballero">+</button></div>
+      <div class="xp" id="guard-tot">$ 12.000<small>2 caballeros + señora de baños</small></div>
+    </div>`
+  },
+  {
+    id:'coordinacion', name:'Coordinación del evento', cat:'Organización', ic:'coord', from:'<b>$ 15.000</b>',
+    photos: [],
+    ph:'Ej: momentos clave de la noche, horarios, sorpresas que querés incluir...',
+    info: `<p>Nos encargamos de que todo salga en tiempo y forma para que vos solo te ocupes de disfrutar. Somos el hilo conductor del evento, desde la planificación hasta el cierre de la noche.</p>
+    ${feat(['Reuniones previas con la familia y con cada proveedor','Armado del timing de la fiesta: recepción, ingreso, cena, vals, baile, torta y cierre','Coordinación de todos los proveedores: discoteca, barra, catering, decoración, fotografía y seguridad','Presencia durante toda la noche, de principio a fin','Resolución de imprevistos en el momento, sin que tengas que preocuparte'])}
+    <div class="price-line"><span>Coordinación integral del evento</span><b>$ 15.000</b></div>`
+  }
+];
+
+const ALBUMS = {};
+const albumHTML = (key, name, photos) => { ALBUMS[key] = photos; return !photos.length ? '' : `
+  <div class="album" data-id="${key}">
+    <div class="track">${photos.map((p,i)=>`<img src="${p}" alt="${name}, foto ${i+1}" loading="lazy" data-i="${i}">`).join('')}</div>
+    ${photos.length>1?`<button class="arr prev" aria-label="Foto anterior">‹</button><button class="arr next" aria-label="Foto siguiente">›</button>
+    <span class="cnt">1 / ${photos.length}</span><div class="dots">${photos.map((_,i)=>`<span class="${i?'':'on'}"></span>`).join('')}</div>`:''}
+  </div>`; };
+
+const optsHTML = (s, o) => !o.opts ? '' : `
+  <div class="opts"><span class="lbl">Opción que te interesa</span><div class="chips">
+    ${o.opts.map((x,i)=>`<label class="chip"><input type="radio" name="opt-${s.id}" id="opt-${s.id}-${i}" data-pick="${s.id}" value="${x.name}" data-name="${x.name}" data-amount="${x.price}"><span>${x.name} (${fmt(x.price)})</span></label>`).join('')}
+  </div></div>`;
+
+const descHTML = s => `<div class="desc"><label for="txt-${s.id}">Breve descripción</label><textarea id="txt-${s.id}" placeholder="${s.ph}"></textarea></div>`;
+
+// servicio con proveedores: cuadros para elegir y el detalle se abre al tocar uno
+const provHTML = s => `
+    <div class="prov-wrap">
+      <span class="lbl">Tocá una opción para ver fotos, detalle y precios</span>
+      <div class="provs">
+        ${s.providers.map(p => `<button type="button" class="prov" id="prov-${s.id}-${p.id}" data-s="${s.id}" data-p="${p.id}" aria-expanded="false" aria-controls="panel-${s.id}-${p.id}">
+          <span class="frame"><img src="${p.cover}" alt="" loading="lazy"><span class="badge">${CHECK}</span></span>
+          <span class="prov-n">${p.name}</span>
+          <span class="prov-a">Ver detalle</span>
+          <span class="prov-d" id="disp-${s.id}-${p.id}" hidden></span>
+        </button>`).join('')}
+      </div>
+    </div>
+    <div class="detail" id="detail-${s.id}" hidden>
+      ${s.providers.map(p => `<div class="ppanel" id="panel-${s.id}-${p.id}" hidden>
+        <div class="ppanel-h"><span class="ppanel-n">${p.name}</span><button type="button" class="ppanel-x" data-s="${s.id}" data-p="${p.id}">Cerrar</button></div>
+        <div class="disp-note" id="dispn-${s.id}-${p.id}" hidden></div>
+        ${albumHTML(s.id + '-' + p.id, p.name, p.photos)}
+        <div class="info">${p.info}</div>
+        ${optsHTML(s, p)}
+      </div>`).join('')}
+      ${descHTML(s)}
+    </div>`;
+
+document.getElementById('list').innerHTML = SERVICES.map(s => `
+  <article class="svc" id="card-${s.id}">
+    <div class="svc-head" data-id="${s.id}">
+      <div class="svc-ic">${ICONS[s.ic]}</div>
+      <div class="svc-txt"><div class="svc-cat">${s.cat}</div><div class="svc-name">${s.name}</div><div class="svc-from">${s.from}</div></div>
+      <label class="chk" aria-label="Quiero ${s.name}"><input type="checkbox" id="chk-${s.id}"><span class="box">${CHECK}</span></label>
+    </div>
+    ${s.providers ? provHTML(s) : `${albumHTML(s.id, s.name, s.photos)}
+    <div class="info">${s.info}</div>
+    ${optsHTML(s, s)}
+    ${descHTML(s)}`}
+  </article>`).join('');
+// cada proveedor tiene su propio grupo de opciones
+SERVICES.forEach(s => (s.providers || []).forEach(p =>
+  document.querySelectorAll(`#panel-${s.id}-${p.id} input[type="radio"]`).forEach(r => { r.name += '-' + p.id; })));
+
+
+// unit = precio unitario (número) → lleva botones − / +; max = tope de stock
+const MOBILIARIO = [
+  {id:'sillones', name:'Sillones', det:'Stock de 4 unidades en la chacra.', unit:700, max:4},
+  {id:'pufs', name:'Pufs', det:'', unit:65},
+  {id:'mesaspufs', name:'Mesas de pufs', det:'', unit:120},
+  {id:'cubresillas', name:'Cubresillas', det:'', unit:40},
+  {id:'manteles', name:'Manteles', det:'', unit:150}
+];
+const EXTRAS = [
+  {id:'camara', name:'Cámara de frío', det:'Para mantener las bebidas frías durante todo el evento.', price:'$ 4.000'},
+  {id:'hielo', name:'Hielo', det:'Bolsas de 5 kg. Elegí cuántas necesitás o lo cotizamos según tus invitados.', unit:100, unitLbl:'por bolsa', qtyLbl:'bolsas'},
+  {id:'bebidas', name:'Bebidas a consignación', det:'Nos encargamos del traslado y te las dejamos frías en la chacra, sin costo extra. <a href="https://www.distribuidora33.uy/" target="_blank" rel="noopener">Ver precios de D33</a>', price:'Precios D33', priceLbl:'traslado sin costo'},
+  {id:'habitaciones', name:'Habitaciones adicionales', det:'Alquiler de habitaciones equipadas, con costo adicional por unidad. Máximo 2.', unit:100, cur:'U$S', max:2, note:'¿Cuántas camas necesitás? Ej: 1 matrimonial + 2 individuales, para 4 personas'}
+];
+const ITEMS = [...MOBILIARIO, ...EXTRAS];
+const xchk = id => document.getElementById('xchk-' + id);
+const qin = id => document.getElementById('q-' + id);
+
+const itemRow = x => `
+  <div class="xrow${x.unit?' q':''}" id="xrow-${x.id}" data-id="${x.id}">
+    <div class="xt"><div class="xn">${x.name}</div>${x.det?`<div class="xd">${x.det}</div>`:''}${x.note?`<input type="text" class="xnote" id="note-${x.id}" placeholder="${x.note}" aria-label="Detalle de ${x.name}">`:''}</div>
+    ${x.unit?`<div class="step"><button type="button" data-d="-1" aria-label="Quitar uno">−</button><input type="number" id="q-${x.id}" min="0" ${x.max?`max="${x.max}"`:''} value="0" inputmode="numeric" aria-label="Cantidad de ${x.name}"><button type="button" data-d="1" aria-label="Agregar uno">+</button></div>`:''}
+    <div class="xp">${x.unit ? `${fmt(x.unit, x.cur)}<small>${x.unitLbl||'c/u'}</small><small class="lt" id="lt-${x.id}" hidden></small>` : `${x.price}${x.priceLbl?`<small>${x.priceLbl}</small>`:''}`}</div>
+    <label class="chk" aria-label="Quiero ${x.name}"><input type="checkbox" id="xchk-${x.id}"><span class="box">${CHECK}</span></label>
+  </div>`;
+document.getElementById('moblist').innerHTML = MOBILIARIO.map(itemRow).join('');
+document.getElementById('xlist').innerHTML = EXTRAS.map(itemRow).join('');
+
+function setQty(x, q){
+  const i = qin(x.id); if (!i) return;
+  q = Math.max(0, Math.floor(+q || 0)); if (x.max) q = Math.min(x.max, q);
+  i.value = q; xchk(x.id).checked = q > 0;
+  i.previousElementSibling.disabled = q === 0;
+  i.nextElementSibling.disabled = !!x.max && q >= x.max;
+}
+ITEMS.forEach(x => {
+  const r = document.getElementById('xrow-' + x.id);
+  r.addEventListener('click', e => {
+    if (e.target.closest('.chk') || e.target.closest('a') || e.target.closest('.step') || e.target.closest('.xnote')) return;
+    const c = xchk(x.id); c.checked = !c.checked; c.dispatchEvent(new Event('change'));
+  });
+  xchk(x.id).addEventListener('change', () => {
+    if (x.unit) setQty(x, xchk(x.id).checked ? Math.max(1, +qin(x.id).value || 0) : 0);
+    update();
+  });
+  if (x.unit){
+    r.querySelectorAll('.step button').forEach(b => b.addEventListener('click', () => { setQty(x, (+qin(x.id).value || 0) + (+b.dataset.d)); update(); }));
+    qin(x.id).addEventListener('input', () => { if (qin(x.id).value !== '') { setQty(x, qin(x.id).value); update(); } });
+    qin(x.id).addEventListener('blur', () => { setQty(x, qin(x.id).value); update(); });
+    setQty(x, 0);
+  }
+  if (x.note) document.getElementById('note-' + x.id).addEventListener('input', e => {
+    if (e.target.value.trim() && !xchk(x.id).checked){ xchk(x.id).checked = true; xchk(x.id).dispatchEvent(new Event('change')); }
+    else update();
+  });
+});
+
+/* seguridad: mínimo 2 caballeros + señora de baños; cada adicional $ 3.500 */
+const GUARD_BASE = 12000, GUARD_EXTRA = 3500, GUARD_MIN = 2;
+const gin = document.getElementById('q-guardias');
+const guardTotal = () => GUARD_BASE + (+gin.value - GUARD_MIN) * GUARD_EXTRA;
+function setGuards(n){
+  n = Math.max(GUARD_MIN, Math.floor(+n || GUARD_MIN));
+  gin.value = n; gin.previousElementSibling.disabled = n <= GUARD_MIN;
+  document.getElementById('guard-tot').innerHTML = `${fmt(guardTotal())}<small>${n} caballeros + señora de baños</small>`;
+}
+document.querySelectorAll('#guard-row .step button').forEach(b => b.addEventListener('click', () => {
+  setGuards(+gin.value + (+b.dataset.d)); chk('seguridad').checked = true; update();
+}));
+gin.addEventListener('input', () => { if (gin.value !== '' && +gin.value >= GUARD_MIN){ setGuards(gin.value); chk('seguridad').checked = true; update(); } });
+gin.addEventListener('blur', () => { setGuards(gin.value); update(); });
+setGuards(GUARD_MIN);
+
+/* portada: fotos de Instagram */
+const IG = Array.from({length:11},(_,i)=>`img/portada-${i+1}.jpg`);
+const reel = document.getElementById('reel');
+reel.innerHTML = IG.map((p,i)=>`<img src="${p}" alt="Evento en Moras & Mentas, foto ${i+1}" loading="${i<3?'eager':'lazy'}" data-i="${i}">`).join('');
+const reelStep = () => (reel.querySelector('img')?.offsetWidth || 280) + 10;
+const reelSync = () => {
+  const max = reel.scrollWidth - reel.clientWidth, f = max > 0 ? reel.scrollLeft / max : 0, vis = Math.min(1, reel.clientWidth / reel.scrollWidth);
+  const bar = document.getElementById('reel-bar'); bar.style.width = (vis*100) + '%'; bar.style.transform = `translateX(${f * (1/vis - 1) * 100}%)`;
+  document.getElementById('reel-p').disabled = reel.scrollLeft < 4;
+  document.getElementById('reel-n').disabled = reel.scrollLeft > max - 4;
+};
+document.getElementById('reel-p').onclick = () => reel.scrollBy({left:-reelStep()});
+document.getElementById('reel-n').onclick = () => reel.scrollBy({left:reelStep()});
+reel.addEventListener('scroll', () => requestAnimationFrame(reelSync), {passive:true});
+window.addEventListener('resize', reelSync);
+reel.addEventListener('click', e => { const im = e.target.closest('img'); if (im) openLB(IG, +im.dataset.i); });
+reelSync();
+
+/* álbumes */
+document.querySelectorAll('.album').forEach(al => {
+  const tr = al.querySelector('.track'), n = tr.children.length;
+  const prev = al.querySelector('.prev'), next = al.querySelector('.next'), cnt = al.querySelector('.cnt'), dots = al.querySelectorAll('.dots span');
+  const idx = () => tr.clientWidth ? Math.round(tr.scrollLeft / tr.clientWidth) : 0;
+  const go = i => tr.scrollTo({left: Math.max(0, Math.min(n-1, i)) * tr.clientWidth});
+  const sync = () => { const i = idx(); if (cnt) cnt.textContent = `${i+1} / ${n}`; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); if (prev){ prev.disabled = i===0; next.disabled = i===n-1; } };
+  if (prev){ prev.onclick = () => go(idx()-1); next.onclick = () => go(idx()+1); }
+  tr.addEventListener('scroll', () => requestAnimationFrame(sync), {passive:true});
+  tr.addEventListener('click', e => { const im = e.target.closest('img'); if (im) openLB(ALBUMS[al.dataset.id], +im.dataset.i); });
+  al._sync = sync; sync();
+});
+
+/* visor a pantalla completa */
+const lb = document.getElementById('lb'), lbi = document.getElementById('lbi'), lbc = document.getElementById('lbc'), lbp = document.getElementById('lbp'), lbn = document.getElementById('lbn');
+let lbSet = [], lbIdx = 0;
+function showLB(){ lbi.src = lbSet[lbIdx]; lbc.textContent = `${lbIdx+1} / ${lbSet.length}`; lbp.disabled = lbIdx===0; lbn.disabled = lbIdx===lbSet.length-1; lbc.hidden = lbSet.length<2; }
+function openLB(set, i){ lbSet = set; lbIdx = i; showLB(); lb.hidden = false; document.getElementById('lbx').focus(); }
+function closeLB(){ lb.hidden = true; }
+lbp.onclick = () => { if (lbIdx>0){ lbIdx--; showLB(); } };
+lbn.onclick = () => { if (lbIdx<lbSet.length-1){ lbIdx++; showLB(); } };
+document.getElementById('lbx').onclick = closeLB;
+lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+document.addEventListener('keydown', e => { if (lb.hidden) return; if (e.key==='Escape') closeLB(); if (e.key==='ArrowLeft') lbp.click(); if (e.key==='ArrowRight') lbn.click(); });
+let tx = null;
+lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+lb.addEventListener('touchend', e => { if (tx===null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx)>40) (dx<0?lbn:lbp).click(); tx = null; });
+
+/* selección */
+const chk = id => document.getElementById('chk-' + id);
+
+/* proveedores: un cuadro abierto por servicio */
+const active = {};
+const svcById = id => SERVICES.find(s => s.id === id);
+const clearPicks = el => el.querySelectorAll('input[data-pick]').forEach(i => { i.checked = false; });
+function setProv(sid, pid, scroll){
+  const s = svcById(sid), prev = active[sid];
+  if (prev) clearPicks(document.getElementById(`panel-${sid}-${prev}`));
+  active[sid] = pid || null;
+  s.providers.forEach(p => {
+    const on = p.id === active[sid], tile = document.getElementById(`prov-${sid}-${p.id}`), panel = document.getElementById(`panel-${sid}-${p.id}`);
+    tile.classList.toggle('on', on); tile.setAttribute('aria-expanded', on);
+    tile.querySelector('.prov-a').textContent = on ? 'Cerrar' : 'Ver detalle';
+    panel.hidden = !on;
+  });
+  const detail = document.getElementById('detail-' + sid);
+  detail.hidden = !active[sid];
+  if (active[sid]){
+    const panel = document.getElementById(`panel-${sid}-${active[sid]}`);
+    panel.querySelectorAll('.album').forEach(a => a._sync && a._sync());
+    if (scroll) panel.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  update();
+  if (active[sid]){ const pv = s.providers.find(p => p.id === active[sid]); if (dispDe(s, pv) === 'no') avisarNoDisponible([pv.name]); }
+}
+document.querySelectorAll('.prov, .ppanel-x').forEach(b => b.addEventListener('click', () => {
+  const {s, p} = b.dataset, closing = active[s] === p;
+  setProv(s, closing ? null : p, !closing);
+  if (closing) document.getElementById(`prov-${s}-${p}`).scrollIntoView({behavior:'smooth', block:'nearest'});
+}));
+document.querySelectorAll('.svc-head').forEach(h => h.addEventListener('click', e => {
+  if (e.target.closest('.chk')) return;
+  const c = chk(h.dataset.id); c.checked = !c.checked; c.dispatchEvent(new Event('change'));
+}));
+SERVICES.forEach(s => {
+  chk(s.id).addEventListener('change', () => {
+    // al destildar el servicio se limpian sus opciones elegidas
+    if (!chk(s.id).checked){
+      document.querySelectorAll(`input[data-pick="${s.id}"]`).forEach(i => i.checked = false);
+      if (s.id === 'seguridad') setGuards(GUARD_MIN);
+    } else if (s.providers && !active[s.id] && s.providers.length === 1){
+      // con un solo proveedor, al tildar el servicio se abre su detalle
+      setProv(s.id, s.providers[0].id, false); return;
+    }
+    update();
+  });
+  document.getElementById('txt-' + s.id).addEventListener('input', e => { if (e.target.value.trim()) chk(s.id).checked = true; update(); });
+  document.querySelectorAll(`input[data-pick="${s.id}"]`).forEach(r => r.addEventListener('change', () => { if (r.checked) chk(s.id).checked = true; update(); }));
+});
+['nombre','fecha','tipo','invitados'].forEach(id => {
+  const el = document.getElementById(id);
+  ['input','change'].forEach(ev => el.addEventListener(ev, () => { if (fieldOk(id)) el.closest('.f').classList.remove('err'); update(); }));
+});
+// fecha: no se pueden elegir días pasados
+(() => { const t = new Date(); t.setMinutes(t.getMinutes() - t.getTimezoneOffset()); const m = t.toISOString().slice(0,10); document.getElementById('fecha').min = m; document.getElementById('fecha-top').min = m; })();
+// la fecha de arriba y la de "Tus datos" son la misma
+(() => {
+  const a = document.getElementById('fecha-top'), b = document.getElementById('fecha');
+  ['input','change'].forEach(ev => {
+    a.addEventListener(ev, () => { if (b.value !== a.value){ b.value = a.value; if (fieldOk('fecha')) b.closest('.f').classList.remove('err'); } update(); });
+    b.addEventListener(ev, () => { if (a.value !== b.value) a.value = b.value; });
+  });
+})();
+
+/* alerta: proveedor no disponible para la fecha */
+const al = document.getElementById('al');
+function avisarNoDisponible(nombres){
+  if (!nombres.length) return;
+  const varios = nombres.length > 1, p = document.getElementById('al-p');
+  document.getElementById('al-t').textContent = varios ? 'Estos proveedores no están disponibles para tu fecha' : 'Este proveedor no está disponible para tu fecha';
+  p.replaceChildren();
+  const b = document.createElement('b'); b.textContent = nombres.join(', ');
+  p.append(b, ` ya ${varios ? 'tienen' : 'tiene'} ocupado el ${fmtDate(document.getElementById('fecha').value)}. Podés elegir otra fecha o enviarnos igual la consulta y lo vemos juntos.`);
+  al.hidden = false; document.getElementById('al-ok').focus();
+}
+const cerrarAl = () => { al.hidden = true; };
+document.getElementById('al-ok').addEventListener('click', cerrarAl);
+document.getElementById('al-fecha').addEventListener('click', () => {
+  cerrarAl(); const f = document.getElementById('fecha-top');
+  f.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(() => { f.focus({preventScroll:true}); if (f.showPicker) { try { f.showPicker(); } catch (e) {} } }, 350);
+});
+al.addEventListener('click', e => { if (e.target === al) cerrarAl(); });
+document.addEventListener('keydown', e => { if (!al.hidden && e.key === 'Escape') cerrarAl(); });
+// al cambiar la fecha: avisa si algún proveedor ya abierto queda sin disponibilidad
+let fechaAvisada = '';
+function avisarPorFecha(){
+  const f = document.getElementById('fecha').value; if (!f || f === fechaAvisada) return; fechaAvisada = f;
+  avisarNoDisponible(SERVICES.flatMap(s => (s.providers || []).filter(p => active[s.id] === p.id && dispDe(s, p) === 'no').map(p => p.name)));
+}
+['fecha-top','fecha'].forEach(id => document.getElementById(id).addEventListener('change', () => setTimeout(avisarPorFecha, 0)));
+
+/* disponibilidad de proveedores según la fecha elegida */
+const dispKey = (s, p) => s.id + '-' + p.id;
+// null: ese proveedor no publica agenda · 'nd': falta la fecha · 'si' / 'no'
+function dispDe(s, p){
+  const occ = DISPONIBILIDAD.ocupado[dispKey(s, p)];
+  if (!Array.isArray(occ)) return null;
+  const f = document.getElementById('fecha').value;
+  return !f ? 'nd' : occ.includes(f) ? 'no' : 'si';
+}
+function dispUI(){
+  const f = document.getElementById('fecha').value, dia = f ? fmtDate(f).slice(0, 5) : '';
+  SERVICES.forEach(s => (s.providers || []).forEach(p => {
+    const st = dispDe(s, p), tag = document.getElementById(`disp-${s.id}-${p.id}`), note = document.getElementById(`dispn-${s.id}-${p.id}`), tile = document.getElementById(`prov-${s.id}-${p.id}`);
+    tag.hidden = st === null; tag.className = 'prov-d' + (st ? ' ' + st : '');
+    tag.textContent = st === 'si' ? `Disponible el ${dia}` : st === 'no' ? `No disponible el ${dia}` : 'Elegí la fecha para ver si está disponible';
+    tile.classList.toggle('no', st === 'no');
+    note.hidden = !(st === 'si' || st === 'no'); note.className = 'disp-note' + (st === 'no' ? ' no' : '');
+    note.textContent = st === 'no' ? `Según su agenda, no está disponible el ${fmtDate(f)}. Podés probar con otra fecha o enviarnos igual la consulta y te confirmamos.` : `Según su agenda, está disponible el ${fmtDate(f)}. Te lo confirmamos al responder tu consulta.`;
+  }));
+  const hint = document.getElementById('disp-hint'), hay = Object.keys(DISPONIBILIDAD.ocupado).length > 0;
+  hint.hidden = !hay;
+  hint.textContent = `Con la fecha te mostramos qué proveedores tienen ese día libre. Agenda actualizada el ${fmtDate(DISPONIBILIDAD.actualizado)}.`;
+}
+
+const val = id => document.getElementById(id).value.trim();
+function fieldOk(id){
+  const v = val(id);
+  if (id === 'nombre') return v.split(/\s+/).filter(w => w.length > 1).length >= 2;
+  if (id === 'invitados') return +v >= 1;
+  return v !== '';
+}
+const missing = () => ['nombre','fecha','tipo','invitados'].filter(id => !fieldOk(id));
+const fmtDate = v => { const [y,m,d] = v.split('-'); return `${d}/${m}/${y}`; };
+
+document.getElementById('wa').addEventListener('click', e => {
+  const wa = e.currentTarget;
+  if (wa.getAttribute('aria-disabled') !== 'true') return;
+  e.preventDefault();
+  const anySel = SERVICES.some(s => chk(s.id).checked) || ITEMS.some(x => xchk(x.id).checked);
+  if (!anySel){ document.getElementById('list').scrollIntoView({behavior:'smooth', block:'start'}); return; }
+  const miss = missing();
+  miss.forEach(id => document.getElementById(id).closest('.f').classList.add('err'));
+  if (miss.length){ const f = document.getElementById(miss[0]); f.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(() => f.focus({preventScroll:true}), 350); }
+});
+
+function update(){
+  const sel = SERVICES.filter(s => chk(s.id).checked);
+  const on = x => xchk(x.id).checked;
+  const qty = x => x.unit ? (+qin(x.id).value || 0) : 1;
+  const msel = MOBILIARIO.filter(on), xsel = EXTRAS.filter(on);
+  SERVICES.forEach(s => document.getElementById('card-' + s.id).classList.toggle('on', chk(s.id).checked));
+  dispUI();
+  ITEMS.forEach(x => {
+    document.getElementById('xrow-' + x.id).classList.toggle('on', on(x));
+    const lt = document.getElementById('lt-' + x.id);
+    if (lt){ const q = qty(x); lt.hidden = q < 1; lt.textContent = `Total ${fmt(q * x.unit, x.cur)}`; }
+  });
+  const mobTotal = msel.reduce((a, x) => a + qty(x) * x.unit, 0);
+  document.getElementById('mobsub').textContent = fmt(mobTotal);
+
+  const total = sel.length + msel.length + xsel.length;
+  document.getElementById('n').textContent = total;
+  document.getElementById('nlbl').textContent = total === 1 ? 'ítem seleccionado' : 'ítems seleccionados';
+
+  // Mensaje de WhatsApp: solo texto, secciones separadas, sin emojis
+  const SEP = '------------------------------';
+  const inv = +val('invitados');
+  const titleCase = t => t.toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+  let pesos = 0, usd = 0; const pend = [];
+  const L = [];
+  L.push('*CONSULTA SERVICIO PREMIUM*', 'Moras & Mentas · Chacra de Eventos', '', SEP, '*DATOS DEL EVENTO*');
+  L.push(`Nombre: ${titleCase(val('nombre'))}`, `Fecha: ${fmtDate(val('fecha'))}`, `Tipo de evento: ${val('tipo')}`, `Invitados: ${inv}`);
+
+  if (sel.length){
+    L.push('', SEP, `*SERVICIOS (${sel.length})*`);
+    sel.forEach((s, k) => {
+      L.push('', `*${k+1}. ${s.name}*`);
+      if (s.providers){
+        const pv = s.providers.find(p => p.id === active[s.id]);
+        if (pv && !pv.anon) L.push(`Proveedor: ${pv.name}`);
+        else if (!pv && s.providers.some(p => !p.anon)) L.push('Proveedor: a definir');
+        const dsp = pv ? dispDe(s, pv) : null;
+        if (dsp === 'si') L.push('Disponibilidad: libre ese día según agenda');
+        if (dsp === 'no') L.push('Disponibilidad: NO disponible ese día según agenda');
+      }
+      const ps = [...document.querySelectorAll(`input[data-pick="${s.id}"]:checked`)];
+      if (s.id === 'discoteca' || s.id === 'barra'){
+        if (ps.length){ const a = +ps[0].dataset.amount; pesos += a; L.push(`Opción: ${ps[0].dataset.name}`, `Precio: ${fmt(a)}`); }
+        else { L.push('Opción: a definir'); pend.push(s.name.toLowerCase()); }
+      } else if (s.id === 'catering'){
+        if (ps.length){
+          const o = ps[0], a = +o.dataset.amount, t = a * inv; pesos += t;
+          L.push(`Cena: ${o.dataset.name}`, `Precio: ${fmt(a)} por persona x ${inv} invitados = ${fmt(t)}${o.dataset.plus ? ' + ' + o.dataset.plus : ''}`);
+          if (o.dataset.plus) pend.push('carne de la parrilla');
+        } else { L.push('Cena: a definir'); pend.push('catering'); }
+      } else if (s.id === 'fotografia'){
+        if (ps.length){
+          let sub = 0;
+          ps.forEach(i => { const a = +i.dataset.amount; sub += a; L.push(`- ${i.dataset.name}: ${fmt(a)}`); });
+          pesos += sub; if (ps.length > 1) L.push(`Subtotal: ${fmt(sub)}`);
+        } else { L.push('Opciones: a definir'); pend.push('fotografía'); }
+      } else if (s.id === 'seguridad'){
+        const t = guardTotal(); pesos += t;
+        L.push(`Personal: ${gin.value} caballeros + señora de baños`, `Precio: ${fmt(t)}`);
+      } else if (s.id === 'coordinacion'){
+        pesos += 15000; L.push(`Precio: ${fmt(15000)}`);
+      } else if (s.id === 'decoracion'){
+        L.push('Precio: a consultar según diseño'); pend.push('decoración');
+      }
+      const d = document.getElementById('txt-' + s.id).value.trim();
+      if (d) L.push(`Descripción: ${d.replace(/\s*\n\s*/g, ' ')}`);
+    });
+  }
+
+  if (msel.length){
+    L.push('', SEP, '*MOBILIARIO Y TEXTILES*');
+    msel.forEach(x => L.push(`- ${x.name} x ${qty(x)} (${fmt(x.unit)} c/u): ${fmt(qty(x) * x.unit)}`));
+    L.push(`Subtotal: ${fmt(mobTotal)}`);
+    pesos += mobTotal;
+  }
+
+  if (xsel.length){
+    L.push('', SEP, '*EXTRAS*');
+    xsel.forEach(x => {
+      if (x.unit){
+        const t = qty(x) * x.unit; (x.cur === 'U$S') ? (usd += t) : (pesos += t);
+        const unidad = x.id === 'hielo' ? ' bolsas de 5 kg' : '';
+        L.push(`- ${x.name} x ${qty(x)}${unidad} (${fmt(x.unit, x.cur)} c/u): ${fmt(t, x.cur)}`);
+      } else if (x.price.startsWith('$')){
+        pesos += num(x.price); L.push(`- ${x.name}: ${x.price}`);
+      } else {
+        L.push(`- ${x.name}: precios D33, traslado y entrega en frío sin costo`); pend.push('bebidas a consignación');
+      }
+      const nt = x.note && document.getElementById('note-' + x.id).value.trim();
+      if (nt) L.push(`  Camas / detalle: ${nt}`);
+    });
+  }
+
+  L.push('', SEP, '*AGADU (derechos de autor)*', 'Incluido en todos los eventos · por persona, sobre invitados confirmados');
+  L.push('', SEP, `*TOTAL ESTIMADO: ${fmt(pesos)}${usd ? ' + ' + fmt(usd, 'U$S') : ''}*`);
+  if (pend.length) L.push(`A cotizar aparte: ${pend.join(', ')}.`);
+  const msg = L.join('\n');
+
+  // total que va sumando, en la barra de abajo
+  const cateringSinInv = chk('catering').checked && !inv && document.querySelector('input[data-pick="catering"]:checked');
+  document.getElementById('tot').textContent = fmt(pesos) + (usd ? ' + ' + fmt(usd, 'U$S') : '');
+  const ts = document.getElementById('tot-s');
+  ts.hidden = !(cateringSinInv || pend.length);
+  ts.textContent = cateringSinInv ? 'Poné los invitados para sumar el catering' : `+ ${pend.length} ${pend.length === 1 ? 'ítem' : 'ítems'} sin precio aún`;
+
+  const wa = document.getElementById('wa'), hint = document.getElementById('hint');
+  const miss = missing();
+  const names = {nombre:'nombre completo', fecha:'fecha', tipo:'tipo de evento', invitados:'cantidad de invitados'};
+  if (!total || miss.length){
+    wa.setAttribute('aria-disabled','true'); wa.href = '#'; hint.hidden = false;
+    hint.textContent = !total ? 'Marcá al menos un servicio para enviar.' : `Para enviar completá: ${miss.map(m => names[m]).join(', ')}.`;
+    return;
+  }
+  hint.hidden = true; wa.setAttribute('aria-disabled','false');
+  wa.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+update();
+</script>
+</body>
+</html>
