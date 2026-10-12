@@ -1,0 +1,46 @@
+/* Sección WhatsApp del panel: bandeja de chats del bot */
+.wa-head{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.wa-head h2{flex:1;min-width:140px}
+.wa-head h2 em{font-style:normal;font-family:var(--f-body);font-size:13px;font-weight:600;color:var(--on-ac);background:var(--gold);border-radius:20px;padding:2px 9px;vertical-align:middle;margin-left:6px}
+.wa-note{font-size:12.5px;line-height:1.6;color:var(--tx2);border:1px dashed var(--bdr2);border-radius:8px;padding:12px 14px}
+.wa-note.bad{border-color:var(--err);color:var(--err)}
+.wa-list{display:flex;flex-direction:column;gap:8px}
+.wa-row{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--bg3);border:1px solid var(--bdr);border-left:3px solid var(--k,var(--bdr2));border-radius:8px;padding:10px 12px;cursor:pointer;min-width:0}
+.wa-row:hover{border-color:var(--bdr2);border-left-color:var(--k,var(--bdr2))}
+.wa-row .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.wa-row .n{font-family:var(--f-display);font-size:19px;font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+.wa-row .n small{font-family:var(--f-body);font-size:11.5px;font-weight:400;color:var(--tx3);margin-left:8px;font-variant-numeric:tabular-nums}
+.wa-row .m{font-size:12.5px;color:var(--gold)}
+.wa-row .u{font-size:12.5px;color:var(--tx2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wa-row .s{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.wa-row .h{font-size:11px;color:var(--tx3);white-space:nowrap}
+.wa-badge{font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px;border:1px solid var(--k);color:var(--k);white-space:nowrap}
+.wa-unread{min-width:20px;height:20px;border-radius:10px;background:var(--ac);color:var(--on-ac);font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+.k-derivado{--k:var(--gold)}.k-humano{--k:var(--info)}.k-bot{--k:var(--ac)}.k-pausado{--k:var(--tx3)}
+
+.wa-chat{display:flex;flex-direction:column;gap:12px;border:1px solid var(--bdr2);border-radius:10px;background:var(--bg);padding:14px;min-width:0}
+.wa-chat-h{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.wa-chat-h .t{flex:1;min-width:0}
+.wa-chat-h .n{font-family:var(--f-display);font-size:22px;font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+.wa-chat-h .sub{font-size:12.5px;color:var(--tx2)}
+.wa-res{font-size:12.5px;line-height:1.55;color:var(--gold);border-left:2px solid var(--gold);padding-left:10px}
+.wa-acts{display:flex;gap:8px;flex-wrap:wrap}
+.wa-acts .btn.ghost.on{border-color:var(--ac);color:var(--ac)}
+.wa-msgs{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow-y:auto;padding:4px 2px;overscroll-behavior:contain}
+.wa-b{max-width:82%;border-radius:10px;padding:8px 11px;font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg3);border:1px solid var(--bdr);align-self:flex-start}
+.wa-b.out{align-self:flex-end;background:var(--ac-soft);border-color:rgba(124,196,108,.28)}
+.wa-b.out.bot{background:var(--bg4);border-color:var(--bdr2)}
+.wa-b .meta{display:block;font-size:10.5px;color:var(--tx3);margin-top:3px;text-align:right;white-space:nowrap}
+.wa-b .meta.err{color:var(--err);white-space:normal}
+.wa-day{align-self:center;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);padding:6px 0 2px}
+.wa-send{display:flex;gap:8px;align-items:flex-end}
+.wa-send textarea{min-height:44px;max-height:180px;resize:vertical;line-height:1.45}
+.wa-send .btn{padding:11px 18px;flex-shrink:0}
+.wa-info summary{cursor:pointer;font-size:13px;color:var(--tx2);list-style:none;display:flex;align-items:center;gap:8px}
+.wa-info summary::-webkit-details-marker{display:none}
+.wa-info summary::before{content:'›';display:inline-block;transition:transform .15s;color:var(--ac);font-size:16px}
+.wa-info[open] summary::before{transform:rotate(90deg)}
+.wa-info textarea{min-height:320px;margin-top:10px;font-size:12.5px;line-height:1.55;resize:vertical}
+.wa-info .save-row{margin-top:10px}
+@media (max-width:560px){.wa-b{max-width:92%}.wa-row .s{gap:4px}.wa-msgs{max-height:60vh}}
+#wa-body{display:flex;flex-direction:column;gap:14px;min-width:0}

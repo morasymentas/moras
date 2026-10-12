@@ -1,0 +1,10 @@
+{
+  "functions": [
+    {
+      "source": "bot",
+      "codebase": "default",
+      "runtime": "nodejs22",
+      "ignore": ["node_modules", ".git", "test", "*.local", ".env.local", "firebase-debug.log"]
+    }
+  ]
+}

@@ -213,6 +213,7 @@ textarea::placeholder,input::placeholder{color:var(--tx3)}
 .toast.bad{border-color:var(--err)}
 </style>
 <link rel="stylesheet" href="mm.css">
+<link rel="stylesheet" href="mm-whatsapp.css">
 </head>
 <body>
 <div class="login" id="login">
@@ -243,6 +244,14 @@ textarea::placeholder,input::placeholder{color:var(--tx3)}
 
   <section class="stats" id="stats" aria-label="Consultas por estado"></section>
   <div class="money" id="money" hidden></div>
+
+  <section class="panel" id="whatsapp">
+    <div class="wa-head">
+      <h2>WhatsApp<em id="wa-cuenta" hidden></em></h2>
+      <label class="sw" id="wa-sw" hidden><input type="checkbox" id="wa-activo"> Bot encendido</label>
+    </div>
+    <div id="wa-body"><div class="wa-note">Cargando los chats…</div></div>
+  </section>
 
   <section class="panel" id="visitas">
     <h2>Calendario de visitas</h2>
@@ -827,7 +836,9 @@ sesion({onEntrar: async (user, ficha) => {
   }
   window.mmStartPanel(db);
   usuariosUI(user);
+  window.mmAdmin = true; window.dispatchEvent(new Event('mm-admin'));   // arranca la sección WhatsApp (mm-whatsapp.js)
 }});
 </script>
+<script type="module" src="mm-whatsapp.js"></script>
 </body>
 </html>
