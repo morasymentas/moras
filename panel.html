@@ -652,6 +652,7 @@ function provUI(){
     mini: true, sel: null, min: hi, marks: () => [], cls: id => occ.includes(id) ? 'busy' : occP.includes(id) ? 'busyp' : '',
     onPick: id => { if (!colProv) return toast('La base no está conectada. Recargá la página.', true);
       if (!agendasListas) return toast('Cargando las agendas, probá de nuevo en un segundo.', true);
+      if (occP.includes(id)) return toast(pv.propia ? 'Ese día tiene un contrato en la agenda de reservas. Para liberarlo, borrá el evento ahí.' : 'Ese día lo cargó el proveedor en su agenda.', true);
       const ya = occ.includes(id); guardarAgenda(provSel, {ocupadoAdmin: ya ? occ.filter(x => x !== id) : [...occ, id]}, ya ? 'Día liberado' : 'Día marcado como ocupado'); },
     onNav: d => { mover(provCal, d); provUI(); }
   }));
@@ -666,9 +667,9 @@ function provUI(){
        : sinDias ? h('div', {class:'need', text:'Sin días ocupados: figura disponible para cualquier fecha.'})
        : '',
     prox.length ? h('div', {class:'f'}, h('label', {text:'Marcados por vos'}), h('div', {class:'busy-list'}, prox.map(d => h('span', {class:'busy-it'}, fechaCorta(d), h('button', {type:'button', 'aria-label':'Liberar ' + fechaCorta(d), onclick: () => guardarAgenda(provSel, {ocupadoAdmin: occ.filter(x => x !== d)}, 'Día liberado'), text:'×'}))))) : '',
-    occP.length ? h('div', {class:'f'}, h('label', {text:'Cargados por el proveedor en su agenda'}), h('div', {class:'busy-list'}, occP.map(d => h('span', {class:'busy-it p', text: fechaCorta(d)})))) : '',
-    pv.propia ? h('div', {class:'need', text:'Estas fechas son las que usa el asistente de mensajes para decir si un día está libre.'})
-      : h('div', {}, h('a', {href: 'agenda.html?p=' + encodeURIComponent(provSel), target:'_blank', rel:'noopener', style:'color:var(--ac);font-size:12.5px', text:'Abrir la agenda completa de este proveedor'})));
+    occP.length ? h('div', {class:'f'}, h('label', {text: pv.propia ? 'Con contrato en la agenda de reservas' : 'Cargados por el proveedor en su agenda'}), h('div', {class:'busy-list'}, occP.map(d => h('span', {class:'busy-it p', text: fechaCorta(d)})))) : '',
+    pv.propia ? h('div', {class:'need', text:'Estas fechas son las que usa el asistente de mensajes para decir si un día está libre.'}) : '',
+    h('div', {}, h('a', {href: 'agenda.html?p=' + encodeURIComponent(provSel), target:'_blank', rel:'noopener', style:'color:var(--ac);font-size:12.5px', text: pv.propia ? 'Abrir la agenda de reservas (detalle de cada contrato)' : 'Abrir la agenda completa de este proveedor'})));
   const st = $('prov-pub'); st.classList.remove('pend');
   st.textContent = 'Lo que marcás acá se ve al instante en la página de clientes.';
 }

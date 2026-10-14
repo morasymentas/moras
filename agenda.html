@@ -392,12 +392,14 @@ function aviso(texto, links){
   const b = document.createElement('button'); b.type = 'button'; b.className = 'link muted'; b.textContent = 'Salir y entrar con otro usuario'; b.style.cssText = 'display:block;margin-top:10px'; b.addEventListener('click', () => salir()); a.append(b);
   a.hidden = false;
 }
+// La agenda de reservas de la chacra solo la abre el administrador (ningún proveedor tiene esa clave).
+const AGENDAS = [{id:'chacra', n:'La chacra', s:'Reservas del predio'}, ...PROVEEDORES];
 sesion({onEntrar: async (user, ficha) => {
   let clave = null;
   if (ficha.rol === 'admin'){
     clave = new URLSearchParams(location.search).get('p');
-    if (!PROVEEDORES.some(p => p.id === clave)){
-      aviso('Sos administrador. Elegí qué agenda querés abrir:', PROVEEDORES.map(p => ['agenda.html?p=' + encodeURIComponent(p.id), p.n]).concat([['panel.html', 'Volver al panel']]));
+    if (!AGENDAS.some(p => p.id === clave)){
+      aviso('Sos administrador. Elegí qué agenda querés abrir:', AGENDAS.map(p => ['agenda.html?p=' + encodeURIComponent(p.id), p.id === 'chacra' ? 'La chacra (reservas)' : p.n]).concat([['panel.html', 'Volver al panel']]));
       return false;
     }
     const o = $('otras'); const l = document.createElement('a'); l.href = 'panel.html'; l.textContent = 'Volver al panel'; o.append(l);
@@ -407,7 +409,7 @@ sesion({onEntrar: async (user, ficha) => {
     aviso('Tu usuario ya está creado, pero todavía no tiene una agenda asignada. Avisale a Moras & Mentas y volvé a entrar.');
     return false;
   }
-  const pv = PROVEEDORES.find(p => p.id === clave);
+  const pv = AGENDAS.find(p => p.id === clave);
   window.mmStartAgenda(db, {nombre: pv.n, servicio: pv.s, clave});
 }});
 </script>
