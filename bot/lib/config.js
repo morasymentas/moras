@@ -16,6 +16,7 @@ export const AVISO_PLANTILLA = defineString('AVISO_PLANTILLA', {default: 'aviso_
 
 export const GRAPH = 'https://graph.facebook.com/v23.0';
 export const SITIO = 'https://morasymentas.github.io/moras/';
+export const CHACRA = 'https://morasymentas.github.io/moras/chacra.html';   // página de la chacra: fotos, espacios, qué incluye, horarios y preguntas
 export const PANEL = 'https://morasymentas.github.io/moras/panel.html#whatsapp';
 export const INSTAGRAM = 'https://www.instagram.com/moras_y_mentas/';
 

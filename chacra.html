@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moras &amp; Mentas · Chacra de eventos en San José de Mayo</title>
+<meta name="description" content="Chacra de eventos en San José de Mayo: salón, casa, parque, piscina y lago en dos hectáreas. 15 años, casamientos, cumpleaños y eventos de empresa. Consultá tu fecha por WhatsApp.">
+<meta name="theme-color" content="#eef2ec">
+<meta property="og:title" content="Moras &amp; Mentas · Chacra de eventos">
+<meta property="og:description" content="Dos hectáreas de campo para tu fiesta en San José de Mayo. Consultá tu fecha por WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://morasymentas.github.io/moras/img/chacra/decoracion-3.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b1730'/%3E%3Cpath d='M32 12c-10 8-14 17-14 25a14 14 0 0 0 28 0c0-8-4-17-14-25Z' fill='%23bfe0cb'/%3E%3Cpath d='M32 24v26' stroke='%232b1730' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Paleta del nombre: mora (tinta y noche) y menta (papel y hojas). El verde de WhatsApp queda solo para los botones de escribir. */
+:root{
+  --paper:#eef2ec;--paper-2:#e2e9df;--ink:#2b1730;--ink-2:#5b4a5e;--line:rgba(43,23,48,.14);
+  --menta:#bfe0cb;--hoja:#2f6b4f;--jugo:#a23b6b;
+  --noche:#1f1123;--noche-2:#2d1a33;--on-noche:#f3eee8;--on-noche-2:#cbbfcd;--line-noche:rgba(243,238,232,.16);
+  --wa:#25d366;--wa-2:#1fbf5b;--wa-ink:#053d1f;
+  --f-display:'Gloock',Georgia,'Times New Roman',serif;
+  --f-body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --gut:20px;--max:1160px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.6;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom,0)}
+img{max-width:100%;display:block}
+a{color:var(--hoja);text-underline-offset:3px}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2.5px solid var(--jugo);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:clamp(46px,10.5vw,80px);line-height:.98}
+h2{font-size:clamp(34px,6vw,54px);line-height:1.04}
+h3{font-size:clamp(26px,3.6vw,34px);line-height:1.1}
+p{margin:0}
+.lead{font-size:clamp(17px,2vw,19.5px);line-height:1.6;color:var(--ink-2);max-width:56ch}
+.muted{color:var(--ink-2)}
+section{scroll-margin-top:16px}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 24px;border-radius:999px;font-weight:600;font-size:16.5px;text-decoration:none;border:0;cursor:pointer;transition:background .15s,transform .15s}
+.btn svg{width:22px;height:22px;flex-shrink:0}
+.btn-wa{background:var(--wa);color:var(--wa-ink)}
+.btn-wa:hover{background:var(--wa-2)}
+.btn-wa:active{transform:scale(.98)}
+.btn-line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--paper)}
+.link-wa{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--hoja);text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:1px}
+.link-wa svg{width:18px;height:18px}
+.link-wa:hover{color:var(--ink)}
+
+/* cabecera */
+.top{display:flex;align-items:center;gap:16px;padding-block:18px}
+.marca{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);line-height:1}
+.marca b{font-family:var(--f-display);font-weight:400;font-size:25px;letter-spacing:.005em}
+.marca small{font-size:13px;color:var(--ink-2);margin-top:5px}
+.top nav{display:none;margin-left:auto;gap:26px}
+.top nav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:15px}
+.top nav a:hover{color:var(--hoja)}
+.top .btn{margin-left:auto;min-height:44px;padding:8px 16px;font-size:15px}
+.top .btn span{display:none}
+@media (min-width:880px){.top nav{display:flex}.top .btn{margin-left:8px}.top .btn span{display:inline}}
+
+/* portada */
+.hero{display:grid;gap:34px;padding-block:22px 64px}
+.hero-txt{display:flex;flex-direction:column;gap:22px;align-self:center}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero-note{font-size:14.5px;color:var(--ink-2)}
+.hero-fotos{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:auto auto;gap:10px;margin-inline:calc(var(--gut) * -1)}
+.hero-fotos img{width:100%;height:100%;object-fit:cover;border-radius:3px;background:var(--paper-2)}
+.hero-fotos .a{grid-row:1 / 3;aspect-ratio:4/5}
+.hero-fotos .b,.hero-fotos .c{aspect-ratio:1/1}
+@media (min-width:600px){.hero-fotos{margin-inline:0}}
+@media (min-width:960px){
+  .hero{grid-template-columns:1.1fr 1fr;gap:56px;padding-block:40px 96px}
+  .hero-fotos .a{aspect-ratio:auto;min-height:540px}
+}
+
+/* espacios */
+.esp{padding-block:72px 40px;border-top:1px solid var(--line)}
+.esp > .wrap > header{display:flex;flex-direction:column;gap:14px;margin-bottom:44px}
+.space{display:grid;gap:22px;padding-block:28px 40px}
+.space + .space{border-top:1px solid var(--line)}
+.space-txt{display:flex;flex-direction:column;gap:14px;max-width:52ch}
+.space-txt .cap{font-weight:600;color:var(--hoja);font-size:16px}
+.space-txt .precio{font-size:15px;color:var(--ink-2)}
+.space-txt .precio b{color:var(--ink);font-weight:600}
+.space-fotos{display:grid;gap:10px}
+.space-fotos img{width:100%;height:100%;object-fit:cover;border-radius:3px;background:var(--paper-2)}
+.f-salon{grid-template-columns:1.7fr 1fr}
+.f-salon img:first-child{aspect-ratio:3/2}
+.f-salon img:last-child{aspect-ratio:auto}
+.f-casa img{aspect-ratio:4/5;height:auto}
+.f-afuera{grid-template-columns:1fr 1fr}
+.f-afuera img:first-child{grid-column:1 / 3;aspect-ratio:16/10}
+.f-afuera img:not(:first-child){aspect-ratio:3/4}
+.f-hab{background:var(--menta);border-radius:3px;padding:28px 24px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;min-height:220px}
+.f-hab p{font-family:var(--f-display);font-size:clamp(24px,3.2vw,32px);line-height:1.15}
+@media (min-width:860px){
+  .space{grid-template-columns:1fr 1.35fr;gap:56px;align-items:center;padding-block:44px}
+  .space.rev .space-txt{order:2}
+  .space.rev{grid-template-columns:1.35fr 1fr}
+  .space.casa{grid-template-columns:minmax(0,460px) 1fr;gap:88px}
+}
+
+/* tu día (banda oscura) */
+.dia{background:var(--noche);color:var(--on-noche);padding-block:80px}
+.dia h2{max-width:18ch}
+.dia .lead{color:var(--on-noche-2);margin-top:18px}
+.ribbon{list-style:none;margin:48px 0 0;padding:0 0 0 34px;position:relative;display:flex;flex-direction:column;gap:26px}
+.ribbon::before{content:'';position:absolute;left:9px;top:10px;bottom:10px;width:4px;border-radius:2px;background:var(--menta);opacity:.85}
+.ribbon li{position:relative;display:flex;flex-direction:column;gap:2px}
+.ribbon li::before{content:'';position:absolute;left:-34px;top:7px;width:22px;height:22px;border-radius:50%;background:var(--noche);border:3px solid var(--menta);box-sizing:border-box}
+.ribbon li.opt::before{border-style:dashed}
+.ribbon .h{font-family:var(--f-display);font-size:30px;line-height:1.1}
+.ribbon .t{color:var(--on-noche-2);font-size:15.5px;max-width:30ch}
+.ribbon li.opt .h{color:var(--on-noche-2)}
+.dia-notas{display:grid;gap:14px;margin-top:52px}
+.dia-notas p{border-top:1px solid var(--line-noche);padding-top:14px;color:var(--on-noche-2);font-size:15.5px;max-width:60ch}
+.dia-notas b{color:var(--on-noche);font-weight:600}
+@media (min-width:860px){.dia-notas{grid-template-columns:1fr 1fr;gap:28px}}
+@media (min-width:1000px){
+  /* horizontal: de las 10:00 a las 12:00 del otro día son 26 h; cada hito se ubica según la hora (--at) */
+  .ribbon{padding:0;height:200px;display:block}
+  .ribbon::before{left:0;right:0;top:94px;bottom:auto;width:auto;height:6px;border-radius:3px;opacity:1;
+    background:linear-gradient(90deg,var(--menta) 0 84.6%,transparent 84.6%) no-repeat,repeating-linear-gradient(90deg,var(--menta) 0 10px,transparent 10px 18px)}
+  .ribbon li{position:absolute;left:var(--at);top:0;width:max-content;max-width:320px;transform:translateX(var(--sh,0%));text-align:var(--al,left)}
+  .ribbon li::before{left:var(--dot,0px);top:85px;width:24px;height:24px}
+  .ribbon li.abajo{top:126px}
+  .ribbon li.abajo::before{top:-41px}
+  .ribbon .t{max-width:none}
+}
+
+/* incluido */
+.incl{padding-block:84px 72px}
+.incl-grid{display:grid;gap:44px}
+.incl ul{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:0;border-top:1.5px solid var(--ink)}
+.incl li{display:flex;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-size:17px}
+.incl li svg{width:18px;height:18px;flex-shrink:0;color:var(--hoja);transform:translateY(3px)}
+.incl aside{display:flex;flex-direction:column;gap:22px}
+.nota{background:var(--paper-2);border-radius:3px;padding:22px 22px 24px;display:flex;flex-direction:column;gap:8px}
+.nota h3{font-size:24px}
+.nota p{color:var(--ink-2);font-size:15.5px}
+@media (min-width:860px){
+  .incl-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+  .incl aside{padding-top:8px}
+}
+
+/* proveedores */
+.prov{padding-block:72px;border-top:1px solid var(--line)}
+.prov-grid{display:grid;gap:34px}
+.prov-txt{display:flex;flex-direction:column;gap:18px;max-width:54ch}
+.prov-fotos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.prov-fotos figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.prov-fotos img{aspect-ratio:1/1;height:auto;object-fit:cover;border-radius:3px;width:100%;background:var(--paper-2)}
+.prov-fotos figcaption{font-size:14.5px;font-weight:500}
+@media (min-width:860px){.prov-grid{grid-template-columns:1fr 1.2fr;gap:64px;align-items:center}.prov-fotos{grid-template-columns:repeat(4,minmax(0,1fr))}.prov-fotos img{aspect-ratio:3/4}}
+
+/* galería */
+.gal{padding-block:72px;background:var(--paper-2)}
+.gal header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:32px}
+.gal-grid{columns:2 160px;column-gap:10px}
+.gal-grid button{display:block;width:100%;padding:0;margin:0 0 10px;border:0;background:none;cursor:zoom-in;break-inside:avoid;border-radius:3px;overflow:hidden}
+.gal-grid img{width:100%;height:auto;background:var(--paper)}
+.gal-grid button:hover img{opacity:.88}
+@media (min-width:860px){.gal-grid{columns:4;column-gap:14px}.gal-grid button{margin-bottom:14px}}
+
+/* cómo reservar */
+.pasos{padding-block:84px 76px}
+.pasos ol{list-style:none;margin:40px 0 0;padding:0;display:grid;gap:30px;counter-reset:p}
+.pasos li{counter-increment:p;display:grid;grid-template-columns:48px 1fr;gap:6px 14px;align-items:start}
+.pasos li::before{content:counter(p);grid-row:1 / 3;font-family:var(--f-display);font-size:56px;line-height:.85;color:var(--hoja)}
+.pasos h3{font-size:28px}
+.pasos li p{color:var(--ink-2);max-width:40ch}
+.pasos .ctas{margin-top:40px}
+@media (min-width:860px){.pasos ol{grid-template-columns:repeat(3,1fr);gap:40px}}
+
+/* consultá tu fecha */
+.fecha{background:var(--noche);color:var(--on-noche);padding-block:80px}
+.fecha-grid{display:grid;gap:40px}
+.fecha-intro{display:flex;flex-direction:column;gap:18px}
+.fecha-intro .lead{color:var(--on-noche-2)}
+.form{background:var(--noche-2);border-radius:20px;padding:24px 20px;display:flex;flex-direction:column;gap:22px}
+.campo{display:flex;flex-direction:column;gap:8px;min-width:0}
+.campo > label,.campo > .lbl{font-weight:600;font-size:15px}
+.campo input[type=date],.campo input[type=number],.campo input[type=text]{width:100%;min-height:50px;background:var(--noche);border:1.5px solid var(--line-noche);border-radius:12px;padding:10px 14px;font-size:16.5px;color:var(--on-noche);outline:none;color-scheme:dark}
+.campo input:focus{border-color:var(--menta)}
+.campo input::placeholder{color:#8f8192}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.chip span{display:block;padding:10px 15px;border-radius:999px;border:1.5px solid var(--line-noche);font-size:15px;transition:background .15s,border-color .15s,color .15s}
+.chip:hover span{border-color:var(--menta)}
+.chip input:checked + span{background:var(--menta);border-color:var(--menta);color:var(--noche);font-weight:600}
+.chip input:focus-visible + span{outline:2.5px solid var(--menta);outline-offset:2px}
+.estado{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.5;color:var(--on-noche-2);min-height:22px}
+.estado::before{content:'';width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:6px;background:currentColor;opacity:.6}
+.estado.libre{color:var(--menta)}
+.estado.libre::before{opacity:1}
+.estado.ocupada{color:#f2a7c6}
+.estado.ocupada::before{opacity:1}
+.alts{display:flex;flex-wrap:wrap;gap:8px}
+.alts button{background:transparent;border:1.5px solid var(--menta);color:var(--menta);border-radius:999px;padding:7px 14px;font-size:14.5px;font-weight:600;cursor:pointer}
+.alts button:hover{background:var(--menta);color:var(--noche)}
+.visita{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:15.5px}
+.visita input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--menta);flex-shrink:0}
+.visita small{display:block;color:var(--on-noche-2);font-size:14px;margin-top:2px}
+.preview{border-left:3px solid var(--menta);padding:4px 0 4px 14px;font-size:15px;color:var(--on-noche-2);line-height:1.55}
+.preview b{display:block;color:var(--on-noche);font-weight:600;font-size:13.5px;margin-bottom:4px}
+.form .btn{width:100%;min-height:56px;font-size:17px}
+@media (min-width:860px){.fecha-grid{grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}.fecha-intro{position:sticky;top:32px}.form{padding:32px}}
+
+/* preguntas */
+.faq{padding-block:84px 72px}
+.faq-grid{display:grid;gap:30px}
+.faq-list{border-top:1.5px solid var(--ink)}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;font-weight:600;font-size:17.5px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'';width:12px;height:12px;flex-shrink:0;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg) translate(-3px,-3px);transition:transform .2s}
+details[open] summary::after{transform:rotate(225deg) translate(-3px,-3px)}
+details > div{padding:0 0 20px;color:var(--ink-2);max-width:62ch;display:flex;flex-direction:column;gap:10px}
+@media (min-width:860px){.faq-grid{grid-template-columns:1fr 1.6fr;gap:72px}.faq-grid h2{position:sticky;top:24px;align-self:start}}
+
+/* cierre */
+.cierre{padding-block:24px 84px}
+.cierre-box{border-top:1.5px solid var(--ink);padding-top:44px;display:grid;gap:28px}
+.cierre-box .ctas{gap:16px}
+.dato{display:flex;flex-direction:column;gap:2px;font-size:16px}
+.dato span{color:var(--ink-2);font-size:14.5px}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
+@media (min-width:860px){.cierre-box{grid-template-columns:1.2fr 1fr;align-items:end;gap:56px}}
+footer{background:var(--noche);color:var(--on-noche-2);padding-block:34px calc(34px + env(safe-area-inset-bottom,0px));font-size:14.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+footer b{font-family:var(--f-display);font-weight:400;font-size:21px;color:var(--on-noche);margin-right:auto}
+footer a{color:var(--on-noche-2)}
+footer a:hover{color:var(--on-noche)}
+
+/* botón flotante */
+.flota{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;width:60px;height:60px;border-radius:50%;padding:0;box-shadow:0 8px 24px rgba(31,17,35,.28);transition:opacity .2s,transform .2s}
+.flota svg{width:30px;height:30px}
+.flota.off{opacity:0;transform:translateY(12px) scale(.9);pointer-events:none}
+
+/* visor de fotos */
+.lb{border:0;padding:0;margin:0;inset:0;width:100%;height:100%;max-width:none;max-height:none;background:rgba(18,9,21,.96);color:#fff}
+.lb::backdrop{background:rgba(18,9,21,.96)}
+.lb[open]{display:flex;align-items:center;justify-content:center}
+.lb img{max-width:calc(100vw - 32px);max-height:calc(100dvh - 120px);object-fit:contain;border-radius:3px}
+.lb button{position:absolute;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);background:rgba(18,9,21,.5);color:#fff;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lb button:hover{background:var(--menta);color:var(--noche);border-color:var(--menta)}
+.lb .x{top:calc(14px + env(safe-area-inset-top,0px));right:14px}
+.lb .prev{left:12px;top:50%;transform:translateY(-50%)}
+.lb .next{right:12px;top:50%;transform:translateY(-50%)}
+.lb .cnt{position:absolute;top:calc(26px + env(safe-area-inset-top,0px));left:20px;font-size:14px;color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums}
+@media (max-width:600px){.lb .prev,.lb .next{top:auto;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:none}.lb img{max-height:calc(100dvh - 170px)}}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- Ícono de WhatsApp reutilizado en todos los botones -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3Z"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header class="top">
+    <a class="marca" href="#" aria-label="Moras y Mentas, chacra de eventos"><b>Moras &amp; Mentas</b><small>Chacra de eventos</small></a>
+    <nav aria-label="Secciones">
+      <a href="#espacios">Espacios</a><a href="#tu-dia">Horarios</a><a href="#fotos">Fotos</a><a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn btn-wa" data-wa="general" href="#" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+  </header>
+
+  <section class="hero" aria-label="Presentación">
+    <div class="hero-txt">
+      <h1>Dos hectáreas de campo para tu fiesta.</h1>
+      <p class="lead">Moras &amp; Mentas es una chacra de eventos en San José de Mayo, con salón, casa, parque, piscina y lago. Hacemos 15 años, casamientos, cumpleaños y eventos de empresa.</p>
+      <div class="ctas" id="hero-ctas">
+        <a class="btn btn-wa" data-wa="general" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Escribinos por WhatsApp</a>
+        <a class="btn btn-line" href="#fecha">¿Está libre tu fecha?</a>
+      </div>
+      <p class="hero-note">Te respondemos al <span data-tel></span> y coordinamos una visita para que conozcas la chacra.</p>
+    </div>
+    <div class="hero-fotos">
+      <img class="a" src="img/chacra/decoracion-3.jpg" width="810" height="800" alt="Ceremonia al aire libre con arco de flores, junto a la piscina y el campo">
+      <img class="b" src="img/chacra/portada-11.jpg" width="526" height="800" alt="Novia con su ramo junto a un auto antiguo, al atardecer">
+      <img class="c" src="img/decoracion-6.jpg" width="1200" height="800" alt="Novios saliendo de la ceremonia entre los invitados">
+    </div>
+  </section>
+</div>
+
+<section class="esp" id="espacios" aria-labelledby="esp-h">
+  <div class="wrap">
+    <header>
+      <h2 id="esp-h">Cuatro espacios en un mismo predio</h2>
+      <p class="lead">Según cuántos sean, la fiesta va en el salón o en la casa, y el parque, la piscina y el lago acompañan a cualquiera de los dos.</p>
+    </header>
+
+    <article class="space">
+      <div class="space-txt">
+        <h3>El salón</h3>
+        <p class="cap">De 100 a 250 personas</p>
+        <p>Totalmente cerrado y con generador propio, por si se corta la luz. También lo usamos para cumpleaños más chicos, de 60 o 70 invitados.</p>
+        <!-- PRECIO DE REFERENCIA: editar acá -->
+        <p class="precio">Desde <b>$40.000</b> para 100 personas</p>
+        <a class="link-wa" data-wa="salon" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Preguntar por el salón</a>
+      </div>
+      <div class="space-fotos f-salon">
+        <img src="img/decoracion-2.jpg" width="1200" height="800" loading="lazy" alt="El salón armado con mesas, sillas vestidas y techo con telas">
+        <img src="img/chacra/portada-9.jpg" width="442" height="800" loading="lazy" alt="Mesas del salón con centros de flores blancas">
+      </div>
+    </article>
+
+    <article class="space rev casa">
+      <div class="space-txt">
+        <h3>La casa</h3>
+        <p class="cap">Hasta 100 personas</p>
+        <p>Para cumpleaños, reuniones familiares y fiestas más íntimas. El alero se cierra con cortinas de PVC y la casa también tiene generador.</p>
+        <!-- PRECIO DE REFERENCIA: editar acá -->
+        <p class="precio">Desde <b>$20.000</b></p>
+        <a class="link-wa" data-wa="casa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Preguntar por la casa</a>
+      </div>
+      <div class="space-fotos f-casa">
+        <img src="img/portada-8.jpg" width="800" height="1000" loading="lazy" alt="Mesas armadas dentro de la casa, con torta y velas">
+      </div>
+    </article>
+
+    <article class="space">
+      <div class="space-txt">
+        <h3>Parque, piscina y lago</h3>
+        <p class="cap">Dos hectáreas al aire libre</p>
+        <p>Lugar para una ceremonia bajo el cielo, las fotos al atardecer, la piscina en verano y estacionamiento para los invitados.</p>
+      </div>
+      <div class="space-fotos f-afuera">
+        <img src="img/chacra/decoracion-1.jpg" width="596" height="800" loading="lazy" alt="Pérgola con cortinas blancas y una mesa decorada en el parque">
+        <img src="img/fotografia-2.jpg" width="1200" height="800" loading="lazy" alt="Quinceañera posando junto a una carreta antigua en el parque, de noche">
+        <img src="img/portada-3.jpg" width="800" height="1000" loading="lazy" alt="Piscina rodeada de pasto y árboles">
+      </div>
+    </article>
+
+    <article class="space rev">
+      <div class="space-txt">
+        <h3>Las habitaciones</h3>
+        <p class="cap">Dos habitaciones</p>
+        <p>La principal tiene cama matrimonial y baño en suite. Es donde la quinceañera o la novia se prepara con la maquilladora y el fotógrafo, sin salir de la chacra.</p>
+        <a class="link-wa" data-wa="habitaciones" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Preguntar por las habitaciones</a>
+      </div>
+      <div class="f-hab">
+        <p>Si alquilás las habitaciones, la chacra es tuya hasta las 12 del mediodía siguiente.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="dia" id="tu-dia" aria-labelledby="dia-h">
+  <div class="wrap">
+    <h2 id="dia-h">La chacra es tuya desde las 10 de la mañana</h2>
+    <p class="lead">El día del evento te entregamos la llave temprano, para que la decoración, la discoteca y el catering armen con tiempo.</p>
+    <ol class="ribbon" aria-label="Horarios del día del evento">
+      <li class="arriba" style="--at:0%"><span class="h">10:00</span><span class="t">Te entregamos la llave</span></li>
+      <li class="abajo" style="--at:76.9%;--sh:-100%;--dot:calc(100% - 12px);--al:right"><span class="h">06:00</span><span class="t">Termina la música, como marca la Intendencia</span></li>
+      <li class="arriba" style="--at:84.6%;--sh:-50%;--dot:calc(50% - 12px);--al:center"><span class="h">08:00</span><span class="t">Dos horas más para desarmar</span></li>
+      <li class="abajo opt" style="--at:100%;--sh:-100%;--dot:calc(100% - 24px);--al:right"><span class="h">12:00</span><span class="t">Si alquilás las habitaciones</span></li>
+    </ol>
+    <div class="dia-notas">
+      <p><b>¿Querés armar el día antes?</b> Si el día anterior no hay otro evento, te prestamos la chacra para que la discoteca o la decoradora adelanten el armado.</p>
+      <p><b>En la casa</b> el horario de cierre lo conversamos con vos. Alquilamos cualquier día de la semana y el precio base es el mismo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="incl" aria-labelledby="incl-h">
+  <div class="wrap incl-grid">
+    <div>
+      <h2 id="incl-h">Todo esto ya viene con el alquiler</h2>
+      <ul>
+        <li><svg><use href="#i-ok"/></svg>Mesas y sillas</li>
+        <li><svg><use href="#i-ok"/></svg>Mesa de tortas, de dulces y de ensaladas</li>
+        <li><svg><use href="#i-ok"/></svg>Tablones para el catering</li>
+        <li><svg><use href="#i-ok"/></svg>Limpieza antes y después</li>
+        <li><svg><use href="#i-ok"/></svg>Insumos de los baños</li>
+        <li><svg><use href="#i-ok"/></svg>Luz y generador en el salón y la casa</li>
+        <li><svg><use href="#i-ok"/></svg>Piscina</li>
+        <li><svg><use href="#i-ok"/></svg>Estacionamiento para los invitados</li>
+      </ul>
+    </div>
+    <aside>
+      <div class="nota">
+        <h3>En los cumpleaños infantiles</h3>
+        <p>Sumamos la valija con cuentos y la percha con disfraces para que los chicos jueguen.</p>
+      </div>
+      <div class="nota">
+        <h3>Si querés, también te alquilamos</h3>
+        <p>Manteles y cubresillas, pufs, mesas de puf y sillones. Para eventos de hasta 60 o 70 personas, también la vajilla.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="prov" aria-labelledby="prov-h">
+  <div class="wrap prov-grid">
+    <div class="prov-txt">
+      <h2 id="prov-h">Traé tus proveedores o dejalo en nuestras manos</h2>
+      <p class="lead">No trabajamos con proveedores exclusivos: podés traer tu catering, tus bebidas o tu discoteca. Si preferís despreocuparte, en el Servicio Premium elegís discoteca, catering, barra de tragos, fotografía y decoración con nuestro equipo.</p>
+      <div class="ctas"><a class="btn btn-line" href="index.html">Ver el Servicio Premium</a></div>
+    </div>
+    <div class="prov-fotos">
+      <figure><img src="img/chacra/discoteca-1.jpg" width="596" height="800" loading="lazy" alt="Consola de luces y sonido de la discoteca en el salón"><figcaption>Discoteca</figcaption></figure>
+      <figure><img src="img/barra-3.jpg" width="1200" height="800" loading="lazy" alt="Barra de tragos armada con carta luminosa"><figcaption>Barra de tragos</figcaption></figure>
+      <figure><img src="img/chacra/portada-5.jpg" width="800" height="504" loading="lazy" alt="Invitados sirviéndose en la mesa del catering"><figcaption>Catering</figcaption></figure>
+      <figure><img src="img/chacra/portada-7.jpg" width="640" height="406" loading="lazy" alt="Mesa de torta de casamiento decorada con flores blancas y telas"><figcaption>Decoración</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="gal" id="fotos" aria-labelledby="gal-h">
+  <div class="wrap">
+    <header>
+      <h2 id="gal-h">Fiestas que ya vivimos</h2>
+      <a class="link-wa" href="https://www.instagram.com/moras_y_mentas/" target="_blank" rel="noopener">Más fotos en Instagram</a>
+    </header>
+    <div class="gal-grid" id="gal"></div>
+  </div>
+</section>
+
+<section class="pasos" aria-labelledby="pasos-h">
+  <div class="wrap">
+    <h2 id="pasos-h">Cómo reservar</h2>
+    <ol>
+      <li><h3>Escribinos</h3><p>Contanos qué festejás, la fecha y cuántos invitados esperás. Te decimos si la fecha está libre.</p></li>
+      <li><h3>Vení a conocerla</h3><p>Las visitas son los jueves y viernes desde las 17 h. Recorrés los espacios y armamos el precio según tu evento.</p></li>
+      <li><h3>Reservá la fecha</h3><p>Firmamos el contrato en nuestra oficina de San José, con todo lo que acordamos en la visita, y se seña el 20%.</p></li>
+    </ol>
+    <div class="ctas"><a class="btn btn-wa" data-wa="visita" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Coordinar una visita</a></div>
+  </div>
+</section>
+
+<section class="fecha" id="fecha" aria-labelledby="fecha-h">
+  <div class="wrap fecha-grid">
+    <div class="fecha-intro">
+      <h2 id="fecha-h">¿Está libre tu fecha?</h2>
+      <p class="lead">Elegí el día y te mostramos al instante si la chacra está disponible. Completá lo que sepas y mandanos el mensaje armado por WhatsApp.</p>
+    </div>
+    <form class="form" id="form" novalidate>
+      <div class="campo">
+        <label for="f-fecha">Fecha del evento</label>
+        <input id="f-fecha" type="date">
+        <p class="estado" id="estado" aria-live="polite">Elegí un día y te decimos si está libre.</p>
+        <div class="alts" id="alts" hidden></div>
+      </div>
+      <fieldset class="campo" style="border:0;padding:0;margin:0">
+        <legend class="lbl" style="padding:0;margin-bottom:8px">¿Qué festejás?</legend>
+        <div class="chips" id="tipos">
+          <label class="chip"><input type="radio" name="tipo" value="15 años"><span>15 años</span></label>
+          <label class="chip"><input type="radio" name="tipo" value="Casamiento"><span>Casamiento</span></label>
+          <label class="chip"><input type="radio" name="tipo" value="Cumpleaños"><span>Cumpleaños</span></label>
+          <label class="chip"><input type="radio" name="tipo" value="Cumpleaños infantil"><span>Cumpleaños infantil</span></label>
+          <label class="chip"><input type="radio" name="tipo" value="Evento de empresa"><span>Evento de empresa</span></label>
+          <label class="chip"><input type="radio" name="tipo" value="Otro"><span>Otro</span></label>
+        </div>
+      </fieldset>
+      <div class="dos">
+        <div class="campo"><label for="f-inv">Invitados</label><input id="f-inv" type="number" min="1" max="400" inputmode="numeric" placeholder="Ej: 150"></div>
+        <div class="campo"><label for="f-nom">Tu nombre</label><input id="f-nom" type="text" autocomplete="given-name" placeholder="Ej: Lucía"></div>
+      </div>
+      <label class="visita"><input type="checkbox" id="f-vis"><span>Quiero coordinar una visita<small>Los jueves y viernes desde las 17 h.</small></span></label>
+      <p class="preview" id="preview"><b>Tu mensaje</b><span id="preview-t"></span></p>
+      <a class="btn btn-wa" id="enviar" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Enviar por WhatsApp</a>
+    </form>
+  </div>
+</section>
+
+<section class="faq" id="preguntas" aria-labelledby="faq-h">
+  <div class="wrap faq-grid">
+    <h2 id="faq-h">Preguntas frecuentes</h2>
+    <div class="faq-list">
+      <details>
+        <summary>¿Cuánto cuesta alquilar la chacra?</summary>
+        <!-- PRECIOS DE REFERENCIA: editar acá también -->
+        <div><p>La casa, desde $20.000. El salón, desde $40.000 para 100 personas. El precio final lo armamos en la visita, según el tipo de evento, la cantidad de invitados y lo que necesites.</p></div>
+      </details>
+      <details>
+        <summary>¿Qué días se puede alquilar?</summary>
+        <div><p>Cualquier día de la semana, y el precio base es el mismo.</p></div>
+      </details>
+      <details>
+        <summary>¿A qué hora entro y hasta qué hora es la fiesta?</summary>
+        <div><p>Te entregamos la llave a las 10 de la mañana del día del evento. En el salón la música termina a las 6 de la mañana, por disposición de la Intendencia, y después tenés dos horas para desarmar. Si alquilás las habitaciones, el horario se extiende hasta las 12 del mediodía. En la casa, el horario de cierre lo conversamos con vos.</p></div>
+      </details>
+      <details>
+        <summary>¿Se puede armar el día anterior?</summary>
+        <div><p>Sí, si ese día no hay otro evento en la chacra. Te la prestamos para que la discoteca o la decoradora armen con tiempo.</p></div>
+      </details>
+      <details>
+        <summary>¿Puedo traer mi propio catering, bebidas o discoteca?</summary>
+        <div><p>Sí. No trabajamos con proveedores exclusivos. Si preferís que nos encarguemos nosotros, mirá el <a href="index.html">Servicio Premium</a>.</p></div>
+      </details>
+      <details>
+        <summary>¿Los espacios son cerrados?</summary>
+        <div><p>El salón es totalmente cerrado y el alero de la casa se cierra con cortinas de PVC.</p></div>
+      </details>
+      <details>
+        <summary>¿Qué incluye el alquiler?</summary>
+        <div><p>Mesas y sillas, mesa de tortas, de dulces y de ensaladas, tablones para el catering, limpieza antes y después, insumos de los baños, luz, generador, piscina y estacionamiento. En los cumpleaños infantiles, además, la valija con cuentos y la percha con disfraces.</p></div>
+      </details>
+      <details>
+        <summary>¿Hay estacionamiento?</summary>
+        <div><p>Sí, hay estacionamiento para los invitados.</p></div>
+      </details>
+      <details>
+        <summary>¿Cómo reservo la fecha?</summary>
+        <div><p>Primero coordinamos una visita a la chacra, los jueves y viernes desde las 17 h. Después firmamos el contrato en nuestra oficina de San José con todo lo acordado y se seña el 20% del total. Si te interesa el Servicio Premium, hacemos una reunión para adaptarlo a tu evento y tu presupuesto.</p></div>
+      </details>
+      <details>
+        <summary>¿Dónde queda?</summary>
+        <div><p>En la Ruta 3, km 82.500, San José de Mayo, departamento de San José.</p><p><a href="https://www.google.com/maps/search/?api=1&amp;query=Moras%20y%20Mentas%2C%20Ruta%203%20km%2082.500%2C%20San%20Jos%C3%A9%20de%20Mayo%2C%20Uruguay" target="_blank" rel="noopener">Abrir en Google Maps</a></p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cierre" aria-labelledby="cierre-h">
+  <div class="wrap"><div class="cierre-box">
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <h2 id="cierre-h">Vos lo imaginás, nosotros lo hacemos realidad</h2>
+      <div class="ctas" id="cierre-ctas">
+        <a class="btn btn-wa" data-wa="general" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Escribinos por WhatsApp</a>
+      </div>
+    </div>
+    <div class="datos">
+      <p class="dato"><span>Dónde estamos</span>Ruta 3, km 82.500<br>San José de Mayo</p>
+      <p class="dato"><span>WhatsApp</span><a data-wa="general" data-tel href="#" target="_blank" rel="noopener"></a></p>
+      <p class="dato"><span>Instagram</span><a href="https://www.instagram.com/moras_y_mentas/" target="_blank" rel="noopener">@moras_y_mentas</a></p>
+    </div>
+  </div></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>Moras &amp; Mentas</b>
+    <a href="index.html">Servicio Premium</a>
+    <a href="privacidad.html">Privacidad</a>
+  </div>
+</footer>
+
+<a class="btn btn-wa flota off" id="flota" data-wa="general" href="#" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg><use href="#i-wa"/></svg></a>
+
+<dialog class="lb" id="lb" aria-label="Fotos de la chacra">
+  <span class="cnt" id="lb-c"></span>
+  <button class="x" id="lb-x" type="button" aria-label="Cerrar">×</button>
+  <button class="prev" id="lb-p" type="button" aria-label="Foto anterior">‹</button>
+  <img id="lb-i" alt="">
+  <button class="next" id="lb-n" type="button" aria-label="Foto siguiente">›</button>
+</dialog>
+
+<script>
+/* ===== Datos para editar ===== */
+const WA_NUMBER = '59898361104';            // mismo número que el Servicio Premium
+const WA_VISIBLE = '098 361 104';
+// Mensaje que abre cada botón (el bot de WhatsApp los entiende y responde)
+const MENSAJES = {
+  general: '¡Hola! Vi la página de la chacra y quiero hacer una consulta.',
+  salon: '¡Hola! Quiero consultar por el salón para un evento.',
+  casa: '¡Hola! Quiero consultar por la casa para un evento.',
+  habitaciones: '¡Hola! Quiero consultar por las habitaciones de la chacra.',
+  visita: '¡Hola! Me gustaría coordinar una visita a la chacra.'
+};
+// Fotos de la galería: archivo, ancho, alto, descripción
+const GALERIA = [
+  ['img/decoracion-5.jpg', 1200, 800, 'Novios sentados en un sillón blanco, con flores y telas detrás'],
+  ['img/chacra/portada-4.jpg', 640, 414, 'Mesa de dulces de un cumpleaños infantil con globos y fardos'],
+  ['img/fotografia-1.jpg', 1200, 800, 'Mesa redonda armada con candelabro y pétalos rojos'],
+  ['img/chacra/portada-10.jpg', 640, 458, 'Rincón infantil con un tipi y almohadones frente al ventanal'],
+  ['img/fotografia-3.jpg', 1200, 800, 'Torta de tres pisos sobre una mesa de vidrio con velas'],
+  ['img/chacra/decoracion-4.jpg', 798, 800, 'Mesas redondas vestidas de blanco bajo un techo transparente'],
+  ['img/fotografia-5.jpg', 1200, 800, 'Copas sobre la mesa con pétalos de rosa'],
+  ['img/chacra/barra-1.jpg', 1200, 534, 'Barra de tragos con letras luminosas y estantes de copas'],
+  ['img/chacra/barra-2.jpg', 1200, 532, 'Barra de tragos de mármol blanco con luces'],
+  ['img/decoracion-2.jpg', 1200, 800, 'El salón armado para una fiesta']
+];
+/* ============================= */
+
+const waLink = t => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(t)}`;
+document.querySelectorAll('[data-wa]').forEach(a => { a.href = waLink(MENSAJES[a.dataset.wa] || MENSAJES.general); });
+document.querySelectorAll('[data-tel]').forEach(el => { el.textContent = WA_VISIBLE; });
+
+/* galería y visor */
+const gal = document.getElementById('gal'), lb = document.getElementById('lb'), lbi = document.getElementById('lb-i'), lbc = document.getElementById('lb-c');
+let actual = 0;
+GALERIA.forEach(([src, w, h, alt], i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.setAttribute('aria-label', 'Ver foto: ' + alt);
+  b.innerHTML = `<img src="${src}" width="${w}" height="${h}" loading="lazy" alt="">`;
+  b.querySelector('img').alt = alt;
+  b.addEventListener('click', () => abrir(i));
+  gal.appendChild(b);
+});
+function mostrar(i){
+  actual = (i + GALERIA.length) % GALERIA.length;
+  const [src, , , alt] = GALERIA[actual];
+  lbi.src = src; lbi.alt = alt; lbc.textContent = `${actual + 1} / ${GALERIA.length}`;
+}
+function abrir(i){ mostrar(i); if (lb.showModal) lb.showModal(); else lb.setAttribute('open', ''); }
+document.getElementById('lb-x').onclick = () => lb.close();
+document.getElementById('lb-p').onclick = () => mostrar(actual - 1);
+document.getElementById('lb-n').onclick = () => mostrar(actual + 1);
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+lb.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') mostrar(actual - 1); if (e.key === 'ArrowRight') mostrar(actual + 1); });
+let x0 = null;
+lb.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive: true});
+lb.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) mostrar(actual + (dx < 0 ? 1 : -1)); x0 = null; });
+
+/* consulta de fecha y mensaje armado */
+const $ = id => document.getElementById(id);
+const hoyUY = () => new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Montevideo'}).format(new Date());
+const sumarDias = (iso, n) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const fechaLarga = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('es-UY', {timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'}).replace(',', '');
+const fechaCorta = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('es-UY', {timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long'}).replace(',', '');
+$('f-fecha').min = hoyUY();
+
+// Fechas reservadas de la chacra: las carga el administrador en el panel. null = todavía no se sabe o no se publican.
+let reservadas = null, agendaLista = false;
+window.mmChacra = lista => { reservadas = lista ? new Set(lista) : null; agendaLista = true; actualizar(); };
+setTimeout(() => { if (!agendaLista){ agendaLista = true; actualizar(); } }, 6000);
+
+const ARTICULO = {'15 años': 'unos 15 años', 'Casamiento': 'un casamiento', 'Cumpleaños': 'un cumpleaños', 'Cumpleaños infantil': 'un cumpleaños infantil', 'Evento de empresa': 'un evento de empresa', 'Otro': 'un evento'};
+
+function estadoFecha(f){
+  const est = $('estado'), alts = $('alts');
+  est.className = 'estado'; alts.hidden = true; alts.innerHTML = '';
+  if (!f){ est.textContent = 'Elegí un día y te decimos si está libre.'; return; }
+  const hoy = hoyUY();
+  if (f < hoy){ est.textContent = 'Esa fecha ya pasó. Elegí un día a partir de hoy.'; return; }
+  if (!agendaLista){ est.textContent = 'Fijándonos en la agenda…'; return; }
+  if (!reservadas || f > sumarDias(hoy, 3 * 366)){ est.textContent = 'Mandanos el mensaje y te confirmamos la fecha por WhatsApp.'; return; }
+  if (!reservadas.has(f)){
+    est.classList.add('libre');
+    const d = fechaLarga(f);
+    est.textContent = `El ${d} está libre por ahora. Escribinos para reservarlo.`;
+    return;
+  }
+  est.classList.add('ocupada');
+  const libres = [];
+  for (const s of [-1, 1, -2, 2, 3]){
+    const x = sumarDias(f, s * 7);
+    if (x >= hoy && !reservadas.has(x)) libres.push(x);
+    if (libres.length >= 2) break;
+  }
+  est.textContent = libres.length ? 'Esa fecha ya está reservada. Estas están libres:' : 'Esa fecha ya está reservada. Escribinos y buscamos otra.';
+  libres.forEach(x => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = fechaCorta(x);
+    b.addEventListener('click', () => { $('f-fecha').value = x; actualizar(); });
+    alts.appendChild(b);
+  });
+  alts.hidden = !libres.length;
+}
+
+function mensaje(){
+  const f = $('f-fecha').value, tipo = (document.querySelector('input[name=tipo]:checked') || {}).value;
+  const inv = parseInt($('f-inv').value, 10), nom = $('f-nom').value.trim().replace(/\s+/g, ' ');
+  let t = '¡Hola!';
+  if (nom) t += ` Soy ${nom}.`;
+  t += ' Quiero consultar por la chacra';
+  if (tipo) t += ` para ${ARTICULO[tipo] || 'un evento'}`;
+  if (f && f >= hoyUY()) t += ` el ${fechaLarga(f)}`;
+  if (inv > 0) t += `${tipo || f ? ',' : ''} con unos ${inv} invitados`;
+  t += '.';
+  if ($('f-vis').checked) t += ' Me gustaría coordinar una visita.';
+  return t;
+}
+
+function actualizar(){
+  estadoFecha($('f-fecha').value);
+  const t = mensaje();
+  $('preview-t').textContent = t;
+  $('enviar').href = waLink(t);
+}
+$('form').addEventListener('input', actualizar);
+$('form').addEventListener('change', actualizar);
+$('form').addEventListener('submit', e => e.preventDefault());
+actualizar();
+
+/* botón flotante: aparece cuando no hay otro botón de WhatsApp a la vista */
+const flota = $('flota');
+if ('IntersectionObserver' in window){
+  const vistos = new Set();
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(e => e.isIntersecting ? vistos.add(e.target) : vistos.delete(e.target));
+    flota.classList.toggle('off', vistos.size > 0);
+  }, {threshold: 0.1});
+  ['hero-ctas', 'fecha', 'cierre-ctas'].forEach(id => io.observe($(id)));
+} else flota.classList.remove('off');
+</script>
+<script type="module">
+// Disponibilidad en vivo de la chacra. Si la base no responde, la página sigue funcionando por WhatsApp.
+import { db } from './mm-datos.js';
+db.doc('disponibilidad/chacra').onSnapshot(s => {
+  const x = s.exists ? s.data() : null;
+  if (!x || x.publicar === false){ window.mmChacra(null); return; }
+  window.mmChacra([...(x.ocupadoAdmin || []), ...(x.ocupadoProveedor || [])]);
+}, () => window.mmChacra(null));
+</script>
+</body>
+</html>

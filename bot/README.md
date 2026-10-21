@@ -6,7 +6,7 @@ Agente propio conectado a la **API oficial de WhatsApp (Cloud API de Meta)**, co
 
 - Responde a los clientes con tono profesional, usando solo la información de la chacra (se edita desde el panel: **WhatsApp → Información que usa el bot**).
 - Antes de hablar de una fecha, mira las **fechas reservadas de la chacra** que marcás en el panel. Si está tomada, ofrece una semana antes o después.
-- Manda el link del sitio cuando preguntan por servicios y el Instagram para fotos.
+- Manda el link del Servicio Premium cuando preguntan por servicios, y la página de la chacra (`chacra.html`) cuando preguntan por el predio, fotos, qué incluye u horarios.
 - Va completando una **consulta en el panel** (origen WhatsApp) con nombre, tipo de evento, fecha e invitados.
 - **Te deriva el chat sin escribirle nada al cliente** cuando: pide visita, quiere reservar o señar, pide descuento, pide una persona, pregunta por lluvia, ya tiene un evento señado o confirmado, manda la consulta del Servicio Premium desde el sitio, manda un audio, o el bot no sabe.
 - Te avisa a tu WhatsApp personal: si le escribiste al número del bot en las últimas 24 h el aviso es texto (gratis); si no, usa la plantilla `aviso_derivacion`.

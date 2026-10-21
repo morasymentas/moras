@@ -2,6 +2,7 @@
 
 Sitio de la chacra de eventos Moras & Mentas (San José de Mayo, Uruguay).
 
+- `chacra.html`: página de la chacra para clientes (espacios, horarios, qué incluye, fotos, consulta de fecha en vivo y preguntas frecuentes). Todo lleva a WhatsApp.
 - `index.html`: página de Servicio Premium para clientes.
 - `panel.html`: panel del administrador (consultas, visitas, agenda de proveedores, usuarios).
 - `agenda.html`: agenda de cada proveedor y agenda de reservas de la chacra (esta solo para el administrador).
